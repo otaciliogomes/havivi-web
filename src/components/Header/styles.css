@@ -1,0 +1,29 @@
+:root {
+    --primary: #11998e;
+    --secondary: #38ef7d;
+    --white: #fff;
+    --gray: #9b9b9b;
+}
+
+
+.containerHeader {
+    background: #d18c5e;
+    display: flex;
+    padding: 12px
+}
+
+.titleHeader {
+    width: 100%;
+
+}
+
+.searchInput {
+    display: flex;
+    background: #fafafa;
+    padding: 10px
+}
+
+.inputSearchHeader {
+    /* border: none */
+}
+

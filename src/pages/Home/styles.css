@@ -1,0 +1,34 @@
+
+.contentHome {
+    width: 100%;
+    padding: 0px 10px 0 10px;
+
+}
+
+.imgHome {
+    /* margin: 10px; */
+    width: 100%;
+    height: 300px;
+    object-fit: cover; 
+}
+
+.secetionCard {
+    display: grid ;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.sectionImg {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.imgChefe {
+    /* width: 50%; */
+    /* height: 300px; */
+    object-fit: cover;
+}
+
+.titleChefe {
+    color: #000
+}
