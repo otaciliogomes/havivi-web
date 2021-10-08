@@ -1,9 +1,11 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import './styles.css'
 
 
 const Login = () => {
+    const router = useHistory();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
@@ -29,8 +31,15 @@ const Login = () => {
                         <label htmlFor="name">Senha</label>
                         <input type="password" id="password" onChange={event => setPassword(event.target.value)} required />
                     </div>
-                    <button className="btnLogin" type="submit"> Confirmar </button >
+                    <button 
+                        className="btnLogin" 
+                        type="submit"
+                        onClick={() => router.push('/admin')}
+                    > 
+                        Confirmar 
+                    </button >
                 </div>
+                    {/* <button className="btnLogin" type="submit"> Criar </button > */}
             </div>
         </form>
     )

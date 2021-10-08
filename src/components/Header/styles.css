@@ -9,21 +9,48 @@
 .containerHeader {
     background: #d18c5e;
     display: flex;
-    padding: 12px
+    /* padding: 12px */
 }
 
 .titleHeader {
     width: 100%;
-
+    margin: 10px;
 }
 
 .searchInput {
     display: flex;
     background: #fafafa;
-    padding: 10px
+    /* padding: 6px; */
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .inputSearchHeader {
-    /* border: none */
+    border-radius: 10px;
+    height: 40px;
+    margin: 10px;
+}
+
+.iconLogin {
+    margin: 10px 30px 10px 30px;
+    cursor: pointer;
+    border-radius: 50%;
+    border: solid 2px #FFF;
+    color: #FFF;
+    width: 80px;
+    height: auto;
+    transition: 0.3s;
+}
+
+.iconLogin:hover {
+    background: #FFF;
+    border-color: #000;
+    color: #000;
+    opacity: 0.5;
+}
+
+.iconSearch {
+    margin-right: 10px;
 }
 

@@ -7,7 +7,7 @@ import './styles.css';
 const Home = () => {
     return (
         <>
-            <Header />
+            <Header title="Havivis" />
             <div className="contentHome">
                 {/* Colocar um carrossel futuramente */}
                 <div >

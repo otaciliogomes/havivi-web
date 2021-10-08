@@ -1,14 +1,30 @@
-import { BsSearch } from 'react-icons/bs'
+import { BsSearch } from 'react-icons/bs';
+import { AiOutlineUser } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
+
 import './styles.css';
 
-const Header = () => {
+interface IHeaderProps {
+    title?: string;
+}
+
+const Header = ({ title }: IHeaderProps) => {
+    const router = useHistory();
+
     return (
         <div className="containerHeader">
-            <h1 className="titleHeader">Header</h1>
-            <div className="searchInput">
+            <h1 className="titleHeader">{title}</h1>
+
+            {/* <div className="searchInput">
                 <input className="inputSearchHeader" type="text" name="" />
-                <BsSearch size={28} />
-            </div>
+                <BsSearch className="iconSearch" size={28} />
+            </div> */}
+
+            <AiOutlineUser
+                size={60}
+                className="iconLogin"
+                onClick={() => router.push('/login')}
+            />
         </div>
     )
 }
