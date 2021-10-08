@@ -38,11 +38,21 @@ form {
     font-size: 16px;
     font-weight: 600;
     transition: 0.3s;
-    border: solid 2px transparent
+    border: solid 2px transparent;
+    cursor: pointer
 }
 
 .btnLogin:hover {
     color: #D35400;
     background: #FFF;
     border: solid 2px #D35400;
+}
+
+.iconFooter {
+    transition: 0.3s
+}
+
+.iconFooter:hover {
+    transform: scale(1.2);
+    cursor: pointer
 }

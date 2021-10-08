@@ -22,16 +22,16 @@ const Footer = () => {
                 </div>
             </div>
             <div className="contentFooter">
-                <h2 className="titleFooter">Nosas redes social</h2>
+                <h2 className="titleFooter">Nossas redes social</h2>
                 <div className="subtitleFooter">
                     <p className="descriptionFooter">
-                        <FaFacebook size={28}/>
+                        <FaFacebook className="iconFooter" size={28}/>
                     </p>
                     <p className="descriptionFooter">
-                        <FaInstagram size={28}/>
+                        <FaInstagram className="iconFooter" size={28}/>
                     </p>
                     <p className="descriptionFooter">
-                        <FaLinkedinIn size={28}/>
+                        <FaLinkedinIn className="iconFooter" size={28}/>
                     </p>
                 </div>
             </div>
