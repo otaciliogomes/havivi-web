@@ -44,7 +44,7 @@ const Login = () => {
     }
 
     return (
-        <form onSubmit={handleForm}>
+        <div className="containerLogin">
             <ToastContainer />
             <div className="container">
                 <h1>Login</h1>
@@ -59,14 +59,14 @@ const Login = () => {
                         <button
                             className="btnLogin"
                             type="submit"
-                            // onClick={(event) => handleForm(event)}
+                            onClick={(event) => handleForm(event)}
                         >
                             Confirmar
                         </button >
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     )
 }
 

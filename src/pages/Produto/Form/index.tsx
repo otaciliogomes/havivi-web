@@ -4,6 +4,8 @@ import { useHistory } from 'react-router';
 import { Footer } from '../../../components/Footer';
 import { Header } from '../../../components/Header';
 import api from "../../../Service/api";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '../styles.css'
 
@@ -39,6 +41,11 @@ const ProductsForm: React.FC = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
 
+        if(!model.descricao || !model.valor || !model.descricao) {
+            toast.error("falta argumento");
+            return;
+        }
+
         const response = await api.post('/produtos', model)
     }
 
@@ -55,6 +62,7 @@ const ProductsForm: React.FC = () => {
     return (
         <>
             <Header title="Cadastro de produto" />
+            <ToastContainer />
             <div className="container">
                 <br />
                 <div className="product-header">
@@ -75,7 +83,7 @@ const ProductsForm: React.FC = () => {
                         <Form.Group className="mb-3">
                             <Form.Label>Valor</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 name="valor"
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
