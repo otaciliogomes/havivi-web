@@ -12,19 +12,35 @@ const Header = ({ title }: IHeaderProps) => {
     const router = useHistory();
 
     return (
-        <div className="containerHeader">
-            <h1 className="titleHeader">{title}</h1>
+        <div>
+            <div className="containerHeader">
+                <h1 className="titleHeader">{title}</h1>
 
-            {/* <div className="searchInput">
+                {/* <div className="searchInput">
                 <input className="inputSearchHeader" type="text" name="" />
                 <BsSearch className="iconSearch" size={28} />
             </div> */}
 
-            <AiOutlineUser
-                size={60}
-                className="iconLogin"
-                onClick={() => router.push('/login')}
-            />
+                <AiOutlineUser
+                    size={60}
+                    className="iconLogin"
+                    onClick={() => router.push('/login')}
+                />
+            </div>
+            <nav className="naviContent">
+                <button
+                    onClick={() => router.push('/admin')}
+                    className="buttonNav"
+                >
+                    Admin
+                </button>
+                <button
+                    className="buttonNav"
+                    onClick={() => router.push('/produtos')}
+                >
+                    Produtos
+                </button>
+            </nav>
         </div>
     )
 }

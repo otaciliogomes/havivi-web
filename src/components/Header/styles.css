@@ -1,9 +1,4 @@
-:root {
-    --primary: #11998e;
-    --secondary: #38ef7d;
-    --white: #fff;
-    --gray: #9b9b9b;
-}
+
 
 
 .containerHeader {
@@ -52,5 +47,29 @@
 
 .iconSearch {
     margin-right: 10px;
+}
+
+.naviContent {
+    background-color: var(--black-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonNav {
+    padding: 10px;
+    margin: 10px;
+    border: solid 2px transparent;
+    border-radius: 10px;
+    transition: 0.3s;
+    background: var(--white-color);
+    color: var(--black-color)
+}
+
+.buttonNav:hover {
+    border: solid 2px var(--white-color);
+    border-color: var(--white-color); 
+    background-color: var(--black-color);
+    color: var(--white-color);
 }
 
