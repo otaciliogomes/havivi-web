@@ -27,7 +27,7 @@ const Admin = () => {
                             <p>user.id</p>
                             <p>user.name</p>
                         </div>
-                )} */}
+                )} */} 
             </main>
             <Footer />
         </div>
