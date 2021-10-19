@@ -27,20 +27,35 @@ const Header = ({ title }: IHeaderProps) => {
                     onClick={() => router.push('/login')}
                 />
             </div>
-            <nav className="naviContent">
-                <button
-                    onClick={() => router.push('/admin')}
-                    className="buttonNav"
-                >
-                    Admin
-                </button>
-                <button
-                    className="buttonNav"
-                    onClick={() => router.push('/produtos')}
-                >
-                    Produtos
-                </button>
-            </nav>
+            {!!(title != "Havivis") && (
+                <nav className="naviContent">
+                    <button
+                        onClick={() => router.push('/admin')}
+                        className="buttonNav"
+                    >
+                        Admin
+                    </button>
+                    <button
+                        className="buttonNav"
+                        onClick={() => router.push('/produtos')}
+                    >
+                        Produtos
+                    </button>
+                    <button
+                        className="buttonNav"
+                        onClick={() => router.push('/mesas')}
+                    >
+                        Mesas
+                    </button>
+                    <button
+                        className="buttonNav"
+                        onClick={() => router.push('/')}
+                    >
+                        Home
+                    </button>
+                </nav>
+            )}
+
         </div>
     )
 }

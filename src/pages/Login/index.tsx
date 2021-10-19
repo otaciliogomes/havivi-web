@@ -18,6 +18,8 @@ const Login = () => {
             .then(user => user)
 
         setEmail(usersList.email);
+
+        console.log(usersList)
         return;
     }
 

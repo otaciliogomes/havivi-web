@@ -14,7 +14,7 @@ const Home = () => {
                     {/* <img className="imgHome" src="https://images.pexels.com/photos/2641886/pexels-photo-2641886.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" /> */}
                     <h1>A melhor comida pelo melhor preço</h1>
                 </div>
-                <section className="sectionImg">
+                {/* <section className="sectionImg">
                     <p className="titleChefe">Desde 1980 trazendo a tradição de familia...</p>
                     <span>
                         It is a long established fact that a reader will be distracted by the readable content of
@@ -26,7 +26,7 @@ const Home = () => {
                     </span>
                     <span>Chefe Havive</span>
                     <img className="imgChefe" src="https://images.pexels.com/photos/3814446/pexels-photo-3814446.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt="Chefe" />
-                </section>
+                </section> */}
                 <section className="secetionCard">
                     {mockCard.map(card => (
                         <Card

@@ -12,6 +12,7 @@
     background: #fafafa;
     border-radius: 10px;
     padding: 60px;
+    max-width: 420px;
 }
 
 .content {

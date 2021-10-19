@@ -46,7 +46,8 @@ const ProductsForm: React.FC = () => {
             return;
         }
 
-        const response = await api.post('/produtos', model)
+        console.log(model)
+        // const response = await api.post('/produtos', model)
     }
 
 

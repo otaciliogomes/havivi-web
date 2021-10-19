@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "Salada de Fruta",
+        "preco": 20
+    },
+    {
+        "id": 2,
+        "name": "Filé Mignon",
+        "preco": 50
+    },
+    {
+        "id": 3,
+        "name": "Macarrão",
+        "preco": 25
+    },
+    {
+        "id": 4,
+        "name": "Costela de Porco",
+        "preco": 35
+    },
+    {
+        "id": 5,
+        "name": "Frutos do Mar",
+        "preco": 40
+    }
+]

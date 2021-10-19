@@ -1,7 +1,7 @@
 .containerCard {
     position: relative;
     width: 320px;
-    height: 600px;
+    height: auto;
     border: solid 3px transparent;
     border-radius: 10px;
     margin-bottom: 10px;

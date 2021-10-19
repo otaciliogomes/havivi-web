@@ -1,0 +1,42 @@
+.footerCard {
+    width: 100%;
+    display: flex;
+    justify-content:center
+}
+
+.closeConta {
+    display: none;
+}
+
+.buttonFooterCard{
+    width: 40%;
+    border-radius: 10px;
+    margin: 10px;
+    border: none;
+    padding: 6px;
+    transition: 0.3s;
+}
+
+.buttonAddItem {
+    color: #fafafa;
+    background-color: skyblue;
+    font-size: 16px;
+}
+
+.buttonAddItem:hover {
+    color: skyblue;
+    background-color: #fafafa;
+    border: solid 2px skyblue;
+}
+
+.buttonCloseConta {
+    color: skyblue;
+    background-color: #fafafa;
+    border: solid 2px skyblue;
+    font-size: 16px;
+}
+
+.buttonCloseConta:hover {
+    color: #fafafa;
+    background-color: skyblue;
+}
