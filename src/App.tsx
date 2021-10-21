@@ -1,10 +1,13 @@
 import { Routes } from './routes';
 import './global.css'
+import { ProviderTable } from './pages/contexts/TableContext'
 
 
 function App() {
   return (
-    <Routes />
+    <ProviderTable>
+      <Routes />
+    </ProviderTable>
   );
 }
 

@@ -6,14 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 import { Modal } from 'react-bootstrap'
 import mockProdutos from './mock.json';
-import { ProviderTable } from '../../pages/contexts/TableContext';
+import ContextTable from '../../pages/contexts/TableContext';
+import {ButtonAddITem} from "../ButtonAddItem";
 
 
 
 
 
 const CardsMesas = ({ numberMesa }) => {
-    const { qtdProductsCount, setQtdProductsCount} = useContext(ProviderTable);
+    const { qtdProductsCount, setQtdProductsCount} = useContext(ContextTable);
     const [closeConta, setCloseConta] = useState(false);
     const [valueCount] = useState(0);
     const [modalShow, setModalShow] = useState(false);
@@ -27,15 +28,10 @@ const CardsMesas = ({ numberMesa }) => {
         const [produtosLits] = useState(mockProdutos);
         const [searchValue, setSearchValue] = useState('');
 
+
         const AddSearchValue = (event) => {
             const { value } = event.target
             setSearchValue(value)
-        }
-
-        const HandleAddItem = (item) => {
-            const newItem = item
-
-            setQtdProductsCount((prevValue) => [...prevValue,  newItem])
         }
 
         const filteredPosts = searchValue
@@ -67,14 +63,7 @@ const CardsMesas = ({ numberMesa }) => {
                         />
                         {filteredPosts.map(produto => {
                             return (
-                                <button
-                                    onClick={HandleAddItem(produto)}
-                                    key={produto.id}
-                                    className="btnListItemAdd"
-                                >
-                                    {produto.name}
-                                    {`R$ ${produto.preco}`}
-                                </button>
+                                <ButtonAddITem produto={produto}/>
                             )
                         })}
 

@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { CardsMesas } from '../../components/CardsMesas';
-import { ProviderTable } from '../contexts/TableContext';
 import './styles.css'
 
 const Mesas = () => {
     const [qtdTables, setQtdTables] = useState([1]);
     return (
-        <ProviderTable>
+        <>
             <Header title="Mesas" />
             <div className="containerMesa">
                 <h1>Mesas</h1>
@@ -27,7 +26,7 @@ const Mesas = () => {
                 </div>
             </div>
             <Footer />
-        </ProviderTable>
+        </>
     )
 }
 
