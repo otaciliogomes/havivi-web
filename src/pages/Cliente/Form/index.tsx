@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 import { Footer } from '../../../components/Footer';
 import { Header } from '../../../components/Header';
 import api from "../../../Service/api";
@@ -19,13 +19,19 @@ interface ICliente {
 
 const ClientesForm = () => {
 
+    const { id } = useParams<{ id: string }>();
+    const history = useHistory();
     const [model, setModel] = useState<ICliente>({
         nome: "",
         endereco: "",
         tel: 0
     })
 
-    const history = useHistory();
+    useEffect(() => {
+        if (id !== undefined) {
+            findCliente(id)
+        }
+    }, [id]);
 
     function updatedModel(e: ChangeEvent<HTMLInputElement>) {
 
@@ -44,8 +50,24 @@ const ClientesForm = () => {
             return;
         }
 
-        const response = await api.post('/clientes', model)
-        toast.success("Cliente cadastrado!")
+        if (id !== undefined) {
+            const response = await api.put(`/clientes/${id}`, model)
+            toast.success("Cliente alterado!")
+        } else {
+            const response = await api.post(`/clientes`, model)
+            toast.success("Cliente cadastrado!")
+        }
+
+        
+    }
+
+    async function findCliente(id: string) {
+        const response = await api.get<ICliente>(`/clientes/${id}`)
+        setModel({
+            nome: response.data.nome,
+            endereco: response.data.endereco,
+            tel: response.data.tel
+        })
     }
 
 
@@ -76,20 +98,24 @@ const ClientesForm = () => {
                             <Form.Control
                                 type="text"
                                 name="nome"
+                                value={model.nome}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Endereco</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="adress"
                                 name="endereco"
+                                value={model.endereco}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
                         <Form.Label>Telefone</Form.Label>
                         <Form.Group className="mb-3">
                             <Form.Control
+                                type="int"
                                 name="tel"
+                                value={model.tel}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
                         <Button variant="primary" type="submit">

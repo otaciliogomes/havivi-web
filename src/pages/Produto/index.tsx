@@ -58,14 +58,14 @@ const Products = () => {
     return (
         <>
             <Header title="Produtos" />
-            <div className="container">
+            <div className="containerProd">
                 <br />
                 <div className="product-header">
                     <h1>Produtos</h1>
                     <Button variant="dark" size="sm" onClick={newProduct} >Novo Produto</Button>
                 </div>
                 <br />
-                <Table striped bordered hover size="sm">
+                <Table striped bordered hover size="sm" responsive>
                     <thead>
                         <tr>
                             <th>ID</th>

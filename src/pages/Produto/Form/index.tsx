@@ -12,6 +12,7 @@ import '../styles.css'
 
 
 interface IProduct {
+    
     nome: string,
     valor: number,
     descricao: string,
@@ -19,10 +20,7 @@ interface IProduct {
 }
 
 
-
-
-
-const ProductsForm = () => {
+const ProductsForm: React.FC = () => {
 
     const { id } = useParams<{ id: string }>();
     const history = useHistory();
@@ -59,31 +57,22 @@ const ProductsForm = () => {
             const response = await api.put(`/produtos/${id}`, model)
             toast.success("Produto alterado!")
         } else {
-            const response = await api.post('/produtos', model)
+            const response = await api.post(`/produtos`, model)
             toast.success("Produto cadastrado!")
         }
 
-        cancel();
+        
 
     }
 
     async function findProduct(id: string) {
-        const response = await api.get(`/produtos/${id}`)
-        console.log(response.data)
-        // try {
-        //     setModel({
-        //         nome: response.data.nome,
-        //         valor: response.data.valor,
-        //         descricao: response.data.descricao
-        //     })
-        // } catch {
-        //     toast.error("falta argumento");
-        // }
-
+        const response = await api.get<IProduct>(`/produtos/${id}`)
+        setModel({
+            nome: response.data.nome,
+            valor: response.data.valor,
+            descricao: response.data.descricao
+        })
     }
-
-
-
 
     const cancel = () => {
         history.push('/produtos')
@@ -115,6 +104,7 @@ const ProductsForm = () => {
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
                             />
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Valor</Form.Label>
                             <Form.Control
@@ -123,6 +113,7 @@ const ProductsForm = () => {
                                 value={model.valor}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
+
                         <Form.Group className="mb-3">
                             <Form.Label>Descrição</Form.Label>
                             <Form.Control as="textarea"
@@ -131,10 +122,7 @@ const ProductsForm = () => {
                                 value={model.descricao}
                                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updatedModel(e)} />
                         </Form.Group>
-                        {/* <Form.Group className="mb-3">
-                            <Form.Label>Escolha uma foto</Form.Label>
-                            <Form.Control type="file" size="sm" />
-                        </Form.Group> */}
+
                         <Button variant="primary" type="submit" >
                             Cadastrar
                         </Button>

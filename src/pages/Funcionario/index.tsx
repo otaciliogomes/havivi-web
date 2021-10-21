@@ -1,8 +1,8 @@
-import {FaPencilAlt} from 'react-icons/fa'
-import {MdDeleteForever} from 'react-icons/md'
+import { FaPencilAlt } from 'react-icons/fa'
+import { MdDeleteForever } from 'react-icons/md'
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router';
-import { Table,Button } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import api from "../../Service/api";
@@ -48,7 +48,7 @@ const Funcionarios = () => {
         history.push(`/funcionarios_cadastro/${id}`)
     }
 
-    
+
 
 
     // Retorna uma tabela com os funcionarios.
@@ -56,45 +56,45 @@ const Funcionarios = () => {
     return (
         <>
             <Header title="Funcionarios" />
-            <div className="container">
-            <br />
-            <div className="funcionario-header">
-            <h1>Funcionarios</h1>
-            <Button variant="dark" size="sm" onClick={newFuncionario} >Novo Funcionário</Button>
+            <div className="containerFunc">
+                <br />
+                <div className="funcionario-header">
+                    <h1>Funcionarios</h1>
+                    <Button variant="dark" size="sm" onClick={newFuncionario} >Novo Funcionário</Button>
+                </div>
+                <br />
+                <Table striped bordered hover size="sm" responsive>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Adm</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            funcionario.map(funcionario => (
+                                <tr key={funcionario.id}>
+                                    <td>{funcionario.id}</td>
+                                    <td>{funcionario.nome}</td>
+                                    <td>{funcionario.email}</td>
+                                    <td>{funcionario.adm}</td>
+                                    <td>
+                                        <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editFuncionario(funcionario.id)}><FaPencilAlt className="iconAlt" /></Button>
+                                        <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteFuncionario(funcionario.id)}><MdDeleteForever className="iconDel" /></Button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </Table>
             </div>
-            <br />
-            <Table striped bordered hover size="sm">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Adm</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        funcionario.map(funcionario => (
-                            <tr>
-                                <td>{funcionario.id}</td>
-                                <td>{funcionario.nome}</td>
-                                <td>{funcionario.email}</td>
-                                <td>{funcionario.adm}</td>
-                                <td>
-                                    <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editFuncionario(funcionario.id)}><FaPencilAlt className="iconAlt" /></Button>
-                                    <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteFuncionario(funcionario.id)}><MdDeleteForever className="iconDel" /></Button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </Table>
-        </div>
-        <Footer />
-       </> 
+            <Footer />
+        </>
     );
 
 }
 
-export {Funcionarios}
+export { Funcionarios }

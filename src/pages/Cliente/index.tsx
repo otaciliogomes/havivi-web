@@ -56,14 +56,14 @@ const Clientes = () => {
     return (
         <>
             <Header title="Clientes" />
-            <div className="container">
+            <div className="containerCliente">
                 <br />
                 <div className="cliente-header">
                     <h1>Clientes</h1>
                     <Button variant="dark" size="sm" onClick={newCliente}>Novo Cliente</Button>
                 </div>
                 <br />
-                <Table striped bordered hover size="sm">
+                <Table striped bordered hover size="sm" responsive>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -76,7 +76,7 @@ const Clientes = () => {
                     <tbody>
                         {
                             cliente.map(cliente => (
-                                <tr>
+                                <tr key={cliente.id}>
                                     <td>{cliente.id}</td>
                                     <td>{cliente.nome}</td>
                                     <td>{cliente.endereco}</td>

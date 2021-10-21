@@ -20,15 +20,15 @@ function Routes() {
             <Route path="/login" component={Login} />
             <Route path="/admin" component={Admin} />
             <Route path="/mesas" component={Mesas} />
-            <Route path="/produtos" component={Products} />
-            <Route path="/produtos_cadastro" component={ ProductsForm} />
-            <Route path="/produtos_cadastro/:id" component={ ProductsForm} />
-            <Route path="/funcionarios"  component={Funcionarios} />
-            <Route path="/funcionarios_cadastro"  component={ FuncionariosForm } />
-            <Route path="/funcionarios_cadastro/:id"  component={ FuncionariosForm } />
-            <Route path="/clientes"  component={Clientes} />
-            <Route path="/clientes_cadastro"  component={ ClientesForm } />
-            <Route path="/clientes_cadastro/:id"  component={ ClientesForm } />
+            <Route path="/produtos" exact component={Products} />
+            <Route path="/produtos_cadastro" exact component={ ProductsForm} />
+            <Route path="/produtos_cadastro/:id" exact component={ ProductsForm} />
+            <Route path="/funcionarios" exact component={Funcionarios} />
+            <Route path="/funcionarios_cadastro" exact component={ FuncionariosForm } />
+            <Route path="/funcionarios_cadastro/:id" exact component={ FuncionariosForm } />
+            <Route path="/clientes" exact component={Clientes} />
+            <Route path="/clientes_cadastro" exact component={ ClientesForm } />
+            <Route path="/clientes_cadastro/:id" exact component={ ClientesForm } />
         </BrowserRouter>
     );
 }

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 import { Footer } from '../../../components/Footer';
 import { Header } from '../../../components/Header';
 import api from "../../../Service/api";
@@ -8,6 +8,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../styles.css'
+
 
 
 interface IFuncionario {
@@ -19,13 +20,19 @@ interface IFuncionario {
 
 const FuncionariosForm = () => {
 
+    const { id } = useParams<{ id: string }>();
+    const history = useHistory();
     const [model, setModel] = useState<IFuncionario>({
         nome: "",
         email: "",
         adm: false
     })
 
-    const history = useHistory();
+    useEffect(() => {
+        if (id !== undefined) {
+            findFuncionario(id)
+        }
+    }, [id]);
 
     function updatedModel(e: ChangeEvent<HTMLInputElement>) {
 
@@ -39,13 +46,29 @@ const FuncionariosForm = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if(!model.nome || !model.email || !model.adm) {
+        if (!model.nome || !model.email || !model.adm) {
             toast.error("falta argumento");
             return;
         }
 
-        const response = await api.post('/funcionarios', model)
-        toast.success("Funcionario cadastrado!")
+        if (id !== undefined) {
+            const response = await api.put(`/funcionarios/${id}`, model)
+            toast.success("Funcionario alterado!")
+        } else {
+            const response = await api.post(`/funcionarios`, model)
+            toast.success("Funcionario cadastrado!")
+        }
+
+        
+    }
+
+    async function findFuncionario(id: string) {
+        const response = await api.get<IFuncionario>(`/funcionarios/${id}`)
+        setModel({
+            nome: response.data.nome,
+            email: response.data.email,
+            adm: response.data.adm
+        })
     }
 
 
@@ -76,6 +99,7 @@ const FuncionariosForm = () => {
                             <Form.Control
                                 type="text"
                                 name="nome"
+                                value={model.nome}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
                             />
                         </Form.Group>
@@ -84,12 +108,13 @@ const FuncionariosForm = () => {
                             <Form.Control
                                 type="email"
                                 name="email"
+                                value={model.email}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Check type="checkbox" label="Gerente?"
-                            name="adm" 
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
+                                name="adm"
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Cadastrar
