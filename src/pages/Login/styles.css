@@ -1,5 +1,5 @@
 .containerLogin {
-    background: #d18c5e;
+    background: var(--primary-color);
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -35,7 +35,7 @@
     border: none;
     border-radius: 10px;
     color: #FFF;
-    background: #D35400;
+    background: var(--button-color);
     font-size: 16px;
     font-weight: 600;
     transition: 0.3s;
@@ -44,9 +44,9 @@
 }
 
 .btnLogin:hover {
-    color: #D35400;
-    background: #FFF;
-    border: solid 2px #D35400;
+    color: var(--button-color);
+    background: var(--white-color);
+    border: solid 2px var(--button-color);
 }
 
 .iconFooter {

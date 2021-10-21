@@ -1,7 +1,14 @@
 :root {
     --black-color: #2c2c2c;
     --red-color: #d18c5e;
-    --white-color: #fafafa;
+    --white-color: rgb(250, 250, 250);
+    --primary-color: #20B2AA;
+    --button-color: #008080;
+    --text-primary-color: #fafafa;
+    --text-second-color: #2c2c2c;
+    --background-light: #A9A9A9;
+    --background-dark: #696969;
+
 }
 * {
     box-sizing: border-box;

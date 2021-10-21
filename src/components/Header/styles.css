@@ -2,7 +2,7 @@
 
 
 .containerHeader {
-    background: #d18c5e;
+    background: var(--primary-color);
     display: flex;
     /* padding: 12px */
 }

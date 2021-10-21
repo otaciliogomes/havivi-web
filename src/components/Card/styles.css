@@ -1,7 +1,7 @@
 .containerCard {
     position: relative;
     width: 320px;
-    height: auto;
+    height: 200px;
     border: solid 3px transparent;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -9,7 +9,7 @@
 }
 
 .containerCard:hover {
-    border-color:rgb(247, 166, 0);
+    border-color:var(--button-color);
 }
 
 .contentImg {
@@ -49,7 +49,7 @@
 }
 
 .viewMore {
-    background: rgb(247, 166, 0);
+    background: var(--button-color);
     color: #FFF;
     font-size: 1em;
     width: 50%;

@@ -1,21 +1,20 @@
 
 .contentHome {
-    width: 100%;
-    padding: 0px 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
 }
 
 .imgHome {
     /* margin: 10px; */
     width: 100%;
-    height: 300px;
+    height: 200px;
     object-fit: cover; 
 }
 
 .secetionCard {
-    display: grid ;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
+    display: flex;
 }
 
 .sectionImg {
@@ -31,4 +30,98 @@
 
 .titleChefe {
     color: #000
+}
+
+.mapHome {
+    max-width: 380px;
+    height:auto;
+}
+
+.titleHomeContent {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+.titleSpan {
+    color: var(--primary-color);
+}
+
+.sectionIcons {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1120px;
+    margin: 30px;
+}
+
+.iconsHome {
+    color: var(--primary-color);
+    font-size: 60px;
+}
+
+.contentListHome {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1120px;
+    margin: 30px;
+}
+
+.contentListHome .iconsHomeList {
+    color: var(--button-color);
+    font-size: 22px;
+}
+
+.contentListHome .contentImgHome {
+    width: 380px
+}
+
+.contentImgHome .imgListHome{
+    width: 100%;
+    height: auto;
+}
+
+.contentContact {
+    width: 380px;
+}
+
+.contentDowImg {
+    background-color: var(--background-dark);
+    color: var(--white-color);
+    display: flex;
+    justify-content:space-evenly;
+    padding: 10px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.iconWhatsapp {
+    color: var(--white-color);
+    font-size: 22px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.iconWhatsapp:hover {
+    transform: scale(1.2);
+}
+
+.containerTablesHome {
+    background-color: var(--background-dark);
+    max-width: 1120px;
+    align-self: center;
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+}
+.containerTablesHome .clockTable {
+    font-size: 80px;
+    color: var(--background-light);
+    margin: 10px;
+}
+
+.containerTablesHome .timeQueue {
+    color: var(--white-color);
+    font-size: 16px;
+    font-weight: 600;
+    align-self: center;
+    margin: 0px 10px;
 }

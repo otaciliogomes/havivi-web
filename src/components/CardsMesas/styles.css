@@ -19,24 +19,54 @@
 
 .buttonAddItem {
     color: #fafafa;
-    background-color: skyblue;
+    background-color: var(--button-color);
     font-size: 16px;
 }
 
 .buttonAddItem:hover {
-    color: skyblue;
+    color: var(--button-color);
     background-color: #fafafa;
-    border: solid 2px skyblue;
+    border: solid 2px var(--button-color);
 }
 
 .buttonCloseConta {
-    color: skyblue;
+    color: var(--button-color);
     background-color: #fafafa;
-    border: solid 2px skyblue;
+    border: solid 2px var(--button-color);
     font-size: 16px;
 }
 
 .buttonCloseConta:hover {
     color: #fafafa;
-    background-color: skyblue;
+    background-color: var(--button-color);
+}
+
+.contentModalListItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.contentModalListItem .btnListItemAdd {
+    width: 100%;
+    color: var(--white-color);
+    background: var(--button-color);
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 2px var(--white-color);
+    transition: 0.3s;
+}
+
+.contentModalListItem .btnListItemAdd:hover {
+    background: var(--white-color);
+    color: var(--button-color);
+    border-color: var(--button-color);
+}
+
+.contentModalListItem .inputSearchModal {
+    width: 100%;
+    padding: 10px;
 }

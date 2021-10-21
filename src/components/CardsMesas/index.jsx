@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, useContext } from 'react';
 import { Table } from 'react-bootstrap';
 import { SiAirtable } from 'react-icons/si';
 import { toast, ToastContainer } from 'react-toastify';
@@ -6,28 +6,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 import { Modal } from 'react-bootstrap'
 import mockProdutos from './mock.json';
-
-interface ICardsMesas {
-    numberMesa?: number;
-}
-
-interface IModalAdd {
-    show: boolean;
-    onHide: () => void;
-}
+import { ProviderTable } from '../../pages/contexts/TableContext';
 
 
 
 
-const CardsMesas = ({ numberMesa }: ICardsMesas) => {
+
+const CardsMesas = ({ numberMesa }) => {
+    const { qtdProductsCount, setQtdProductsCount} = useContext(ProviderTable);
     const [closeConta, setCloseConta] = useState(false);
-    const [produtosCount, setProdutosCount] = useState([{
-        id: '',
-        name: '',
-        preco: ''
-    }]);
-    const [valueCount, setValueCount] = useState(0);
-    const [litsProductsSelect, setLitsProductsSelect] = useState([]);
+    const [valueCount] = useState(0);
     const [modalShow, setModalShow] = useState(false);
 
     const HandleCloseConta = () => {
@@ -35,20 +23,27 @@ const CardsMesas = ({ numberMesa }: ICardsMesas) => {
         toast.success("Conta Fechada")
     }
 
-    const HandleAddItem = () => {
+    const ModalAddItem = (props) => {
+        const [produtosLits] = useState(mockProdutos);
+        const [searchValue, setSearchValue] = useState('');
 
-    }
-
-    const ModalAddItem = (props: IModalAdd) => {
-        const [produtosLits, setProdutosLits] = useState(mockProdutos);
-
-    
-    
-        const handleForm = (event: any) => {
-    
-            console.log(event.target.value)
+        const AddSearchValue = (event) => {
+            const { value } = event.target
+            setSearchValue(value)
         }
-    
+
+        const HandleAddItem = (item) => {
+            const newItem = item
+
+            setQtdProductsCount((prevValue) => [...prevValue,  newItem])
+        }
+
+        const filteredPosts = searchValue
+            ? produtosLits.filter((post) => {
+                return post.name.toLowerCase().includes(searchValue.toLocaleLowerCase());
+            })
+            : produtosLits;
+
         return (
             <Modal
                 {...props}
@@ -62,40 +57,38 @@ const CardsMesas = ({ numberMesa }: ICardsMesas) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Produto</th>
-                                    <th>Preço</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {produtosLits.map(produto => {
-                                    return (
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" value={produto.id} onChange={value => handleForm(value)} />
-                                            </td>
-                                            <td>{produto.name}</td>
-                                            <td>{`R$ ${produto.preco}`}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                    </form>
+                    <div className="contentModalListItem">
+                        <h4>Produtos</h4>
+                        <input
+                            className="inputSearchModal"
+                            type="text"
+                            value={searchValue}
+                            onChange={event => AddSearchValue(event)}
+                        />
+                        {filteredPosts.map(produto => {
+                            return (
+                                <button
+                                    onClick={HandleAddItem(produto)}
+                                    key={produto.id}
+                                    className="btnListItemAdd"
+                                >
+                                    {produto.name}
+                                    {`R$ ${produto.preco}`}
+                                </button>
+                            )
+                        })}
+
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="footerCard">
-                        <button
+                        {/* <button
                             // onClick={props.onHide}
                             className="buttonFooterCard buttonAddItem"
                             type="submit"
                         >
                             Seleciona
-                        </button>
+                        </button> */}
                         <button
                             onClick={props.onHide}
                             className="buttonFooterCard buttonCloseConta"
@@ -107,7 +100,7 @@ const CardsMesas = ({ numberMesa }: ICardsMesas) => {
             </Modal>
         )
     }
-    
+
 
     return (
         <>
@@ -127,7 +120,7 @@ const CardsMesas = ({ numberMesa }: ICardsMesas) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {produtosCount.map(produto => {
+                        {qtdProductsCount.map(produto => {
 
                             return (
                                 <tr>
