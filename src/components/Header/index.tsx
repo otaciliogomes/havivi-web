@@ -49,6 +49,18 @@ const Header = ({ title }: IHeaderProps) => {
                     </button>
                     <button
                         className="buttonNav"
+                        onClick={() => router.push('/funcionarios')}
+                    >
+                        Funcionarios
+                    </button>
+                    <button
+                        className="buttonNav"
+                        onClick={() => router.push('/clientes')}
+                    >
+                        Clientes
+                    </button>
+                    <button
+                        className="buttonNav"
                         onClick={() => router.push('/')}
                     >
                         Home
