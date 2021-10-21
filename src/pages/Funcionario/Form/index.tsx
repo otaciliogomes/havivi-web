@@ -1,43 +1,41 @@
-import react, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
+import { useHistory, useParams } from 'react-router-dom';
 import { Footer } from '../../../components/Footer';
 import { Header } from '../../../components/Header';
 import api from "../../../Service/api";
 import { toast, ToastContainer } from 'react-toastify';
-import { useHistory, useParams } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 import '../styles.css'
 
 
 
-interface IProduct {
-    
+interface IFuncionario {
     nome: string,
-    valor: number,
-    descricao: string,
-    imagem?: string
+    email: string,
+    adm: boolean,
 }
 
 
-const ProductsForm: React.FC = () => {
+const FuncionariosForm = () => {
 
     const { id } = useParams<{ id: string }>();
     const history = useHistory();
-    const [model, setModel] = useState<IProduct>({
+    const [model, setModel] = useState<IFuncionario>({
         nome: "",
-        valor: 0,
-        descricao: ""
-    });
+        email: "",
+        adm: false
+    })
 
     useEffect(() => {
         if (id !== undefined) {
-            findProduct(id)
+            findFuncionario(id)
         }
     }, [id]);
 
+    function updatedModel(e: ChangeEvent<HTMLInputElement>) {
 
-    function updatedModel(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         setModel({
             ...model,
             [e.target.name]: e.target.value
@@ -48,48 +46,49 @@ const ProductsForm: React.FC = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if (!model.nome || !model.valor || !model.descricao) {
+        if (!model.nome || !model.email || !model.adm) {
             toast.error("falta argumento");
             return;
         }
 
         if (id !== undefined) {
-            const response = await api.put(`/produtos/${id}`, model)
-            toast.success("Produto alterado!")
+            const response = await api.put(`/funcionarios/${id}`, model)
+            toast.success("Funcionario alterado!")
         } else {
-            const response = await api.post(`/produtos`, model)
-            toast.success("Produto cadastrado!")
+            const response = await api.post(`/funcionarios`, model)
+            toast.success("Funcionario cadastrado!")
         }
 
         
-
     }
 
-    async function findProduct(id: string) {
-        const response = await api.get<IProduct>(`/produtos/${id}`)
+    async function findFuncionario(id: string) {
+        const response = await api.get<IFuncionario>(`/funcionarios/${id}`)
         setModel({
             nome: response.data.nome,
-            valor: response.data.valor,
-            descricao: response.data.descricao
+            email: response.data.email,
+            adm: response.data.adm
         })
     }
 
+
+
     const cancel = () => {
-        history.push('/produtos')
+        history.push('/funcionarios')
     }
 
 
 
-    // Retorna uma tabela com os produtos.
+    // Retorna uma tabela com os funcionarios.
 
     return (
         <>
-            <Header title="Cadastro de produto" />
+            <Header title="Cadastro de funcionario" />
             <ToastContainer />
             <div className="container">
                 <br />
-                <div className="product-header">
-                    <h1>Novo Produto</h1>
+                <div className="funcionario-header">
+                    <h1>Novo Funcionario</h1>
                     <Button variant="dark" size="sm" onClick={cancel} >Voltar</Button>
                 </div>
                 <br />
@@ -104,26 +103,20 @@ const ProductsForm: React.FC = () => {
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
                             />
                         </Form.Group>
-
                         <Form.Group className="mb-3">
-                            <Form.Label>Valor</Form.Label>
+                            <Form.Label>Email</Form.Label>
                             <Form.Control
-                                type="text"
-                                name="valor"
-                                value={model.valor}
+                                type="email"
+                                name="email"
+                                value={model.email}
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
-
                         <Form.Group className="mb-3">
-                            <Form.Label>Descrição</Form.Label>
-                            <Form.Control as="textarea"
-                                rows={3}
-                                name="descricao"
-                                value={model.descricao}
-                                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updatedModel(e)} />
+                            <Form.Check type="checkbox" label="Gerente?"
+                                name="adm"
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
-
-                        <Button variant="primary" type="submit" >
+                        <Button variant="primary" type="submit">
                             Cadastrar
                         </Button>
                     </Form>
@@ -135,4 +128,4 @@ const ProductsForm: React.FC = () => {
 
 }
 
-export { ProductsForm }
+export { FuncionariosForm }

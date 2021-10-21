@@ -1,14 +1,14 @@
-.product-header {
+.cliente-header {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.containerProd {
+.containerCliente {
     display: flex;
-    flex-direction: column;
-    margin: 80px;
+    margin: 100px;
     width: 80vw;
     height: 80vh;
+    flex-direction: column;
 }
