@@ -15,8 +15,8 @@ interface IProduct {
     id: number,
     nome: string,
     valor: number,
-    descricao?: string,
-    imagem?: string
+    descricao: string,
+    imagem: string
 }
 
 
@@ -31,8 +31,9 @@ const Products = () => {
 
     async function loadProducts() {
 
-        const response = await api.get('/produtos')
+        const response = await api.get('/produtos', {headers: {Authorization:"Basic am9yZ2luOjEyMzQ1Ng=="}})
         setProducts(response.data)
+        console.log(response)
     }
 
     async function deleteProduct(id: number) {
@@ -83,6 +84,7 @@ const Products = () => {
                                     <td>{product.nome}</td>
                                     <td>{product.valor}</td>
                                     <td>{product.descricao}</td>
+                                    <td>{product.imagem}</td>
                                     <td>
                                         <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editProduct(product.id)}><FaPencilAlt className="iconAlt" /></Button>{' '}
                                         <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteProduct(product.id)}><MdDeleteForever className="iconDel" /></Button>{' '}
