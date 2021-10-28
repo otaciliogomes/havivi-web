@@ -15,7 +15,7 @@ interface IFuncionario {
     id: number,
     nome: string,
     email: string,
-    adm: boolean,
+    tipo: boolean,
 }
 
 
@@ -80,7 +80,7 @@ const Funcionarios = () => {
                                     <td>{funcionario.id}</td>
                                     <td>{funcionario.nome}</td>
                                     <td>{funcionario.email}</td>
-                                    <td>{funcionario.adm}</td>
+                                    <td>{funcionario.tipo}</td>
                                     <td>
                                         <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editFuncionario(funcionario.id)}><FaPencilAlt className="iconAlt" /></Button>
                                         <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteFuncionario(funcionario.id)}><MdDeleteForever className="iconDel" /></Button>

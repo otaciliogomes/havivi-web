@@ -34,7 +34,7 @@ const FuncionariosForm = () => {
         }
     }, [id]);
 
-    function updatedModel(e: ChangeEvent<HTMLInputElement>) {
+    function updatedModel(e: ChangeEvent<HTMLInputElement | HTMLSelectElement >) {
 
         setModel({
             ...model,
@@ -59,7 +59,9 @@ const FuncionariosForm = () => {
             toast.success("Funcionario cadastrado!")
         }
 
-        
+
+
+
     }
 
     async function findFuncionario(id: string) {
@@ -112,9 +114,12 @@ const FuncionariosForm = () => {
                                 onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
                         </Form.Group>
                         <Form.Group className="mb-3">
-                            <Form.Check type="checkbox" label="Gerente?"
-                                name="adm"
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
+                            <Form.Label>Gerente?</Form.Label>
+                            <Form.Select  name="adm"  onChange={(e: ChangeEvent<HTMLSelectElement>) => updatedModel(e)}>
+                                <option>Selecione uma opção</option>
+                                <option value={"false"}>não</option>
+                                <option value={"true"}>Sim</option>
+                            </Form.Select>
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Cadastrar
