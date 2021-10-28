@@ -16,7 +16,7 @@ interface IProduct {
     nome: string,
     valor: number,
     descricao: string,
-    imagem?: string
+    imagem: string
 }
 
 
@@ -27,7 +27,8 @@ const ProductsForm: React.FC = () => {
     const [model, setModel] = useState<IProduct>({
         nome: "",
         valor: 0,
-        descricao: ""
+        descricao: "",
+        imagem: ""
     });
 
     useEffect(() => {
@@ -70,7 +71,8 @@ const ProductsForm: React.FC = () => {
         setModel({
             nome: response.data.nome,
             valor: response.data.valor,
-            descricao: response.data.descricao
+            descricao: response.data.descricao,
+            imagem: response.data.imagem
         })
     }
 
@@ -121,6 +123,16 @@ const ProductsForm: React.FC = () => {
                                 name="descricao"
                                 value={model.descricao}
                                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updatedModel(e)} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Imagem URL</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="imagem"
+                                value={model.imagem}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+                            />
                         </Form.Group>
 
                         <Button variant="primary" type="submit" >
