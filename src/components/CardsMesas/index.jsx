@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { SiAirtable } from 'react-icons/si';
 import { toast, ToastContainer } from 'react-toastify';
@@ -12,12 +12,23 @@ import {ButtonAddITem} from "../ButtonAddItem";
 
 
 
-
-const CardsMesas = ({ numberMesa }) => {
+const CardsMesas = ({numberMesa}) => {
     const { qtdProductsCount, setQtdProductsCount} = useContext(ContextTable);
+    const currentTable = qtdProductsCount[numberMesa].produtos
     const [closeConta, setCloseConta] = useState(false);
     const [valueCount] = useState(0);
     const [modalShow, setModalShow] = useState(false);
+    const [proddutosMesa, setProdutosMesa] = useState(currentTable);
+
+    useEffect(() => {
+        const newProdutoMesa = localStorage.getItem(`table${numberMesa}Item`);
+        const newItems = newProdutoMesa ? JSON.parse(newProdutoMesa) : ''
+        const newItemsMesa = [...currentTable, ...newItems];
+        setProdutosMesa(newItemsMesa)
+        console.log(newItemsMesa)
+    }, [])
+
+
 
     const HandleCloseConta = () => {
         setCloseConta(true);
@@ -63,7 +74,7 @@ const CardsMesas = ({ numberMesa }) => {
                         />
                         {filteredPosts.map(produto => {
                             return (
-                                <ButtonAddITem produto={produto}/>
+                                <ButtonAddITem numberMesa={props.numberMesa} produto={produto}/>
                             )
                         })}
 
@@ -109,13 +120,13 @@ const CardsMesas = ({ numberMesa }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {qtdProductsCount.map(produto => {
+                        {proddutosMesa.map(produto => {
 
                             return (
                                 <tr>
                                     <td>1</td>
-                                    <td>{produto.name}</td>
-                                    <td>{`R$ ${produto.preco}`}</td>
+                                    <td>{produto?.name}</td>
+                                    <td>{`R$ ${produto?.preco}`}</td>
                                     <td></td>
                                 </tr>
                             )
@@ -144,7 +155,7 @@ const CardsMesas = ({ numberMesa }) => {
                         Fechar Mesa
                     </button>
                 </div>
-                <ModalAddItem show={modalShow} onHide={() => setModalShow(false)} />
+                <ModalAddItem numberMesa={numberMesa} show={modalShow} onHide={() => setModalShow(false)} />
             </div>
         </>
     )

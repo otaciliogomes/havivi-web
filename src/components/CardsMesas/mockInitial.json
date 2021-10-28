@@ -1,7 +1,30 @@
 [
     {
-        "id": 0,
-        "name": "",
-        "preco": 0
+        "produtos": [
+            {
+                "id": 0,
+                "name": "",
+                "preco": 0
+            },
+            {
+                "id": 0,
+                "name": "",
+                "preco": 0
+            }
+        ]
+    },
+    {
+        "produtos": [
+            {
+                "id": 0,
+                "name": "",
+                "preco": 0
+            },
+            {
+                "id": 0,
+                "name": "",
+                "preco": 0
+            }
+        ]
     }
 ]

@@ -7,7 +7,8 @@ interface NewItemCount {
     id: number;
     name: string;
     preco: number
-    }
+    },
+    numberMesa: number;
 }
 
 interface ProdutoI {
@@ -18,14 +19,16 @@ interface ProdutoI {
 
 export const ButtonAddITem = (produtoEstoque: NewItemCount) => {
     const {qtdProductsCount ,setQtdProductsCount } = useContext(ContextTable);
-    const {produto} = produtoEstoque
-    const HandleAddItem = (item: ProdutoI) => {
+    const {produto, numberMesa} = produtoEstoque
+    const HandleAddItem = async (item: ProdutoI) => {
+        const itemsMesasLocal = await localStorage.getItem(`table${numberMesa}Item`)
+        const addItemVelho = itemsMesasLocal ? JSON.parse(itemsMesasLocal) : ''
         const newItem = item
-        console.log(newItem)
-        setQtdProductsCount([newItem])
+        const arrayLocalStorage = [...addItemVelho, newItem]
+        // setQtdProductsCount([newItem])
+        await localStorage.setItem(`table${numberMesa}Item`, JSON.stringify(arrayLocalStorage))
     }
 
-    console.log(produto)
 
     return (
         <>

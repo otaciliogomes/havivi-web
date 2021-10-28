@@ -5,7 +5,13 @@ import { CardsMesas } from '../../components/CardsMesas';
 import './styles.css'
 
 const Mesas = () => {
-    const [qtdTables, setQtdTables] = useState([1]);
+    const mesas = localStorage.getItem('qtdMesas')    
+    const newMesas = mesas ? JSON.parse(mesas): [1]
+    const [qtdTables, setQtdTables] = useState<number []>(newMesas);
+
+    const testArray = [1, 2]
+
+    localStorage.setItem('qtdMesas', JSON.stringify(testArray))
     return (
         <>
             <Header title="Mesas" />
@@ -13,7 +19,7 @@ const Mesas = () => {
                 <h1>Mesas</h1>
                 <button
                     className="buttonFooterCard buttonAddItem"
-                    onClick={() => setQtdTables((prevValue) => [...prevValue, 1])}
+                    onClick={() => setQtdTables([...qtdTables, 1])}
                 >
                     Adicionar Mesa +
                 </button>

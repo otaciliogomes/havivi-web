@@ -19,13 +19,11 @@ const Login = () => {
 
         setEmail(usersList.email);
 
-        console.log(usersList)
         return;
     }
 
     const notify = () => {
         toast.error("usuario incorreto!")
-        console.log("Renderixzou")
     }
 
     async function handleForm(event: FormEvent){
