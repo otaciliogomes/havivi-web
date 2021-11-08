@@ -25,7 +25,7 @@ const Admin = () => {
     ];
 
     const getFuncionariosAPI = async () => {
-        const { data } = await api.get<any[]>('/funcionarios_show');
+        const { data } = await api.get<any[]>('/funcionarios');
         setFuncionarios(data.length)
     }
 
@@ -38,7 +38,7 @@ const Admin = () => {
     }
 
     const getClientesAPI = async () => {
-        const { data } = await api.get<any[]>('/cliente_show');
+        const { data } = await api.get<any[]>('/clientes');
         setClientes(data.length)
     }
 
@@ -55,7 +55,7 @@ const Admin = () => {
     }
 
     const getTotalFature = async () => {
-        const { data } = await api.get('/pedidos_total');
+        const { data } = await api.get('/pedidos');
         setValueFaturamentoTotal(data)
     }
 

@@ -14,7 +14,7 @@ interface ICliente {
     id?: number,
     nome: string,
     endereco: string,
-    tel: number,
+    telefone: number,
 }
 
 
@@ -25,7 +25,7 @@ const ClientesForm = () => {
     const [model, setModel] = useState<ICliente>({
         nome: "",
         endereco: "",
-        tel: 0
+        telefone: 0
     })
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const ClientesForm = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if (!model.nome || !model.endereco || !model.tel) {
+        if (!model.nome || !model.endereco || !model.telefone) {
             toast.error("falta argumento");
             return;
         }
@@ -68,7 +68,7 @@ const ClientesForm = () => {
             id: data.id,
             nome: data.nome,
             endereco: data.endereco,
-            tel: data.tel
+            telefone: data.telefone
         })
     }
 
@@ -117,9 +117,12 @@ const ClientesForm = () => {
                             <Form.Group className="mb-3">
                                 <Form.Control
                                     type="int"
-                                    name="tel"
-                                    value={model.tel}
+                                    name="telefone"
+                                    value={model.telefone}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
+                                <Form.Control.Feedback type="invalid">
+                                    Coloque um número
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Button variant="primary" type="submit">
                                 Cadastrar
