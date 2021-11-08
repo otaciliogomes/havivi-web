@@ -6,7 +6,6 @@ import { Table, Button } from 'react-bootstrap';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import api from "../../Service/api";
-
 import './styles.css'
 
 
@@ -22,6 +21,9 @@ interface IProduct {
 
 const Products = () => {
 
+    const tokenJSON = localStorage.getItem('token');
+    const token = tokenJSON ? JSON.parse(tokenJSON) : '';
+    
     const history = useHistory();
     const [products, setProducts] = useState<IProduct[]>([])
 
@@ -30,15 +32,14 @@ const Products = () => {
     }, [])
 
     async function loadProducts() {
-
-        const response = await api.get('/produtos', {headers: {Authorization:"Basic am9yZ2luOjEyMzQ1Ng=="}})
-        setProducts(response.data)
-        console.log(response)
+        const response = await api.get('/produtos')
+        setProducts(response.data)  
     }
 
     async function deleteProduct(id: number) {
         const response = await api.delete(`/produtos/${id}`)
         loadProducts()
+        
     }
 
 
@@ -52,11 +53,13 @@ const Products = () => {
     }
 
 
-
+    const renderErrorLog = (
+        <h1>Erro de login</h1>
+    )
 
     // Retorna uma tabela com os produtos.
 
-    return (
+    const renderProduct = (
         <>
             <Header title="Produtos" />
             <div className="containerProd">
@@ -73,6 +76,7 @@ const Products = () => {
                             <th>Nome</th>
                             <th>Preço</th>
                             <th>Descrição</th>
+                            <th>Imagem</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -98,6 +102,11 @@ const Products = () => {
             <Footer />
         </>
     );
+
+
+    return (
+        token ? renderProduct : renderErrorLog
+    )
 
 }
 

@@ -12,7 +12,7 @@ import '../styles.css'
 
 
 interface IProduct {
-    
+    id?: number,
     nome: string,
     valor: number,
     descricao: string,
@@ -49,30 +49,31 @@ const ProductsForm: React.FC = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if (!model.nome || !model.valor || !model.descricao) {
+        if (!model.nome || !model.valor || !model.descricao || !model.imagem) {
             toast.error("falta argumento");
             return;
         }
 
         if (id !== undefined) {
-            const response = await api.put(`/produtos/${id}`, model)
+            const response = await api.put(`/produtos`, model)
             toast.success("Produto alterado!")
         } else {
             const response = await api.post(`/produtos`, model)
             toast.success("Produto cadastrado!")
         }
 
-        
+
 
     }
 
     async function findProduct(id: string) {
-        const response = await api.get<IProduct>(`/produtos/${id}`)
+        const { data } = await api.get<IProduct>(`/produtos/${id}`)
         setModel({
-            nome: response.data.nome,
-            valor: response.data.valor,
-            descricao: response.data.descricao,
-            imagem: response.data.imagem
+            id: data.id,
+            nome: data.nome,
+            valor: data.valor,
+            descricao: data.descricao,
+            imagem: data.imagem
         })
     }
 
@@ -95,50 +96,48 @@ const ProductsForm: React.FC = () => {
                     <Button variant="dark" size="sm" onClick={cancel} >Voltar</Button>
                 </div>
                 <br />
-                <div className="container">
-                    <Form onSubmit={onSubmit} >
-                        <Form.Group className="mb-3">
-                            <Form.Label>Nome</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="nome"
-                                value={model.nome}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
-                            />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Valor</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="valor"
-                                value={model.valor}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Descrição</Form.Label>
-                            <Form.Control as="textarea"
-                                rows={3}
-                                name="descricao"
-                                value={model.descricao}
-                                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updatedModel(e)} />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                            <Form.Label>Imagem URL</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="imagem"
-                                value={model.imagem}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
-                            />
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit" >
-                            Cadastrar
-                        </Button>
-                    </Form>
+                <div className="containerForm">
+                    <div className="contentForm">
+                        <Form onSubmit={onSubmit} >
+                            <Form.Group className="mb-3">
+                                <Form.Label>Nome</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="nome"
+                                    value={model.nome}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Valor</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="valor"
+                                    value={model.valor}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Descrição</Form.Label>
+                                <Form.Control as="textarea"
+                                    rows={3}
+                                    name="descricao"
+                                    value={model.descricao}
+                                    onChange={(e: ChangeEvent<HTMLTextAreaElement>) => updatedModel(e)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Imagem URL</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="imagem"
+                                    value={model.imagem}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+                                />
+                            </Form.Group>
+                            <Button variant="primary" type="submit" >
+                                Cadastrar
+                            </Button>
+                        </Form>
+                    </div>
                 </div>
             </div>
             <Footer />

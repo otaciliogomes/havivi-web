@@ -21,6 +21,9 @@ interface ICliente {
 
 const Clientes = () => {
 
+    const tokenJSON = localStorage.getItem('token');
+    const token = tokenJSON ? JSON.parse(tokenJSON) : '';
+
     const [cliente, setCliente] = useState<ICliente[]>([])
     const history = useHistory();
 
@@ -49,11 +52,13 @@ const Clientes = () => {
     }
 
 
-
+    const renderErrorLog = (
+        <h1>Erro de login</h1>
+    )
 
     // Retorna uma tabela com os Clientes.
 
-    return (
+    const renderCliente = (
         <>
             <Header title="Clientes" />
             <div className="containerCliente">
@@ -94,6 +99,10 @@ const Clientes = () => {
             <Footer />
         </>
     );
+
+    return (
+        token ? renderCliente : renderErrorLog
+    )
 
 }
 
