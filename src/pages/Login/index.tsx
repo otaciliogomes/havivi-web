@@ -30,6 +30,7 @@ const Login = () => {
         }
         const response = await api.post<Ilogin>('/funcionarios/logar', user)
         localStorage.setItem('token', JSON.stringify(response.data.token) )
+        localStorage.setItem('userAdmin', JSON.stringify(response.data.tipo) )
         setTipo(response.data.tipo ? response.data.tipo : false)
 
         if(!response){
