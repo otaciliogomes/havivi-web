@@ -1,21 +1,22 @@
 import './styles.css';
 
 interface ICardProps {
-    img: string;
-    title: string;
-    description: string;
+    imagem: string;
+    name: string;
+    descricao: string;
+    valor: number;
 }
 
 const Card = (props: ICardProps): JSX.Element => {
     return (
         <div className="containerCard">
             {/* <div className="contentImg"> */}
-            <img className="imgCard" src={props.img} />
+            <img className="imgCard" src={props.imagem} />
             {/* </div> */}
             <div className="infoCard">
-                <p className="titleCard">{props.title}</p>
+                <p className="titleCard">{props.name}</p>
                 <div className="descriptionCard">
-                    {props.description}
+                    {props.descricao}
                 </div>
                 <button 
                     className="viewMore"
