@@ -23,23 +23,26 @@ const Products = () => {
 
     const tokenJSON = localStorage.getItem('token');
     const token = tokenJSON ? JSON.parse(tokenJSON) : '';
-    
+
     const history = useHistory();
     const [products, setProducts] = useState<IProduct[]>([])
 
     useEffect(() => {
-        loadProducts()
+        const carregar = async () => {
+            await loadProducts()
+        }
+        carregar()
     }, [])
 
-    async function loadProducts() {
+    const loadProducts = async () => {
         const response = await api.get('/produtos')
-        setProducts(response.data)  
+        setProducts(response.data)
     }
 
     async function deleteProduct(id: number) {
         const response = await api.delete(`/produtos/${id}`)
         loadProducts()
-        
+
     }
 
 

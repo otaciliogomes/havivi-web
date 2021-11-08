@@ -1,15 +1,30 @@
+header {
+    background: var(--primary-color);
+    height: 100px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
 
+header .menu{
+    justify-content: space-between;
+}
 
 
 .containerHeader {
-    background: var(--primary-color);
     display: flex;
-    /* padding: 12px */
+    justify-content: space-between;
+    align-items: center;
+    max-width: 992px;
+    margin: auto;
+    width: 100%;
+    min-width: 320px;
 }
 
 .titleHeader {
     width: 100%;
-    margin: 10px;
+    font-weight: 500;
+    font-size: 1.6rem;
 }
 
 .searchInput {
@@ -50,17 +65,18 @@
 }
 
 .naviContent {
-    background-color: var(--black-color);
+    /* background-color: var(--black-color); */
     display: flex;
-    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
     align-items: center;
 }
 
 .buttonNav {
-    padding: 10px;
-    margin: 10px;
+    padding: 4px;
+    margin: 8px;
     border: solid 2px transparent;
-    border-radius: 10px;
+    border-radius: 15px;
     transition: 0.3s;
     background: var(--white-color);
     color: var(--black-color)

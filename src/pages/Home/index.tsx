@@ -26,7 +26,7 @@ const Home = () => {
 
     useEffect(() => {
         const getProdutos = async () => {
-            const { data } = await api.get('/produto');
+            const { data } = await api.get('/produtos');
             setProdutos(data)
         }
 

@@ -15,7 +15,7 @@ interface ICliente {
     id: number,
     nome: string,
     endereco: string,
-    tel: number,
+    telefone: number,
 }
 
 
@@ -85,7 +85,7 @@ const Clientes = () => {
                                     <td>{cliente.id}</td>
                                     <td>{cliente.nome}</td>
                                     <td>{cliente.endereco}</td>
-                                    <td>{cliente.tel}</td>
+                                    <td>{cliente.telefone}</td>
                                     <td>
                                         <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editCliente(cliente.id)}><FaPencilAlt className="iconAlt" /></Button>
                                         <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteCliente(cliente.id)}><MdDeleteForever className="iconDel" /></Button>

@@ -1,4 +1,5 @@
 import { FaPencilAlt } from 'react-icons/fa'
+import { GrUserAdmin, GrUser } from 'react-icons/gr'
 import { MdDeleteForever } from 'react-icons/md'
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router';
@@ -58,6 +59,18 @@ const Funcionarios = () => {
         <h1>Erro de login</h1>
     )
 
+    const renderTypeimg = (admin : boolean) => {
+        if (admin) {
+            return (
+                <GrUserAdmin className="iconAdmin" />
+            )
+        } else {
+            return (
+                <GrUser className="iconUser" />
+            )
+        }
+    }
+
 
     // Retorna uma tabela com os funcionarios.
 
@@ -88,7 +101,7 @@ const Funcionarios = () => {
                                     <td>{funcionario.id}</td>
                                     <td>{funcionario.nome}</td>
                                     <td>{funcionario.email}</td>
-                                    <td>{funcionario.tipo}</td>
+                                    <td>{renderTypeimg(funcionario.tipo)}</td>
                                     <td>
                                         <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editFuncionario(funcionario.id)}><FaPencilAlt className="iconAlt" /></Button>
                                         <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteFuncionario(funcionario.id)}><MdDeleteForever className="iconDel" /></Button>

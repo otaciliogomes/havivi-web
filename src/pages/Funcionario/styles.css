@@ -12,10 +12,11 @@
 
 .containerFunc {
     display: flex;
-    margin: 100px;
-    width: 80vw;
-    height: 80vh;
     flex-direction: column;
+    max-width: 992px;
+    margin: auto;
+    width: 100%;
+    min-width: 320px;
 }
 
 .containerForm {
