@@ -27,7 +27,7 @@ export const ProviderTable = ({ children }: any) => {
     },[])
 
     return (
-        <ContextTable.Provider value={{ qtdProductsCount, setQtdProductsCount }}>
+        <ContextTable.Provider value={{ qtdProductsCount, setQtdProductsCount}}>
             {children}
         </ContextTable.Provider>
     )

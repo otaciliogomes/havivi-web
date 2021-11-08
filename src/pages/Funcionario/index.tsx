@@ -13,6 +13,8 @@ import './styles.css'
 
 interface IFuncionario {
     id: number,
+    user: string,
+    senha: string,
     nome: string,
     email: string,
     tipo: boolean,
@@ -20,6 +22,9 @@ interface IFuncionario {
 
 
 const Funcionarios = () => {
+
+    const tokenJSON = localStorage.getItem('token');
+    const token = tokenJSON ? JSON.parse(tokenJSON) : '';
 
     const [funcionario, setFuncionario] = useState<IFuncionario[]>([])
     const history = useHistory();
@@ -49,11 +54,14 @@ const Funcionarios = () => {
     }
 
 
+    const renderErrorLog = (
+        <h1>Erro de login</h1>
+    )
 
 
     // Retorna uma tabela com os funcionarios.
 
-    return (
+    const renderFuncionario = (
         <>
             <Header title="Funcionarios" />
             <div className="containerFunc">
@@ -69,7 +77,7 @@ const Funcionarios = () => {
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Email</th>
-                            <th>Adm</th>
+                            <th>Tipo</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -94,6 +102,10 @@ const Funcionarios = () => {
             <Footer />
         </>
     );
+
+    return (
+        token ? renderFuncionario : renderErrorLog
+    )
 
 }
 

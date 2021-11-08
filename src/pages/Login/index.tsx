@@ -6,11 +6,21 @@ import api from '../../Service/api'
 
 import './styles.css'
 
+interface Ilogin {
+    id?: number,
+    nome?: string,
+    senha?: string,
+    email?: string,
+    tipo?: boolean,
+    token?: string
+}
+
 
 const Login = () => {
     const router = useHistory();
     const [emailEnter, setEmailEnter] = useState('');
     const [email, setEmail] = useState('');
+    const [tipo, setTipo] = useState(false);
     const [passwordEnter, setPasswordEnter] = useState('');
 
     const getUsersAPI = async () => {
@@ -18,27 +28,40 @@ const Login = () => {
             user: emailEnter,
             senha: passwordEnter
         }
-        const {data} = await api.post('/funcionarios/logar', user);
+        const response = await api.post<Ilogin>('/funcionarios/logar', user)
+        localStorage.setItem('token', JSON.stringify(response.data.token) )
+        setTipo(response.data.tipo ? response.data.tipo : false)
 
-        console.log(data)
+        if(!response){
+            notify();
+            return;
+        }
+        
+        return response
     }
+
 
     const notify = () => {
         toast.error("usuario incorreto!")
     }
+    console.log(tipo)
 
     async function handleForm(event: FormEvent){
         // alert('vazou')
         event.preventDefault(); 
+        const result = await getUsersAPI();
+       
+        // if (!result.status) {
+        //     // router.push('/admin');
+        //     notify();
+        //     return;
+        // }
 
-        await getUsersAPI();
-        
-        if (email !== emailEnter) {
-            // router.push('/admin');
-            notify();
-            return;
+        if(result?.data.tipo === true){
+            router.push('/admin')
+        } else {
+            router.push('/mesas')
         }
-        router.push('/admin')
     }
 
     return (

@@ -11,6 +11,7 @@ import '../styles.css'
 
 
 interface ICliente {
+    id?: number,
     nome: string,
     endereco: string,
     tel: number,
@@ -51,22 +52,23 @@ const ClientesForm = () => {
         }
 
         if (id !== undefined) {
-            const response = await api.put(`/clientes/${id}`, model)
+            const response = await api.put(`/clientes`, model)
             toast.success("Cliente alterado!")
         } else {
             const response = await api.post(`/clientes`, model)
             toast.success("Cliente cadastrado!")
         }
 
-        
+
     }
 
     async function findCliente(id: string) {
-        const response = await api.get<ICliente>(`/clientes/${id}`)
+        const { data } = await api.get<ICliente>(`/clientes/${id}`)
         setModel({
-            nome: response.data.nome,
-            endereco: response.data.endereco,
-            tel: response.data.tel
+            id: data.id,
+            nome: data.nome,
+            endereco: data.endereco,
+            tel: data.tel
         })
     }
 
@@ -91,37 +93,40 @@ const ClientesForm = () => {
                     <Button variant="dark" size="sm" onClick={cancel} >Voltar</Button>
                 </div>
                 <br />
-                <div className="container">
-                    <Form onSubmit={onSubmit} >
-                        <Form.Group className="mb-3">
-                            <Form.Label>Nome</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="nome"
-                                value={model.nome}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Endereco</Form.Label>
-                            <Form.Control
-                                type="adress"
-                                name="endereco"
-                                value={model.endereco}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
-                        </Form.Group>
-                        <Form.Label>Telefone</Form.Label>
-                        <Form.Group className="mb-3">
-                            <Form.Control
-                                type="int"
-                                name="tel"
-                                value={model.tel}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Cadastrar
-                        </Button>
-                    </Form>
+                <div className="containerForm">
+                    <div className="contentForm">
+                        <Form onSubmit={onSubmit} >
+                            <Form.Group className="mb-3">
+                                <Form.Label>Nome</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="nome"
+                                    value={model.nome}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Endereco</Form.Label>
+                                <Form.Control
+                                    type="adress"
+                                    name="endereco"
+                                    value={model.endereco}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
+                            </Form.Group>
+                            <Form.Label>Telefone</Form.Label>
+                            <Form.Group className="mb-3">
+                                <Form.Control
+                                    type="int"
+                                    name="tel"
+                                    value={model.tel}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Cadastrar
+                            </Button>
+                        </Form>
+                    </div>
+
                 </div>
             </div>
             <Footer />
