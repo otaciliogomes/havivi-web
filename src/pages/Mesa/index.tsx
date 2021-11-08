@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { CardsMesas } from '../../components/CardsMesas';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import api from '../../Service/api';
 import './styles.css'
 import { AnySoaRecord } from 'dns';
@@ -34,11 +36,13 @@ const Mesas = () => {
     const criarPedido = async () => {
         await api.post('/pedidos')
         getPedidosApi()
+        toast.success("Pedido Criado")
     }
 
     return (
         <>
             <Header title="Pedidos" />
+            <ToastContainer />
             <div className="containerMesa">
                 <h1>Pedido</h1>
                 <button

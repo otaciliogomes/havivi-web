@@ -12,7 +12,7 @@ import './styles.css';
 import api from '../../Service/api';
 
 interface IProduto {
-    name: string;
+    nome: string;
     valor: number;
     imagem: string;
     descricao: string
@@ -55,40 +55,29 @@ const Home = () => {
                         <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
                         <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
                     </div>
-                    <div>
+                    {/* <div>
                         <CarouselComponent produto={produtos} />
+                    </div> */}
+                    <div className="contentContact">
+                        <div className="contentImgHome">
+                            <img src={imgURL} className="imgListHome" />
+                        </div>
+                        <div className="contentDowImg">
+                            <p>Entre em contato para saber mais sobre reservar</p>
+                            <AiOutlineWhatsApp className="iconWhatsapp" />
+                        </div>
                     </div>
                 </section>
-                <div className="contentContact">
-                    <div className="contentImgHome">
-                        <img src={imgURL} className="imgListHome" />
-                    </div>
-                    <div className="contentDowImg">
-                        <p>Entre em contato para saber mais sobre reservar</p>
-                        <AiOutlineWhatsApp className="iconWhatsapp" />
-                    </div>
-                </div>
-                {/* <fieldset className="containerTablesHome">
-                    <div>
-                        <BsClockHistory className="clockTable" />
-                    </div>
-                    <div className="timeQueue">
-                        <span>1h</span>
-                        <span>Tempode espera de mesa</span>
-                    </div>
-                    <div className="timeQueue">
-                        <span>|</span>
-                    </div>
-                    <div className="timeQueue">
-                        <span>Consulte os funcirios para retirada de pedidos</span>
-                    </div>
-                </fieldset> */}
-                {/* {produtos.map(produto => (
-                    <Card {...produto} />
-                ))} */}
-                <div>
-                    <CarouselComponent produto={produtos} />
-                </div>
+                    {
+                        produtos.map(produto => {
+                            <Card  
+                                imagem={produto.imagem}
+                                valor={produto.valor}
+                                descricao={produto.descricao}
+                                nome={produto.nome}
+                            />
+                        })
+                    }
             </main>
             <Footer />
         </>
