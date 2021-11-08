@@ -1,44 +1,41 @@
-import { useContext } from 'react';
-import ContextTable from '../../pages/contexts/TableContext'
+import api from '../../Service/api';
 import './styles.css';
 
 interface NewItemCount {
-   produto: {
-    id: number;
-    name: string;
-    preco: number
+    produto: {
+        id: string;
+        name: string;
+        valor: number;
+        descricao: string;
+        imagem: string
     },
-    numberMesa: number;
+    pedido_id: string;
+    closeModal: () => void;
 }
 
-interface ProdutoI {
-    id: number;
-    name: string;
-    preco: number
-}
-
-export const ButtonAddITem = (produtoEstoque: NewItemCount) => {
-    const {qtdProductsCount ,setQtdProductsCount } = useContext(ContextTable);
-    const {produto, numberMesa} = produtoEstoque
-    const HandleAddItem = async (item: ProdutoI) => {
-        const itemsMesasLocal = await localStorage.getItem(`table${numberMesa}Item`)
-        const addItemVelho = itemsMesasLocal ? JSON.parse(itemsMesasLocal) : ''
-        const newItem = item
-        const arrayLocalStorage = [...addItemVelho, newItem]
-        // setQtdProductsCount([newItem])
-        await localStorage.setItem(`table${numberMesa}Item`, JSON.stringify(arrayLocalStorage))
+export const ButtonAddITem = (props: NewItemCount) => {
+    const produto = props.produto
+    const pedido_id = props.pedido_id;
+    
+    const HandleAddItem = async () => {
+        const addItem = {
+            produto_id: produto.id,
+            pedido_id
+        }
+        await api.post('/produto_pedido', addItem);
+        props.closeModal()
     }
 
 
     return (
         <>
             <button
-                onClick={() => HandleAddItem(produto)}
+                onClick={HandleAddItem}
                 key={produto.id}
                 className="btnListItemAdd"
             >
                 {produto.name}
-                {`R$ ${produto.preco}`}
+                {`R$ ${produto.valor}`}
             </button>
         </>
     )

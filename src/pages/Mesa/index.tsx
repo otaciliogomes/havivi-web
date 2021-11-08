@@ -1,32 +1,56 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { CardsMesas } from '../../components/CardsMesas';
+import api from '../../Service/api';
 import './styles.css'
+import { AnySoaRecord } from 'dns';
+
+interface IPedidos {
+    id: string,
+    status: string,
+    forma_de_pagamento: string,
+    observacao: string,
+    cliente_id: string,
+    funcionario_id: string,
+    valor: number,
+    created_at: string
+}
 
 const Mesas = () => {
-    const mesas = localStorage.getItem('qtdMesas')    
-    const newMesas = mesas ? JSON.parse(mesas): [1]
-    const [qtdTables, setQtdTables] = useState<number []>(newMesas);
+    const [qtdPedidos, setQtdPedidos] = useState<IPedidos[]>([]);
 
-    const testArray = [1, 2]
+    const getPedidosApi = async () => {
+        const { data } = await api.get<any[]>('/pedidos');
+        const filterPedidos = data.filter(pedido => pedido.status != "Fechado"? pedido : null);
+        setQtdPedidos(filterPedidos)
+        return data;
+    }
 
-    localStorage.setItem('qtdMesas', JSON.stringify(testArray))
+    useEffect(() => {
+        getPedidosApi();
+    }, [])
+
+    const criarPedido = async () => {
+        await api.post('/pedidos')
+        getPedidosApi()
+    }
+
     return (
         <>
-            <Header title="Mesas" />
+            <Header title="Pedidos" />
             <div className="containerMesa">
-                <h1>Mesas</h1>
+                <h1>Pedido</h1>
                 <button
                     className="buttonFooterCard buttonAddItem"
-                    onClick={() => setQtdTables([...qtdTables, 1])}
+                    onClick={criarPedido}
                 >
-                    Adicionar Mesa +
+                    Adicionar Pedido +
                 </button>
                 <div className="contentMesas">
-                    {qtdTables.map((element, index) => {
+                    {qtdPedidos.map((element, index) => {
                         return (
-                            <CardsMesas numberMesa={index} />
+                            <CardsMesas title="Pedido" pedido={element} numberMesa={index + 1} />
                         )
                     })}
                 </div>

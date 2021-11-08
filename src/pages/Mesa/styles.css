@@ -11,10 +11,14 @@
     border: solid 2px #000;
     max-width: 420px;
     margin: 10px;
+    background: var(--white-color)
 }
 
 .topMesa {
     display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: var(--background-dark);
 }
 
 .contentMesas {

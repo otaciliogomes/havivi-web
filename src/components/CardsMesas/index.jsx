@@ -6,38 +6,68 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 import { Modal } from 'react-bootstrap'
 import mockProdutos from './mock.json';
-import ContextTable from '../../pages/contexts/TableContext';
-import {ButtonAddITem} from "../ButtonAddItem";
+import { ButtonAddITem } from "../ButtonAddItem";
+import PaymentIcon from '@mui/icons-material/Payment';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import Tooltip from '@mui/material/Tooltip';
+import api from '../../Service/api';
 
 
 
-
-const CardsMesas = ({numberMesa}) => {
-    const { qtdProductsCount, setQtdProductsCount} = useContext(ContextTable);
-    const currentTable = qtdProductsCount[numberMesa].produtos
+const CardsMesas = ({ numberMesa, title, pedido }) => {
     const [closeConta, setCloseConta] = useState(false);
-    const [valueCount] = useState(0);
     const [modalShow, setModalShow] = useState(false);
-    const [proddutosMesa, setProdutosMesa] = useState(currentTable);
+    const [modalClientShow, setModalClientShow] = useState(false);
+    const [proddutosMesa, setProdutosMesa] = useState([]);
+    const [clientePedido, setClientePedido] = useState("");
+
+    const handleClientePedido = async (form) => {
+        const cliente = {
+            id: pedido.id,
+            cliente: {
+                nome: form.nome,
+                endereco: form.endereco,
+                telefone: Number(form.telefone)
+            }
+        }
+
+        console.log(cliente)
+        const {data} = await api.post('/pedidos_cliente', cliente)
+
+        setClientePedido(data.nome)
+    }
 
     useEffect(() => {
-        const newProdutoMesa = localStorage.getItem(`table${numberMesa}Item`);
-        const newItems = newProdutoMesa ? JSON.parse(newProdutoMesa) : ''
-        const newItemsMesa = [...currentTable, ...newItems];
-        setProdutosMesa(newItemsMesa)
-        console.log(newItemsMesa)
+        const getProdutosDoPedido = async () => {
+            const { data } = await api.get(`/produto_pedido/${pedido.id}`);
+            setProdutosMesa(data);
+        }
+
+        getProdutosDoPedido();
     }, [])
 
 
 
-    const HandleCloseConta = () => {
+    const HandleCloseConta = async () => {
+        await api.post('/pedidos_fechar', { id: pedido.id })
         setCloseConta(true);
         toast.success("Conta Fechada")
     }
 
     const ModalAddItem = (props) => {
-        const [produtosLits] = useState(mockProdutos);
+        const [produtosLits, setProdutosLits] = useState([]);
         const [searchValue, setSearchValue] = useState('');
+        const id = props.pedidoId;
+
+        const getProdutosApi = async () => {
+            const { data } = await api.get('/produto');
+            setProdutosLits(data)
+        }
+
+        useEffect(() => {
+            getProdutosApi()
+        }, [])
 
 
         const AddSearchValue = (event) => {
@@ -73,8 +103,14 @@ const CardsMesas = ({numberMesa}) => {
                             onChange={event => AddSearchValue(event)}
                         />
                         {filteredPosts.map(produto => {
+                            
                             return (
-                                <ButtonAddITem numberMesa={props.numberMesa} produto={produto}/>
+                                <ButtonAddITem
+                                    key={produto.id}
+                                    produto={produto}
+                                    pedido_id={pedido.id}
+                                    closeModal={props.onHide}
+                                />
                             )
                         })}
 
@@ -82,13 +118,60 @@ const CardsMesas = ({numberMesa}) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="footerCard">
-                        {/* <button
-                            // onClick={props.onHide}
-                            className="buttonFooterCard buttonAddItem"
-                            type="submit"
+                        <button
+                            onClick={props.onHide}
+                            className="buttonFooterCard buttonCloseConta"
                         >
-                            Seleciona
-                        </button> */}
+                            Cancelar
+                        </button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+
+    const ModalClient = (props) => {
+        const [nomeCliente, setNomeCliente] = useState("")
+        const [enderecoCliente, setEnderecoCliente] = useState("")
+        const [telefoneCliente, setTelefoneCliente] = useState("")
+
+        const insertValueFormCliente = async () => {
+            const cliente = {
+                nome: nomeCliente,
+                endereco: enderecoCliente,
+                telefone: telefoneCliente
+            }
+            props.onHide()
+            await handleClientePedido(cliente)
+        }
+
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Adicinar Cliente
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="contentModalListItem">
+                        <input type="text" placeholder="Nome" onChange={event=> setNomeCliente(event.target.value)}/>
+                        <input type="text" placeholder="Endereço" pattern="[0-9]" onChange={event=> setEnderecoCliente(event.target.value)}/>
+                        <input type="tel" placeholder="Telefone" onChange={event=> setTelefoneCliente(event.target.value)}/>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="footerCard">
+                        <button
+                            onClick={insertValueFormCliente}
+                            className="buttonFooterCard buttonCloseConta"
+                        >
+                            <PersonAddIcon />
+                        </button>
                         <button
                             onClick={props.onHide}
                             className="buttonFooterCard buttonCloseConta"
@@ -107,8 +190,10 @@ const CardsMesas = ({numberMesa}) => {
             <div className={closeConta ? "closeConta" : "containerCardMesa"}>
                 <ToastContainer />
                 <div className="topMesa">
-                    <SiAirtable size={28} />
-                    <p>Mesa - {numberMesa}</p>
+                    <p className="TitlePedido">{title} - {numberMesa}</p>
+                    <p>Atendo por: Funcionario</p>
+                    <p>Status: {pedido.status}</p>
+                    <p>Cliente: {clientePedido}</p>
                 </div>
                 <Table>
                     <thead>
@@ -116,17 +201,16 @@ const CardsMesas = ({numberMesa}) => {
                             <th></th>
                             <th>Produto</th>
                             <th>Preço</th>
-                            <th>Total</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {proddutosMesa.map(produto => {
-
+                        {proddutosMesa.map((produto, index) => {
                             return (
-                                <tr>
-                                    <td>1</td>
+                                <tr key={produto.id}>
+                                    <td>{`${index + 1}`}</td>
                                     <td>{produto?.name}</td>
-                                    <td>{`R$ ${produto?.preco}`}</td>
+                                    <td>{`R$ ${produto?.valor}`}</td>
                                     <td></td>
                                 </tr>
                             )
@@ -135,27 +219,40 @@ const CardsMesas = ({numberMesa}) => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>
-                                {`R$ ${valueCount}`}
+                            <td >
+                                <span className="totalConta">{`R$ ${pedido.valor}`}</span>
                             </td>
                         </tr>
                     </tbody>
                 </Table>
                 <div className="footerCard">
-                    <button
-                        className="buttonFooterCard buttonAddItem"
-                        onClick={() => setModalShow(true)}
-                    >
-                        Adicionar Item
-                    </button>
-                    <button
-                        className="buttonFooterCard buttonCloseConta"
-                        onClick={HandleCloseConta}
-                    >
-                        Fechar Mesa
-                    </button>
+                    <Tooltip title="Adicionar Item">
+                        <button
+                            className="buttonFooterCard buttonAddItem"
+                            onClick={() => setModalShow(true)}
+                        >
+                            <AddCircleIcon />
+                        </button>
+                    </Tooltip>
+                    <Tooltip title="Fechar Conta">
+                        <button
+                            className="buttonFooterCard buttonAddItem"
+                            onClick={HandleCloseConta}
+                        >
+                            <PaymentIcon />
+                        </button>
+                    </Tooltip>
+                    <Tooltip title="Adicionar Cliente">
+                        <button
+                            className="buttonFooterCard buttonAddItem"
+                            onClick={() => setModalClientShow(true)}
+                        >
+                            <PersonAddIcon />
+                        </button>
+                    </Tooltip>
                 </div>
-                <ModalAddItem numberMesa={numberMesa} show={modalShow} onHide={() => setModalShow(false)} />
+                <ModalAddItem numberMesa={numberMesa} show={modalShow} pedidoId={pedido.id} onHide={() => setModalShow(false)} />
+                <ModalClient numberMesa={numberMesa} show={modalClientShow} onHide={() => setModalClientShow(false)} />
             </div>
         </>
     )

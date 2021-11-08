@@ -20,7 +20,6 @@ const Header = ({ title }: IHeaderProps) => {
                 <input className="inputSearchHeader" type="text" name="" />
                 <BsSearch className="iconSearch" size={28} />
             </div> */}
-
                 <AiOutlineUser
                     size={60}
                     className="iconLogin"

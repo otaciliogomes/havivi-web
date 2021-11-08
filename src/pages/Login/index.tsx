@@ -20,7 +20,6 @@ const Login = () => {
         }
         const {data} = await api.post('/funcionarios/logar', user);
 
-        console.log(data)
     }
 
     const notify = () => {

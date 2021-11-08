@@ -1,5 +1,5 @@
 .footerCard {
-    width: 100%;
+    width: 280px;
     display: flex;
     justify-content:center
 }
@@ -9,7 +9,7 @@
 }
 
 .buttonFooterCard{
-    width: 40%;
+    width: 100%;
     border-radius: 10px;
     margin: 10px;
     border: none;
@@ -23,11 +23,11 @@
     font-size: 16px;
 }
 
-.buttonAddItem:hover {
+/* .buttonAddItem:hover {
     color: var(--button-color);
     background-color: #fafafa;
     border: solid 2px var(--button-color);
-}
+} */
 
 .buttonCloseConta {
     color: var(--button-color);
@@ -69,4 +69,17 @@
 .contentModalListItem .inputSearchModal {
     width: 100%;
     padding: 10px;
+}
+
+.totalConta {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-weight: 600;
+    padding: 10px 30px;
+    border-radius: 10px;
+}
+
+.TitlePedido {
+    font-size: 18px;
+    font-weight: 800;
 }
