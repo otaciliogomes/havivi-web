@@ -4,7 +4,6 @@ import { Footer } from '../../components/Footer';
 import { CardsMesas } from '../../components/CardsMesas';
 import api from '../../Service/api';
 import './styles.css'
-import { AnySoaRecord } from 'dns';
 
 interface IPedidos {
     id: string,
@@ -24,6 +23,7 @@ const Mesas = () => {
         const { data } = await api.get<any[]>('/pedidos');
         const filterPedidos = data.filter(pedido => pedido.status != "Fechado"? pedido : null);
         setQtdPedidos(filterPedidos)
+        console.log(data)
         return data;
     }
 
@@ -32,7 +32,7 @@ const Mesas = () => {
     }, [])
 
     const criarPedido = async () => {
-        await api.post('/pedidos')
+        await api.post('/pedidos', {status:"Aberto", valor: 0} )
         getPedidosApi()
     }
 

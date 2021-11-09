@@ -4,6 +4,8 @@ import { ProviderTable } from './pages/contexts/TableContext'
 
 
 function App() {
+
+  
   return (
     <ProviderTable>
       <Routes />

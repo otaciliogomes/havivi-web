@@ -55,8 +55,13 @@ const Admin = () => {
     }
 
     const getTotalFature = async () => {
-        const { data } = await api.get('/pedidos');
-        setValueFaturamentoTotal(data)
+        const { data } = await api.get<any[]>('/pedidos');
+        const fechados = data.filter(pedido => pedido.status == "Fechado");
+        let valorFechados  = 0
+        fechados.forEach(pedido => {
+            valorFechados = valorFechados + pedido.valorExtra
+        })
+        setValueFaturamentoTotal(valorFechados)
     }
 
     useEffect(() => {
