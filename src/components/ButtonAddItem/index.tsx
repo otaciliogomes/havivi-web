@@ -4,7 +4,7 @@ import './styles.css';
 interface NewItemCount {
     produto: {
         id: string;
-        name: string;
+        nome: string;
         valor: number;
         descricao: string;
         imagem: string
@@ -34,8 +34,8 @@ export const ButtonAddITem = (props: NewItemCount) => {
                 key={produto.id}
                 className="btnListItemAdd"
             >
-                {produto.name}
-                {`R$ ${produto.valor}`}
+                {produto.nome}
+                {` R$ ${produto.valor}`}
             </button>
         </>
     )
