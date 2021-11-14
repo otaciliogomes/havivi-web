@@ -1,19 +1,30 @@
 .containerCard {
     position: relative;
-    width: 320px;
-    height: 200px;
+    width: 200px;
+    height: auto;
+    max-height: 420px;
     border: solid 3px transparent;
     border-radius: 10px;
     margin-bottom: 10px;
     transition: 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow: hidden;
+    margin: 10px 14px;
+    background: #FFF
 }
 
 .containerCard:hover {
     border-color:var(--button-color);
+    cursor: pointer;
+}
+
+.containerCard:hover .imgCard {
+    transform: scale(1.1);
 }
 
 .contentImg {
     width: 100%;
+    overflow: hidden;
 }
 
 .imgCard {
@@ -29,13 +40,14 @@
     display: flex;
     flex-direction: column;
     margin: 10px;    
+    max-height: 180px;
 }
 
 .titleCard {
     font-size: 1.4em;
     font-weight: 600;
     align-self: center;
-    color: rgb(58, 56, 56)
+    color: #000
 }
 
 .descriptionCard {
@@ -45,14 +57,14 @@
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 8;
-    color:rgb(138, 136, 136)
+    color: #000
 }
 
 .viewMore {
     background: var(--button-color);
     color: #FFF;
     font-size: 1em;
-    width: 50%;
+    width: 100%;
     border-radius: 10px;
     align-self: center;
     border: none;
