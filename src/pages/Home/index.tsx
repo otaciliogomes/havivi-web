@@ -7,6 +7,7 @@ import { AiOutlineCheckCircle, AiOutlineWhatsApp } from 'react-icons/ai';
 import { BsClockHistory } from 'react-icons/bs';
 import { CarouselComponent } from '../../components/Carousel'
 import { Card } from '../../components/Card'
+import { mockCard } from '../../mocks/CardsFood'
 
 import './styles.css';
 import api from '../../Service/api';
@@ -20,17 +21,17 @@ interface IProduto {
 
 const Home = () => {
     const imgURL = "https://images.pexels.com/photos/6267/menu-restaurant-vintage-table.jpg?auto=compress&cs=tinysrgb&h=750&w=1260";
-    const [produtos, setProdutos] = useState<IProduto[]>([]);
+    const [produtos, setProdutos] = useState<IProduto[]>(mockCard);
 
 
 
     useEffect(() => {
-        const getProdutos = async () => {
-            const { data } = await api.get('/produto');
-            setProdutos(data)
-        }
+        // const getProdutos = async () => {
+        //     const { data } = await api.get('/produto');
+        //     setProdutos(data)
+        // }
 
-        getProdutos()
+        // getProdutos()
 
     }, [])
 
@@ -39,45 +40,94 @@ const Home = () => {
             <Header title="Havivis" />
             <main className="contentHome">
                 <div className="titleHomeContent">
-                    <h1>A melhor comida pelo <span className="titleSpan">melhor preço</span></h1>
+                    <h1 className="titleHome">
+                        A melhor comida pelo melhor preço
+                    </h1>
+                    <img
+                        src={`https://images.pexels.com/photos/5865071/pexels-photo-5865071.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`}
+                        alt=""               
+                        className="imagemHome"
+                    />
                 </div>
-                <section className="sectionIcons">
+                {/* <section className="sectionIcons">
                     <MdOutlineFastfood className="iconsHome" />
                     <MdOutlineEmojiFoodBeverage className="iconsHome" />
                     <RiPlantFill className="iconsHome" />
-                </section>
+                </section> */}
                 <section className="contentListHome">
-                    <div>
-                        <h2>O que o ferecemos...</h2>
-                        <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
-                        <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
-                        <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
-                        <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
-                        <p><AiOutlineCheckCircle className="iconsHomeList" /> <span>Comidas Vegetarianas</span></p>
-                    </div>
-                    {/* <div>
-                        <CarouselComponent produto={produtos} />
-                    </div> */}
+                    <h2 className="secondTitleHome">Comida Arabe</h2>
+
                     <div className="contentContact">
-                        <div className="contentImgHome">
-                            <img src={imgURL} className="imgListHome" />
+                        <div className="contentCardsHome">
+                            {
+                                <Card
+                                    imagem={produtos[0].imagem}
+                                    valor={produtos[0].valor}
+                                    descricao={produtos[0].descricao}
+                                    nome={produtos[0].nome}
+                                />
+                            }
                         </div>
-                        <div className="contentDowImg">
-                            <p>Entre em contato para saber mais sobre reservar</p>
-                            <AiOutlineWhatsApp className="iconWhatsapp" />
+                        <div className="contentCardsHome">
+                            {
+                                <Card
+                                    imagem={produtos[1].imagem}
+                                    valor={produtos[1].valor}
+                                    descricao={produtos[1].descricao}
+                                    nome={produtos[1].nome}
+                                />
+                            }
+                        </div>
+                        <div className="contentCardsHome">
+                            {
+                                <Card
+                                    imagem={produtos[2].imagem}
+                                    valor={produtos[2].valor}
+                                    descricao={produtos[2].descricao}
+                                    nome={produtos[2].nome}
+                                />
+                            }
                         </div>
                     </div>
                 </section>
-                    {
-                        produtos.map(produto => {
-                            <Card  
-                                imagem={produto.imagem}
-                                valor={produto.valor}
-                                descricao={produto.descricao}
-                                nome={produto.nome}
-                            />
-                        })
-                    }
+                <section className="contentListHomeRevert">
+                    <h2 className="secondTitleHome">Comida Arabe</h2>
+
+                    <div className="contentContact">
+                        <div className="contentCardsHome">
+                            {
+                                <Card
+                                    imagem={produtos[0].imagem}
+                                    valor={produtos[0].valor}
+                                    descricao={produtos[0].descricao}
+                                    nome={produtos[0].nome}
+                                />
+                            }
+                        </div>
+                        <div className="contentCardsHome">
+                            {
+                                <Card
+                                    imagem={produtos[1].imagem}
+                                    valor={produtos[1].valor}
+                                    descricao={produtos[1].descricao}
+                                    nome={produtos[1].nome}
+                                />
+                            }
+                        </div>
+                        <div className="contentCardsHome">
+                            {
+                                <Card
+                                    imagem={produtos[2].imagem}
+                                    valor={produtos[2].valor}
+                                    descricao={produtos[2].descricao}
+                                    nome={produtos[2].nome}
+                                />
+                            }
+                        </div>
+                    </div>
+                </section>
+               
+
             </main>
             <Footer />
         </>

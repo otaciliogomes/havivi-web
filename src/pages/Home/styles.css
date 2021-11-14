@@ -1,8 +1,8 @@
 .contentHome {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-   
+    align-items: center;
+    background: #eee
 }
 
 .imgHome {
@@ -39,12 +39,23 @@
 .titleHomeContent {
     display: flex;
     justify-content: center;
-    margin: 20px;
+    margin: 30px;
+    padding: 20px;
+    background-image: url();
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    position: relative;
 }
 .titleSpan {
     color: var(--primary-color);
 }
 
+.imagemHome {
+    width: 100%;
+    object-fit: cover;
+}
 .sectionIcons {
     display: flex;
     justify-content: space-around;
@@ -60,8 +71,35 @@
 .contentListHome {
     display: flex;
     justify-content: space-around;
-    max-width: 1120px;
-    margin: 30px;
+    max-width: 1800px;
+    width: 100%;
+    margin: 20px 0px
+}
+
+.titleHome {
+    font-size: 60px;
+    color: #000;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: absolute;
+    background: rgba(241, 236, 236, 0.3);
+    width: 100%;
+    bottom: 176px;
+    text-align: center;
+}
+
+.secondTitleHome {
+    font-size: 40px;
+    color: #000 ;
+    align-self: center;
+}
+
+.contentListHomeRevert {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    max-width: 1800px;
+    width: 100%;
+    margin: 10px;
 }
 
 .contentListHome .iconsHomeList {
@@ -79,7 +117,13 @@
 }
 
 .contentContact {
-    width: 380px;
+    /* width: 380px; */
+    overflow: hidden;
+    display: flex;
+    gap: 20px;
+    @media (min-width: 0px) and (max-width: 720px) {
+        overflow: auto
+    }
 }
 
 .contentDowImg {
@@ -123,4 +167,19 @@
     font-weight: 600;
     align-self: center;
     margin: 0px 10px;
+}
+
+.containerCardsHome {
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #eee;
+    padding: 30px;
+}
+ 
+
+
+.contentCardsHome {
+    display: flex ;
+    
 }

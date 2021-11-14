@@ -21,7 +21,7 @@ const Card = (props: ICardProps): JSX.Element => {
                 <button 
                     className="viewMore"
                 >
-                    Comprar
+                    R$ {props.valor}
                 </button>
             </div>
         </div>
