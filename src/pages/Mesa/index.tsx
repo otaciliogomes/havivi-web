@@ -6,7 +6,6 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../Service/api';
 import './styles.css'
-import { AnySoaRecord } from 'dns';
 
 interface IPedidos {
     id: string,
@@ -26,6 +25,7 @@ const Mesas = () => {
         const { data } = await api.get<any[]>('/pedidos');
         const filterPedidos = data.filter(pedido => pedido.status != "Fechado"? pedido : null);
         setQtdPedidos(filterPedidos)
+        console.log(data)
         return data;
     }
 
@@ -34,7 +34,7 @@ const Mesas = () => {
     }, [])
 
     const criarPedido = async () => {
-        await api.post('/pedidos')
+        await api.post('/pedidos', {status:"Aberto", valor: 0} )
         getPedidosApi()
         toast.success("Pedido Criado")
     }

@@ -19,7 +19,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const [closeConta, setCloseConta] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [modalClientShow, setModalClientShow] = useState(false);
-    const [proddutosMesa, setProdutosMesa] = useState([]);
+    const [produtosMesa, setProdutosMesa] = useState([]);
     const [clientePedido, setClientePedido] = useState("");
 
     const handleClientePedido = async (form) => {
@@ -33,24 +33,24 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
         }
 
         console.log(cliente)
-        const {data} = await api.post('/pedidos_cliente', cliente)
+        const {data} = await api.post('/pedidos', cliente)
 
         setClientePedido(data.nome)
     }
 
-    useEffect(() => {
-        const getProdutosDoPedido = async () => {
-            const { data } = await api.get(`/produto_pedido/${pedido.id}`);
-            setProdutosMesa(data);
-        }
+    // useEffect(() => {
+    //     const getProdutosDoPedido = async () => {
+    //         const { data } = await api.get(`/produtos/${pedido.id}`);
+    //         setProdutosMesa(data);
+    //     }
 
-        getProdutosDoPedido();
-    }, [])
+    //     getProdutosDoPedido();
+    // }, [])
 
 
 
     const HandleCloseConta = async () => {
-        await api.post('/pedidos_fechar', { id: pedido.id })
+        await api.put('/pedidos', { id: pedido.id, status: "Fechado", valorExtra: pedido.valorExtra })
         setCloseConta(true);
         toast.success("Conta Fechada")
     }
@@ -61,7 +61,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
         const id = props.pedidoId;
 
         const getProdutosApi = async () => {
-            const { data } = await api.get('/produto');
+            const { data } = await api.get('/produtos');
             setProdutosLits(data)
         }
 
@@ -205,7 +205,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {proddutosMesa.map((produto, index) => {
+                        {produtosMesa.map((produto, index) => {
                             return (
                                 <tr key={produto.id}>
                                     <td>{`${index + 1}`}</td>
@@ -220,7 +220,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                             <td></td>
                             <td></td>
                             <td >
-                                <span className="totalConta">{`R$ ${pedido.valor}`}</span>
+                                <span className="totalConta">{`R$ ${pedido.valorExtra}`}</span>
                             </td>
                         </tr>
                     </tbody>

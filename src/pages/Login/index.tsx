@@ -61,7 +61,7 @@ const Login = () => {
         if(result?.data.tipo === true){
             router.push('/admin')
         } else {
-            router.push('/mesas')
+            router.push('/clientes')
         }
     }
 
