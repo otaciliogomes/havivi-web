@@ -22,6 +22,7 @@ export const ProviderTable = ({ children }: any) => {
     
     useEffect(() => {
         const tokenJSON = localStorage.getItem('token');
+        console.log(tokenJSON)
         const token = tokenJSON ? JSON.parse(tokenJSON) : '';
         api.defaults.headers = {Authorization: token}
     },[])

@@ -35,3 +35,9 @@
     width: 80%;
     margin: 10px;
 }
+
+.imgProductList {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}

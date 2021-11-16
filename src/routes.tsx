@@ -5,12 +5,14 @@ import { Admin } from './pages/Admin';
 import { Mesas } from './pages/Mesa';
 
 
+
 import { Products } from './pages/Produto';
 import { ProductsForm } from './pages/Produto/Form';
 import { Funcionarios } from './pages/Funcionario';
 import { FuncionariosForm } from './pages/Funcionario/Form';
 import { Clientes } from './pages/Cliente';
 import { ClientesForm } from './pages/Cliente/Form';
+import { TotalPedidos } from './pages/TotalPedidos';
 
 
 
@@ -22,6 +24,7 @@ function Routes() {
             <Route path="/login" component={Login} />
             <Route path="/admin" component={Admin} />
             <Route path="/mesas" component={Mesas} />
+            <Route path="/total_de_pedidos" exact component={TotalPedidos} />
             <Route path="/produtos" exact component={Products} />
             <Route path="/produtos_cadastro" exact component={ProductsForm} />
             <Route path="/produtos_cadastro/:id" exact component={ProductsForm} />

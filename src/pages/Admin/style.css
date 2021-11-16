@@ -16,6 +16,14 @@
     padding: 10px;
     max-width: 380px;
     width: 380px;
+    transition: 0.3s;
+    border: solid 2px transparent
+}
+
+.dashBordcontent:hover {
+    cursor: pointer;
+    border-color: var(--background-light);
+    background-color: #FFF;
 }
 
 .wrapContentDashbord {

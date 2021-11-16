@@ -32,6 +32,7 @@ const Products = () => {
             await loadProducts()
         }
         carregar()
+
     }, [])
 
     const loadProducts = async () => {
@@ -91,7 +92,13 @@ const Products = () => {
                                     <td>{product.nome}</td>
                                     <td>{product.valor}</td>
                                     <td>{product.descricao}</td>
-                                    <td>{product.imagem}</td>
+                                    <td>
+                                        <img
+                                            src={product.imagem}
+                                            alt={product.nome}
+                                            className="imgProductList"
+                                        />
+                                    </td>
                                     <td>
                                         <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editProduct(product.id)}><FaPencilAlt className="iconAlt" /></Button>{' '}
                                         <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteProduct(product.id)}><MdDeleteForever className="iconDel" /></Button>{' '}
