@@ -29,8 +29,15 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 telefone: Number(form.telefone),     
         }
 
-        console.log(cliente)
-        const {data} = await api.post('/pedidos', cliente)
+        const { data } = await api.post('/clientes', {cliente})
+
+        console.log(data)
+        await api.put('/pedidos', {
+            id: pedido.id,
+            status: "em andamento",
+            valorExtra: pedido.valorExtra,
+            cliente_id: data.id
+        })
 
         setClientePedido(data.nome)
     }
@@ -64,6 +71,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         useEffect(() => {
             getProdutosApi()
+            // console.log(pedido)
         }, [])
 
 
@@ -100,7 +108,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                             onChange={event => AddSearchValue(event)}
                         />
                         {filteredPosts.map(produto => {
-                            
+
                             return (
                                 <ButtonAddITem
                                     key={produto.id}
@@ -156,9 +164,9 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="contentModalListItem">
-                        <input type="text" placeholder="Nome" onChange={event=> setNomeCliente(event.target.value)}/>
-                        <input type="text" placeholder="Endereço" pattern="[0-9]" onChange={event=> setEnderecoCliente(event.target.value)}/>
-                        <input type="tel" placeholder="Telefone" onChange={event=> setTelefoneCliente(event.target.value)}/>
+                        <input type="text" placeholder="Nome" onChange={event => setNomeCliente(event.target.value)} />
+                        <input type="text" placeholder="Endereço" pattern="[0-9]" onChange={event => setEnderecoCliente(event.target.value)} />
+                        <input type="tel" placeholder="Telefone" onChange={event => setTelefoneCliente(event.target.value)} />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -190,7 +198,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     <p className="TitlePedido">{title} - {numberMesa}</p>
                     <p>Atendo por: Funcionario</p>
                     <p>Status: {pedido.status}</p>
-                    <p>Cliente: {clientePedido}</p>
+                    <p>Cliente: {pedido.cliente_id}</p>
                 </div>
                 <Table>
                     <thead>

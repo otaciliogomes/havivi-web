@@ -44,7 +44,7 @@ const Mesas = () => {
             <Header title="Pedidos" />
             <ToastContainer />
             <div className="containerMesa">
-                <h1>Pedidos</h1>
+                <h1>Pedidos - {qtdPedidos.length}</h1>
                 <button
                     className="buttonFooterCard buttonAddItem"
                     onClick={criarPedido}
