@@ -53,7 +53,7 @@
 .descriptionCard {
     display: -webkit-box;
     font-size: 1em;
-    overflow: hidden;
+    overflow: auto;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 8;

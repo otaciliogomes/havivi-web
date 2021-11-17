@@ -18,11 +18,11 @@ const Card = (props: ICardProps): JSX.Element => {
                 <div className="descriptionCard">
                     {props.descricao}
                 </div>
-                <button 
+                {/* <button 
                     className="viewMore"
                 >
                     R$ {props.valor}
-                </button>
+                </button> */}
             </div>
         </div>
     )

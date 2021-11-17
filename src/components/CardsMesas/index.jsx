@@ -24,12 +24,9 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
     const handleClientePedido = async (form) => {
         const cliente = {
-            id: pedido.id,
-            cliente: {
                 nome: form.nome,
                 endereco: form.endereco,
-                telefone: Number(form.telefone)
-            }
+                telefone: Number(form.telefone),     
         }
 
         console.log(cliente)
