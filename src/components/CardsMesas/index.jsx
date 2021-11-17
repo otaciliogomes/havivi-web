@@ -24,10 +24,9 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
     const handleClientePedido = async (form) => {
         const cliente = {
-            nome: form.nome,
-            endereco: form.endereco,
-            telefone: Number(form.telefone)
-
+                nome: form.nome,
+                endereco: form.endereco,
+                telefone: Number(form.telefone),     
         }
 
         const { data } = await api.post('/clientes', {cliente})

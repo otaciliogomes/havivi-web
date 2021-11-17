@@ -76,11 +76,11 @@ const Funcionarios = () => {
 
     const renderFuncionario = (
         <>
-            <Header title="Funcionarios" />
+            <Header title="Funcionários" />
             <div className="containerFunc">
                 <br />
                 <div className="funcionario-header">
-                    <h1>Funcionarios</h1>
+                    <h1>Funcionários</h1>
                     <Button variant="dark" size="sm" onClick={newFuncionario} >Novo Funcionário</Button>
                 </div>
                 <br />

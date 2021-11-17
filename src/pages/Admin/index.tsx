@@ -109,7 +109,7 @@ const Admin = () => {
 
     return (
         <div className="containerAdmin">
-            <Header title="Area administrativa" />
+            <Header title="Área administrativa" />
             <main className="mainHome">
                 <section className="containerDashBord">
                     <div

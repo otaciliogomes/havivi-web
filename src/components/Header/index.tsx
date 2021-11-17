@@ -75,7 +75,7 @@ const Header = ({ title }: IHeaderProps) => {
                                     className="buttonNav"
                                     onClick={() => router.push('/funcionarios')}
                                 >
-                                    Funcionarios
+                                    Funcionários
                                 </button>
                             )}
                             <button
