@@ -36,6 +36,14 @@ const Header = ({ title }: IHeaderProps) => {
                         <input className="inputSearchHeader" type="text" name="" />
                         <BsSearch className="iconSearch" size={28} />
                     </div> */}
+                    {title == "Havivis" && isAdmin && (
+                                <button
+                                    onClick={() => router.push('/admin')}
+                                    className="buttonNav"
+                                >
+                                    Voltar
+                                </button>
+                    )}
                     {!!(title != "Havivis") && (
                         <nav className="naviContent">
                             {isAdmin && (
