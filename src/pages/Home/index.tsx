@@ -21,12 +21,12 @@ const Home = () => {
 
 
     useEffect(() => {
-        // const getProdutos = async () => {
-        //     const { data } = await api.get('/produto');
-        //     setProdutos(data)
-        // }
+        const getProdutos = async () => {
+            const { data } = await api.get('/produtos');
+            setProdutos(data)
+        }
 
-        // getProdutos()
+        getProdutos()
 
     }, [])
 
@@ -40,7 +40,7 @@ const Home = () => {
                     </h1>
                     <img
                         src={`https://images.pexels.com/photos/5865071/pexels-photo-5865071.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940`}
-                        alt=""               
+                        alt=""
                         className="imagemHome"
                     />
                 </div>
@@ -121,7 +121,7 @@ const Home = () => {
                         </div>
                     </div>
                 </section>
-               
+
 
             </main>
             <Footer />
