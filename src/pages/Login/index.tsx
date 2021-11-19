@@ -31,6 +31,7 @@ const Login = () => {
         const response = await api.post<Ilogin>('/funcionarios/logar', user)
         localStorage.setItem('token', JSON.stringify(response.data.token) )
         localStorage.setItem('userAdmin', JSON.stringify(response.data.tipo) )
+        localStorage.setItem('FuncionarioID', JSON.stringify(response.data.id) )
         setTipo(response.data.tipo ? response.data.tipo : false)
 
         if(!response){
@@ -73,7 +74,7 @@ const Login = () => {
                 <div className="contentForm">
                     <div className="content">
                         <label htmlFor="email">E-mail</label>
-                        <input type="text" id="email" name="email" onChange={event => setEmailEnter(event.target.value)} required />
+                        <input type="text" id="email" name="text" onChange={event => setEmailEnter(event.target.value)} required />
                         <label htmlFor="name">Senha</label>
                         <input type="password" id="password" onChange={event => setPasswordEnter(event.target.value)} required />
                     </div>

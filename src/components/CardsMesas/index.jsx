@@ -1,11 +1,9 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-import { SiAirtable } from 'react-icons/si';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 import { Modal } from 'react-bootstrap'
-import mockProdutos from './mock.json';
 import { ButtonAddITem } from "../ButtonAddItem";
 import PaymentIcon from '@mui/icons-material/Payment';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -20,7 +18,11 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const [modalShow, setModalShow] = useState(false);
     const [modalClientShow, setModalClientShow] = useState(false);
     const [produtosMesa, setProdutosMesa] = useState([]);
-    const [clientePedido, setClientePedido] = useState("");
+    const [funcionarioId, setFuncionarioId] = useState("");
+    const [funcionarioAPI, setFuncionarioAPI] = useState({});
+    const [clienteAPI, setClienteAPI] = useState({});
+    const [valorTotalConta, setValorTotalConta] = useState(0);
+
 
     const handleClientePedido = async (form) => {
         const cliente = {
@@ -30,34 +32,94 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         }
 
-        const { data } = await api.post('/clientes', {cliente})
-
-        console.log(data)
+        const { data } = await api.post('/clientes', cliente)
+        const { id } = data;
         await api.put('/pedidos', {
             id: pedido.id,
-            status: "em andamento",
+            status: "Em andamento",
             valorExtra: pedido.valorExtra,
-            cliente_id: data.id
+            cliente: id,
+            funcionario: pedido.funcionario
         })
 
-        setClientePedido(data.nome)
+        setClienteAPI(cliente)
     }
 
-    // useEffect(() => {
-    //     const getProdutosDoPedido = async () => {
-    //         const { data } = await api.get(`/produtos/${pedido.id}`);
-    //         setProdutosMesa(data);
-    //     }
+    const getFuncionarioID = async () => {
+        if (!pedido.funcionario) return;
+        const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
+        const idFuncionario = idFuncionarioLogado ? JSON.parse(idFuncionarioLogado) : '';
 
-    //     getProdutosDoPedido();
-    // }, [])
+        const { data } = await api.get(`/funcionarios/${pedido.funcionario}`);
+        setFuncionarioId(idFuncionario)
+        setFuncionarioAPI(data)
+
+    }
+
+    const getClienteID = async () => {
+        if (!pedido.cliente) return;
+
+        const { data } = await api.get(`/clientes/${pedido.cliente}`);
+
+        console.log("AQUI", pedido.cliente)
+        setClienteAPI(data)
+    }
+
+    const getProdutosLis = (produtosFilter) => {
+        const produtosLista = [];
+        produtosFilter.forEach(async (produto) => {
+            const { data } = await api.get(`/produtos/${produto.produto}`);
+            produtosLista.push(data)
+        })
+
+        return produtosLista;
+    }
+    const getProdutosPedidos = async () => {
+        const { data } = await api.get(`/produto_pedido`);
+        const produtosFilter = data.filter(produto => produto.pedido === pedido.id);
+
+
+        const produtosLista = await getProdutosLis(produtosFilter)
+        setProdutosMesa(produtosLista)
+    }
+
+    const somarValorTotalConta = async () => {
+        // const valorTotalList = produtosMesa.map(produto => produto.valor);
+        // let valorTotal = 0;
+        // valorTotalList.forEach(value => {
+        //     valorTotal = valorTotal + value;
+        // });
+        // setValorTotalConta(valorTotal);
+        // await api.put('/pedidos', {
+        //     id: pedido.id,
+        //     status: pedido.status.toLocaleLowerCase() == "em andamento" ? "Em andamento" : "Aberto",
+        //     valorExtra: valorTotal
+        // })
+    }
+
+    useEffect(() => {
+        const renderFunctions = async () => {
+            await getProdutosPedidos()
+            await getFuncionarioID()
+            await getClienteID()
+            // await somarValorTotalConta()
+        }
+        renderFunctions()
+
+    }, [])
 
 
 
     const HandleCloseConta = async () => {
-        await api.put('/pedidos', { id: pedido.id, status: "Fechado", valorExtra: pedido.valorExtra })
+        await api.put('/pedidos', { 
+            id: pedido.id, 
+            status: "Fechado", 
+            valorExtra: pedido.valorExtra, 
+            funcinario: pedido.funcinario,
+            cliente: pedido.cliente,
+        })
         setCloseConta(true);
-        toast.success("Conta Fechada")
+        toast.error("Conta Fechada")
     }
 
     const ModalAddItem = (props) => {
@@ -72,7 +134,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         useEffect(() => {
             getProdutosApi()
-            // console.log(pedido)
+
         }, [])
 
 
@@ -114,7 +176,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                                 <ButtonAddITem
                                     key={produto.id}
                                     produto={produto}
-                                    pedido_id={pedido.id}
+                                    pedido={pedido}
                                     closeModal={props.onHide}
                                 />
                             )
@@ -193,13 +255,13 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
     return (
         <>
-            <div className={closeConta ? "closeConta" : "containerCardMesa"}>
+            <div className={closeConta ? "closeConta" : /*pedido.status.toLowerCase() == "em andamento" ? */"containerCardMesa" /*: "containerCardMesaRun"*/}>
                 <ToastContainer />
                 <div className="topMesa">
-                    <p className="TitlePedido">{title} - {numberMesa}</p>
-                    <p>Atendo por: Funcionario</p>
+                    <p className="TitlePedido">{title} - {pedido.id}</p>
+                    <p>Atendo por: {funcionarioAPI.nome}</p>
                     <p>Status: {pedido.status}</p>
-                    <p>Cliente: {pedido.cliente_id}</p>
+                    <p>Cliente: {clienteAPI.nome}</p>
                 </div>
                 <Table>
                     <thead>
@@ -215,22 +277,18 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                             return (
                                 <tr key={produto.id}>
                                     <td>{`${index + 1}`}</td>
-                                    <td>{produto?.name}</td>
+                                    <td>{produto?.nome}</td>
                                     <td>{`R$ ${produto?.valor}`}</td>
                                     <td></td>
                                 </tr>
                             )
                         })}
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td >
-                                <span className="totalConta">{`R$ ${pedido.valorExtra}`}</span>
-                            </td>
-                        </tr>
+                        <tr></tr>
                     </tbody>
                 </Table>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <span className="totalConta">{`R$ ${pedido.valorExtra}`}</span>
+                </div>
                 <div className="footerCard">
                     <Tooltip title="Adicionar Item">
                         <button

@@ -65,7 +65,7 @@ const Header = ({ title }: IHeaderProps) => {
                             {isAdmin && (
                                 <button
                                     className="buttonNav"
-                                    onClick={() => router.push('/mesas')}
+                                    onClick={() => router.push('/pedidos')}
                                 >
                                     Pedidos
                                 </button>

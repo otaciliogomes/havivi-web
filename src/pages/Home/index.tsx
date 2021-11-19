@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
-import { MdOutlineFastfood, MdOutlineEmojiFoodBeverage } from 'react-icons/md';
-import { RiPlantFill } from 'react-icons/ri';
-import { AiOutlineCheckCircle, AiOutlineWhatsApp } from 'react-icons/ai';
-import { BsClockHistory } from 'react-icons/bs';
-import { CarouselComponent } from '../../components/Carousel'
 import { Card } from '../../components/Card'
 import { mockCard } from '../../mocks/CardsFood'
 
