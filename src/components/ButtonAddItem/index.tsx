@@ -1,31 +1,43 @@
+import { useEffect } from 'react';
 import api from '../../Service/api';
 import './styles.css';
+import { ProdutoRequest, PedidosRequest, CloseModal } from '../../interface/index'
 
-interface NewItemCount {
-    produto: {
-        id: string;
-        nome: string;
-        valor: number;
-        descricao: string;
-        imagem: string
-    },
-    pedido_id: string;
+interface PropsButton {
+    produto: ProdutoRequest;
+    pedido: any;
     closeModal: () => void;
 }
 
-export const ButtonAddITem = (props: NewItemCount) => {
-    const produto = props.produto
-    const pedido_id = props.pedido_id;
-    
+export const ButtonAddITem = ({ produto, pedido, closeModal }: PropsButton) => {
+
+
     const HandleAddItem = async () => {
         const addItem = {
-            produto_id: produto.id,
-            pedido_id
+            produto: produto.id,
+            pedido: pedido.id,
+            valor: produto.valor,
+            quantidade: 1
         }
+
+        const { data } = await api.get<PedidosRequest>(`/pedidos/${pedido.id}`)
+
+        const valorExtra = data?.valorExtra + produto.valor;
+
+        await api.put('/pedidos', {
+            id: pedido.id,
+            status: "Em andamento",
+            valorExtra,
+            cliente: pedido.cliente,
+            funcionario: pedido.funcionario
+        });
         await api.post('/produto_pedido', addItem);
-        props.closeModal()
+        closeModal()
     }
 
+    useEffect(() => {
+        console.log(produto)
+    }, [])
 
     return (
         <>

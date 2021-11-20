@@ -93,7 +93,7 @@ const DataTable = () => {
             Status: pedido.status,
             Cliente: pedido.cliente,
             Funcionario: pedido.funcionario,
-            Valor: pedido.valorExtra,
+            Valor: `R$ ${pedido.valorExtra}`,
             Data: dayjs(pedido.dataHora).format('DD/MM/YYYY') ,
         }
     })

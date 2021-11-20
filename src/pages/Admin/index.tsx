@@ -13,6 +13,7 @@ import { CartesianGrid, XAxis, YAxis, BarChart, Tooltip, Bar } from 'recharts';
 const Admin = () => {
     const [funcionarios, setFuncionarios] = useState(0);
     const [clientes, setClientes] = useState(0);
+
     const [valueFaturamentoTotal, setValueFaturamentoTotal] = useState(0);
     const [valueFaturamentoTotalDay, setValueFaturamentoTotalDay] = useState(0);
     const [pedidos, setPedidos] = useState<any[]>([]);
@@ -51,7 +52,7 @@ const Admin = () => {
 
     const SepararPedidos = (data: any[]) => {
 
-        const aberto = data.filter(pedido => pedido.status == "Aberto");
+        const aberto = data.filter(pedido => pedido.status === "Aberto");
         const abertoFilter = aberto.filter(pedido => {
             const dataPedido = dayjs(pedido.dataHora).format('DD/MM/YYYY')
             const result = todayOrders === dataPedido && pedido
@@ -60,16 +61,18 @@ const Admin = () => {
 
         setPedidosAberto(abertoFilter);
 
-        const fechados = data.filter(pedido => pedido.status == "Fechado");
+        const fechados = data.filter(pedido => pedido.status === "Fechado");
         const fechadosFilter = fechados.filter(pedido => {
             const dataPedido = dayjs(pedido.dataHora).format('DD/MM/YYYY')
             const result = todayOrders === dataPedido && pedido
             return result
         });
-
+        const totalValueFechadoList =  fechadosFilter.map(pedido => pedido.valorExtra);
+        const totalValueFechado = totalValueFechadoList.reduce((a,b) => a+b, 0)
+        setValueFaturamentoTotalDay(totalValueFechado)
         setPedidosFechado(fechadosFilter)
 
-        const emAdamento = data.filter(pedido => pedido.status == "Em andamento");
+        const emAdamento = data.filter(pedido => pedido.status === "Em andamento");
         const emAdamentoFilter = emAdamento.filter(pedido => {
             const dataPedido = dayjs(pedido.dataHora).format('DD/MM/YYYY')
             const result = todayOrders === dataPedido && pedido
@@ -80,7 +83,7 @@ const Admin = () => {
 
     const getTotalFature = async () => {
         const { data } = await api.get<any[]>('/pedidos');
-        const fechados = data.filter(pedido => pedido.status == "Fechado");
+        const fechados = data.filter(pedido => pedido.status === "Fechado");
         let valorFechados = 0
         fechados.forEach(pedido => {
             valorFechados = valorFechados + pedido.valorExtra
@@ -88,13 +91,13 @@ const Admin = () => {
         setValueFaturamentoTotal(valorFechados)
     }
 
-    const getTotalFatureDay = () => {
-        let valorFechados = 0
-        pedidosFechado.forEach(pedido => {
-            valorFechados = valorFechados + pedido.valorExtra
-        })
-        setValueFaturamentoTotalDay(valorFechados)
-    }
+    // const getTotalFatureDay = () => {
+    //     let valorFechados = 0
+    //     pedidosFechado.forEach(pedido => {
+    //         valorFechados = valorFechados + pedido.valorExtra
+    //     })
+    //     setValueFaturamentoTotalDay(valorFechados)
+    // }
 
     useEffect(() => {
         const runFunctions = async () => {
@@ -102,7 +105,6 @@ const Admin = () => {
             await getClientesAPI()
             await getPedidosApi()
             await getTotalFature()
-            await getTotalFatureDay()
         }
         runFunctions()
     }, [])
@@ -135,7 +137,7 @@ const Admin = () => {
                         onClick={() => router.push('/total_de_pedidos')}
                     >
                         <div className="wrapContentDashbord">
-                            <p className="dashBordTitleContent">Faturamento Total</p>
+                            <p className="dashBordTitleContent">Faturamento Total - {pedidos.length}</p>
                             <p className="countDashbord">{`R$${valueFaturamentoTotal}`}</p>
                         </div>
                     </div>

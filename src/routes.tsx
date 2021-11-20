@@ -23,7 +23,7 @@ function Routes() {
             <Route exact path="/" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/admin" component={Admin} />
-            <Route path="/mesas" component={Mesas} />
+            <Route path="/pedidos" component={Mesas} />
             <Route path="/total_de_pedidos" exact component={TotalPedidos} />
             <Route path="/produtos" exact component={Products} />
             <Route path="/produtos_cadastro" exact component={ProductsForm} />

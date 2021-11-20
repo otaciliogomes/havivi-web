@@ -6,26 +6,17 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../Service/api';
 import './styles.css'
+import { PedidosRequest } from '../../interface/index';
 
-interface IPedidos {
-    id: string,
-    status: string,
-    forma_de_pagamento: string,
-    observacao: string,
-    cliente_id: string,
-    funcionario_id: string,
-    valor: number,
-    created_at: string
-}
 
 const Mesas = () => {
-    const [qtdPedidos, setQtdPedidos] = useState<IPedidos[]>([]);
+    const [qtdPedidos, setQtdPedidos] = useState<PedidosRequest[]>([]);
+    
 
     const getPedidosApi = async () => {
-        const { data } = await api.get<any[]>('/pedidos');
+        const { data } = await api.get<PedidosRequest[]>('/pedidos');
         const filterPedidos = data.filter(pedido => pedido.status != "Fechado"? pedido : null);
         setQtdPedidos(filterPedidos)
-        console.log(data)
         return data;
     }
 
@@ -34,7 +25,9 @@ const Mesas = () => {
     }, [])
 
     const criarPedido = async () => {
-        await api.post('/pedidos', {status:"Aberto", valor: 0} )
+        const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
+        const idFuncionario = idFuncionarioLogado ? JSON.parse(idFuncionarioLogado) : '';
+        await api.post('/pedidos', {status:"Aberto", valor: 0, funcionario: idFuncionario} )
         getPedidosApi()
         toast.success("Pedido Criado")
     }
@@ -53,8 +46,9 @@ const Mesas = () => {
                 </button>
                 <div className="contentMesas">
                     {qtdPedidos.map((element, index) => {
+                        console.log(element)
                         return (
-                            <CardsMesas title="Pedido" pedido={element} numberMesa={index + 1} />
+                            <CardsMesas title="Pedido" pedido={element} numberMesa={element.id} />
                         )
                     })}
                 </div>

@@ -11,7 +11,21 @@
     border: solid 2px #000;
     max-width: 420px;
     margin: 10px;
-    background: var(--white-color)
+    background: var(--white-color);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.containerCardMesaRun {
+    display: flex;
+    flex-direction: column;
+    border: solid 2px #000;
+    max-width: 420px;
+    margin: 10px;
+    background: var(--white-color);
+    padding: 10px;
+    border-radius: 10px;
+    opacity: 0.4;
 }
 
 .topMesa {
