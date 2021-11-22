@@ -12,23 +12,25 @@ interface NewItemCount {
 interface IProduct {
     qtdProductsCount: Object | null;
     setQtdProductsCount: (active: NewItemCount[]) => void;
+    setFuncID: (active:string) => void;
+    funcID: string;
 }
 
 const ContextTable = createContext<IProduct>({} as IProduct);
 
 
 export const ProviderTable = ({ children }: any) => {
-    const [qtdProductsCount, setQtdProductsCount] = useState(mock)
+    const [qtdProductsCount, setQtdProductsCount] = useState(mock);
+    const [funcID, setFuncID] = useState("");
     
     useEffect(() => {
         const tokenJSON = localStorage.getItem('token');
-        console.log(tokenJSON)
         const token = tokenJSON ? JSON.parse(tokenJSON) : '';
-        api.defaults.headers = {Authorization: token}
+        api.defaults.headers = {Authorization: "Basic T3RhY2lsaW86MTIzNDU2"}
     },[])
 
     return (
-        <ContextTable.Provider value={{ qtdProductsCount, setQtdProductsCount}}>
+        <ContextTable.Provider value={{ qtdProductsCount, setQtdProductsCount, setFuncID, funcID}}>
             {children}
         </ContextTable.Provider>
     )

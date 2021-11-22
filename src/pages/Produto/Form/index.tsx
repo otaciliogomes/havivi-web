@@ -56,13 +56,15 @@ const ProductsForm: React.FC = () => {
 
         if (id !== undefined) {
             const response = await api.put(`/produtos`, model)
-            toast.success("Produto alterado!")
+            toast.warning("Produto alterado!")
         } else {
             const response = await api.post(`/produtos`, model)
             toast.success("Produto cadastrado!")
         }
 
-
+        setTimeout(() => {
+            history.push('/produtos')
+        }, 1200)
 
     }
 
@@ -133,8 +135,11 @@ const ProductsForm: React.FC = () => {
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)}
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit" >
-                                Cadastrar
+                            <Button 
+                                variant={id !== undefined ? "warning" : "primary"}
+                                type="submit" 
+                            >
+                               {id !== undefined ? "Alterar" : "Cadastrar"}
                             </Button>
                         </Form>
                     </div>
