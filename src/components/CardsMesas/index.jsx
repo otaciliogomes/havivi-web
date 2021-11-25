@@ -37,7 +37,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
             id: pedido.id,
             status: "Em andamento",
             valorExtra: pedido.valorExtra,
-            cliente: id,
+            cliente_id: id,
             funcionario: pedido.funcionario
         })
 

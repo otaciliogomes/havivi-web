@@ -20,3 +20,10 @@ export interface ProdutoRequest {
     descricao: string;
     imagem: string
 }
+
+export interface ICliente {
+    id?: number,
+    nome: string,
+    endereco: string,
+    telefone: number,
+}

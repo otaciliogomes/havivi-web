@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { AiOutlineUser } from 'react-icons/ai';
+import { GiExitDoor } from 'react-icons/gi';
 import { useHistory } from 'react-router-dom';
 import api from '../../Service/api';
 
@@ -15,6 +16,7 @@ interface IHeaderProps {
 const Header = ({ title }: IHeaderProps) => {
     const router = useHistory();
     const [isAdmin, setIsAdmin] = useState(false)
+    const [token, setToken] = useState('');
 
     const getFuncionariosAPI = async () => {
         const userAdminLocal = localStorage.getItem("userAdmin")
@@ -23,7 +25,16 @@ const Header = ({ title }: IHeaderProps) => {
         setIsAdmin(userAdmin)
     }
 
+    const resetToken = () => {
+        localStorage.setItem('token', '');
+        setToken('')
+        router.push('/')
+    }
+
     useEffect(() => {
+        const tokenJSON = localStorage.getItem('token');
+        const getToken = tokenJSON ? JSON.parse(tokenJSON) : '';
+        setToken(getToken)
         getFuncionariosAPI()
     }, [])
 
@@ -37,12 +48,12 @@ const Header = ({ title }: IHeaderProps) => {
                         <BsSearch className="iconSearch" size={28} />
                     </div> */}
                     {title == "Havivis" && isAdmin && (
-                                <button
-                                    onClick={() => router.push('/admin')}
-                                    className="buttonNav"
-                                >
-                                    Voltar
-                                </button>
+                        <button
+                            onClick={() => router.push('/admin')}
+                            className="buttonNav"
+                        >
+                            Voltar
+                        </button>
                     )}
                     {!!(title != "Havivis") && (
                         <nav className="naviContent">
@@ -92,11 +103,17 @@ const Header = ({ title }: IHeaderProps) => {
                             </button>
                         </nav>
                     )}
-                    <AiOutlineUser
+
+                    {token ? (<GiExitDoor
                         size={60}
                         className="iconLogin"
-                        onClick={() => router.push('/login')}
-                    />
+                        onClick={() => resetToken()} />) :
+                        (<AiOutlineUser
+                            size={60}
+                            className="iconLogin"
+                            onClick={() => router.push('/login')}
+                        />)
+                    }
                 </div>
 
             </header >

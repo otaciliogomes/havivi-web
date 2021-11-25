@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import api from '../../Service/api'
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
+import Error from '../../components/ErrorLogin';
 import "./style.css"
 
 import { CartesianGrid, XAxis, YAxis, BarChart, Tooltip, Bar } from 'recharts';
@@ -11,6 +12,7 @@ import { CartesianGrid, XAxis, YAxis, BarChart, Tooltip, Bar } from 'recharts';
 
 
 const Admin = () => {
+
     const [funcionarios, setFuncionarios] = useState(0);
     const [clientes, setClientes] = useState(0);
 
@@ -20,10 +22,17 @@ const Admin = () => {
     const [pedidosEmAndmento, setPedidosEmAndmento] = useState<any[]>([]);
     const [pedidosAberto, setPedidosAberto] = useState<any[]>([]);
     const [pedidosFechado, setPedidosFechado] = useState<any[]>([]);
+    const [token, setToken] = useState("")
     const todayOrders = new Date().toLocaleDateString();
     const allOders = pedidosAberto.length + pedidosEmAndmento.length + pedidosFechado.length;
 
     const router = useHistory();
+
+    useEffect(() => {
+        const tokenJSON = localStorage.getItem('token');
+        const isToken = tokenJSON ? JSON.parse(tokenJSON) : '';
+        setToken(isToken)
+    }, [])
 
 
     const data = [
@@ -109,7 +118,16 @@ const Admin = () => {
         runFunctions()
     }, [])
 
-    return (
+    const renderErrorLog = (
+        <>
+            <h1 className="erroLogin" >Erro de login!</h1>
+            <h2 className="erroLogin" >Por favor,realizar o login!</h2>
+            <Error />
+        </>
+    )
+
+
+    const renderAdmin = (
         <div className="containerAdmin">
             <Header title="Área administrativa" />
             <main className="mainHome">
@@ -185,6 +203,10 @@ const Admin = () => {
             </main>
             <Footer />
         </div>
+    )
+
+    return (
+        token ? renderAdmin : renderErrorLog
     )
 }
 

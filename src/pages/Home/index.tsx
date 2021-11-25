@@ -17,17 +17,28 @@ interface IProduto {
 const Home = () => {
     const imgURL = "https://images.pexels.com/photos/6267/menu-restaurant-vintage-table.jpg?auto=compress&cs=tinysrgb&h=750&w=1260";
     const [produtos, setProdutos] = useState<IProduto[]>(mockCard);
+    const [token, setToken] = useState("")
+
+    useEffect(() => {
+        const tokenJSON = localStorage.getItem('token');
+        const isToken = tokenJSON ? JSON.parse(tokenJSON) : '';
+        setToken(isToken)
+    }, [])
+
+    useEffect(() => {
+        if(token) {
+            const getProdutos = async () => {
+                const { data } = await api.get('/produtos');
+                setProdutos(data)
+            }
+            getProdutos()
+        }
+    }, [token])
 
 
 
     useEffect(() => {
-        const getProdutos = async () => {
-            const { data } = await api.get('/produtos');
-            setProdutos(data)
-        }
-
-        getProdutos()
-
+        
     }, [])
 
     return (

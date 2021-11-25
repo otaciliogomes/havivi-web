@@ -5,6 +5,7 @@ import { useHistory } from 'react-router';
 import { Table, Button } from 'react-bootstrap';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
+import Error from '../../components/ErrorLogin';
 import api from "../../Service/api";
 import './styles.css'
 
@@ -21,19 +22,22 @@ interface IProduct {
 
 const Products = () => {
 
-    const tokenJSON = localStorage.getItem('token');
-    const token = tokenJSON ? JSON.parse(tokenJSON) : '';
+
 
     const history = useHistory();
     const [products, setProducts] = useState<IProduct[]>([])
+    const [token, setToken] = useState("")
+
 
     useEffect(() => {
-        const carregar = async () => {
-            await loadProducts()
-        }
-        carregar()
-
+        const tokenJSON = localStorage.getItem('token');
+        const isToken = tokenJSON ? JSON.parse(tokenJSON) : '';
+        setToken(isToken)
     }, [])
+
+    useEffect(() => {
+        if(token)  loadProducts()
+    }, [token])
 
     const loadProducts = async () => {
         const response = await api.get('/produtos')
@@ -58,8 +62,14 @@ const Products = () => {
 
 
     const renderErrorLog = (
-        <h1>Erro de login</h1>
+        <>
+            <h1 className="erroLogin" >Erro de login!</h1>
+            <h2 className="erroLogin" >Por favor,realizar o login!</h2>
+            <Error />
+        </>
     )
+
+
 
     // Retorna uma tabela com os produtos.
 
