@@ -86,9 +86,9 @@ const Products = () => {
                     </thead>
                     <tbody>
                         {
-                            products.map(product => (
+                            products.map((product, index) => (
                                 <tr key={product.id}>
-                                    <td>{product.id}</td>
+                                    <td>{index + 1}</td>
                                     <td>{product.nome}</td>
                                     <td>{product.valor}</td>
                                     <td>{product.descricao}</td>

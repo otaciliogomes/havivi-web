@@ -6,7 +6,7 @@ import api from '../../Service/api';
 
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { PedidosRequest } from '../../interface'
+import { PedidosRequest, ClienteRequest,  FuncionarioResquest } from '../../interface'
 
 import './styles.css'
 
@@ -37,15 +37,28 @@ export { TotalPedidos };
 
 const DataTable = () => {
     const [pedidosList, setPedidosList] = useState<PedidosRequest[]>([])
+    const [clienteList, setClienteList] = useState<ClienteRequest[]>([])
+    const [funcionarioList, setFuncionarioList] = useState<FuncionarioResquest[]>([])
 
     const getPedidosApi = async () => {
         const { data } = await api.get<PedidosRequest[]>('/pedidos');
-        console.log(data)
         setPedidosList(data);
+    }
+
+    const getClientesApi = async () => {
+        const { data } = await api.get<ClienteRequest[]>('/clientes');
+        setClienteList(data);
+    }
+
+    const getFuncionariosApi = async () => {
+        const { data } = await api.get<FuncionarioResquest[]>('/funcionarios');
+        setFuncionarioList(data);
     }
 
     useEffect(() => {
         getPedidosApi();
+        getClientesApi();
+        getFuncionariosApi();
     }, []);
 
     const columns: GridColDef[] = [
@@ -88,11 +101,16 @@ const DataTable = () => {
     ];
 
     const pedidosRows = pedidosList.map(pedido => {
+        const [clienteResult] = clienteList.filter(cliente => cliente.id === pedido.cliente)
+        const nomeCliente = clienteResult ? clienteResult.nome : " "
+        const [funcionarioResult] = funcionarioList.filter(cliente => cliente.id === pedido.funcionario);
+        console.log(funcionarioResult, nomeCliente)
+        const nomeFuncionario = funcionarioResult ? funcionarioResult.nome : " "
         return {
             id: pedido.id,
             Status: pedido.status,
-            Cliente: pedido.cliente,
-            Funcionario: pedido.funcionario,
+            Cliente: nomeCliente,
+            Funcionario: nomeFuncionario,
             Valor: `R$ ${pedido.valorExtra}`,
             Data: dayjs(pedido.dataHora).format('DD/MM/YYYY') ,
         }

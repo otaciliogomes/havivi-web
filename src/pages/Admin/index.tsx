@@ -67,7 +67,7 @@ const Admin = () => {
             const result = todayOrders === dataPedido && pedido
             return result
         });
-        const totalValueFechadoList =  fechadosFilter.map(pedido => pedido.valorExtra);
+        const totalValueFechadoList =  fechadosFilter.map(pedido => pedido.valor);
         const totalValueFechado = totalValueFechadoList.reduce((a,b) => a+b, 0)
         setValueFaturamentoTotalDay(totalValueFechado)
         setPedidosFechado(fechadosFilter)
@@ -86,7 +86,7 @@ const Admin = () => {
         const fechados = data.filter(pedido => pedido.status === "Fechado");
         let valorFechados = 0
         fechados.forEach(pedido => {
-            valorFechados = valorFechados + pedido.valorExtra
+            valorFechados = valorFechados + pedido.valor
         })
         setValueFaturamentoTotal(valorFechados)
     }
@@ -119,7 +119,7 @@ const Admin = () => {
                         onClick={() => router.push('/funcionarios')}
                     >
                         <div className="wrapContentDashbord">
-                            <p className="dashBordTitleContent">Funcionarios</p>
+                            <p className="dashBordTitleContent">Funcionários</p>
                             <p className="countDashbord">{funcionarios}</p>
                         </div>
                     </div>

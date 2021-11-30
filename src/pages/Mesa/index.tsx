@@ -11,11 +11,11 @@ import { PedidosRequest } from '../../interface/index';
 
 const Mesas = () => {
     const [qtdPedidos, setQtdPedidos] = useState<PedidosRequest[]>([]);
-    
+
 
     const getPedidosApi = async () => {
         const { data } = await api.get<PedidosRequest[]>('/pedidos');
-        const filterPedidos = data.filter(pedido => pedido.status != "Fechado"? pedido : null);
+        const filterPedidos = data.filter(pedido => pedido.status != "Fechado" ? pedido : null);
         setQtdPedidos(filterPedidos)
         return data;
     }
@@ -26,10 +26,12 @@ const Mesas = () => {
 
     const criarPedido = async () => {
         const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
-        const idFuncionario = idFuncionarioLogado ? JSON.parse(idFuncionarioLogado) : '';
-        await api.post('/pedidos', {status:"Aberto", valor: 0, funcionario: idFuncionario} )
+        console.log(idFuncionarioLogado)
+        const { data } = await api.post('/pedidos', { funcionario_id: idFuncionarioLogado })
+        console.log(data)
         getPedidosApi()
         toast.success("Pedido Criado")
+        window.scrollTo({ top: 200 * qtdPedidos.length, behavior: "smooth" })
     }
 
     return (

@@ -73,7 +73,7 @@ const Login = () => {
                 <h1>Login</h1>
                 <div className="contentForm">
                     <div className="content">
-                        <label htmlFor="email">E-mail</label>
+                        <label htmlFor="email">Usuário</label>
                         <input type="text" id="email" name="text" onChange={event => setEmailEnter(event.target.value)} required />
                         <label htmlFor="name">Senha</label>
                         <input type="password" id="password" onChange={event => setPasswordEnter(event.target.value)} required />

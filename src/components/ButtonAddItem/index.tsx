@@ -13,31 +13,33 @@ export const ButtonAddITem = ({ produto, pedido, closeModal }: PropsButton) => {
 
 
     const HandleAddItem = async () => {
-        const addItem = {
-            produto: produto.id,
-            pedido: pedido.id,
-            valor: produto.valor,
-            quantidade: 1
-        }
+        // const addItem = {
+        //     produto: produto.id,
+        //     pedido: pedido.id,
+        //     valor: produto.valor,
+        //     quantidade: 1
+        // }
 
-        const { data } = await api.get<PedidosRequest>(`/pedidos/${pedido.id}`)
+        // const { data } = await api.get<PedidosRequest>(`/pedidos/${pedido.id}`)
 
-        const valorExtra = data?.valorExtra + produto.valor;
+        // const valorExtra = data?.valorExtra + produto.valor;
 
-        await api.put('/pedidos', {
-            id: pedido.id,
-            status: "Em andamento",
-            valorExtra,
-            cliente: pedido.cliente,
-            funcionario: pedido.funcionario
+        // await api.put('/pedidos', {
+        //     id: pedido.id,
+        //     status: "Em andamento",
+        //     valorExtra,
+        //     cliente: pedido.cliente,
+        //     funcionario: pedido.funcionario
+        // });
+        await api.post('/produto_pedido', {
+            pedido_id: pedido.id,
+            produto_id: produto.id,
+            valor: produto.valor
         });
-        await api.post('/produto_pedido', addItem);
+        
         closeModal()
     }
 
-    useEffect(() => {
-        console.log(produto)
-    }, [])
 
     return (
         <>

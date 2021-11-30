@@ -15,7 +15,7 @@ interface IProduto {
 }
 
 const Home = () => {
-    const imgURL = "https://images.pexels.com/photos/6267/menu-restaurant-vintage-table.jpg?auto=compress&cs=tinysrgb&h=750&w=1260";
+    // const imgURL = "https://images.pexels.com/photos/6267/menu-restaurant-vintage-table.jpg?auto=compress&cs=tinysrgb&h=750&w=1260";
     const [produtos, setProdutos] = useState<IProduto[]>(mockCard);
 
 

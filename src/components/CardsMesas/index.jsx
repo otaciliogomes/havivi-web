@@ -21,18 +21,23 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const [funcionarioId, setFuncionarioId] = useState("");
     const [funcionarioAPI, setFuncionarioAPI] = useState({});
     const [clienteAPI, setClienteAPI] = useState({});
+    const [idCliete, setIdCliente] = useState(0)
+
+    const [funcionarioNome, setFuncionarioNome] = useState("");
+    const [produtosLista, setProdutosLista] = useState([])
     const [valorTotalConta, setValorTotalConta] = useState(0);
 
 
     const handleClientePedido = async (form) => {
         const cliente = {
-                nome: form.nome,
-                endereco: form.endereco,
-                telefone: Number(form.telefone),     
+            nome: form.nome,
+            endereco: form.endereco,
+            telefone: Number(form.telefone),
         }
 
         const { data } = await api.post('/clientes', cliente)
         const { id } = data;
+        console.log(id)
         await api.put('/pedidos', {
             id: pedido.id,
             status: "Em andamento",
@@ -40,29 +45,29 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
             cliente: id,
             funcionario: pedido.funcionario
         })
-
-        setClienteAPI(cliente)
-    }
-
-    const getFuncionarioID = async () => {
-        if (!pedido.funcionario) return;
-        const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
-        const idFuncionario = idFuncionarioLogado ? JSON.parse(idFuncionarioLogado) : '';
-
-        const { data } = await api.get(`/funcionarios/${pedido.funcionario}`);
-        setFuncionarioId(idFuncionario)
-        setFuncionarioAPI(data)
-
-    }
-
-    const getClienteID = async () => {
-        if (!pedido.cliente) return;
-
-        const { data } = await api.get(`/clientes/${pedido.cliente}`);
-
-        console.log("AQUI", pedido.cliente)
+        setIdCliente(id)
         setClienteAPI(data)
     }
+
+    const getProdutoPedidos = async () => {
+        const { data } = await api.get(`/produto_pedido/${pedido.id}`);
+
+        setProdutosLista(data);
+    }
+
+    const getValorPedido = async () => {
+        const { data } = await api.get(`/pedidos/${pedido.id}`);
+
+        setValorTotalConta(data.valor)
+    }
+
+    const getFuncionarioNome = async () => {
+        const { data } = await api.get(`/funcionarios/${pedido.funcionario_id}`);
+
+        console.log(data)
+        setFuncionarioNome(data.nome)
+    }
+
 
     const getProdutosLis = (produtosFilter) => {
         const produtosLista = [];
@@ -73,52 +78,32 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         return produtosLista;
     }
-    const getProdutosPedidos = async () => {
-        const { data } = await api.get(`/produto_pedido`);
-        const produtosFilter = data.filter(produto => produto.pedido === pedido.id);
+ 
 
-
-        const produtosLista = await getProdutosLis(produtosFilter)
-        setProdutosMesa(produtosLista)
-    }
-
-    const somarValorTotalConta = async () => {
-        // const valorTotalList = produtosMesa.map(produto => produto.valor);
-        // let valorTotal = 0;
-        // valorTotalList.forEach(value => {
-        //     valorTotal = valorTotal + value;
-        // });
-        // setValorTotalConta(valorTotal);
-        // await api.put('/pedidos', {
-        //     id: pedido.id,
-        //     status: pedido.status.toLocaleLowerCase() == "em andamento" ? "Em andamento" : "Aberto",
-        //     valorExtra: valorTotal
-        // })
-    }
 
     useEffect(() => {
         const renderFunctions = async () => {
-            await getProdutosPedidos()
-            await getFuncionarioID()
-            await getClienteID()
-            // await somarValorTotalConta()
+            await getFuncionarioNome()
+            await getProdutoPedidos()
+            await getValorPedido()
+
         }
         renderFunctions()
-
     }, [])
 
 
+    const deleteProdutoItem = async (id) => {
+        const { data } = await api.delete(`/produto_pedido/${id}`)
+
+        toast.error(data.status);
+        await getProdutoPedidos()
+    }
+
 
     const HandleCloseConta = async () => {
-        await api.put('/pedidos', { 
-            id: pedido.id, 
-            status: "Fechado", 
-            valorExtra: pedido.valorExtra, 
-            funcinario: pedido.funcinario,
-            cliente: pedido.cliente,
-        })
+        const { data } = await api.post('/pedidos_fechar', { id: pedido.id })
         setCloseConta(true);
-        toast.error("Conta Fechada")
+        toast.error(data.status)
     }
 
     const ModalAddItem = (props) => {
@@ -209,7 +194,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 telefone: telefoneCliente
             }
             props.onHide()
-            await handleClientePedido(cliente)
+            // await handleClientePedido(cliente)
         }
 
         return (
@@ -225,11 +210,11 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="contentModalListItem">
+                    <form autocomplete="off" className="contentModalListItem">
                         <input type="text" placeholder="Nome" onChange={event => setNomeCliente(event.target.value)} />
                         <input type="text" placeholder="Endereço" pattern="[0-9]" onChange={event => setEnderecoCliente(event.target.value)} />
                         <input type="tel" placeholder="Telefone" onChange={event => setTelefoneCliente(event.target.value)} />
-                    </div>
+                    </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="footerCard">
@@ -258,7 +243,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 <ToastContainer />
                 <div className="topMesa">
                     <p className="TitlePedido">{title} - {pedido.id}</p>
-                    <p>Atendo por: {funcionarioAPI.nome}</p>
+                    <p>Atendo por: {funcionarioNome}</p>
                     <p>Status: {pedido.status}</p>
                     <p>Cliente: {clienteAPI.nome}</p>
                 </div>
@@ -272,13 +257,20 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {produtosMesa.map((produto, index) => {
+                        {produtosLista.map((produto, index) => {
                             return (
-                                <tr key={produto.id}>
+                                <tr key={index + 1}>
                                     <td>{`${index + 1}`}</td>
                                     <td>{produto?.nome}</td>
-                                    <td>{`R$ ${produto?.valor}`}</td>
-                                    <td></td>
+                                    <td>{`R$ ${!!produto.valor ? produto.valor : 0}`}</td>
+                                    <td>
+                                        <button
+                                            className="buttonFooterCard buttonAddItem"
+                                            onClick={() => deleteProdutoItem(produto.id)}
+                                        >
+                                            Excluir
+                                        </button>
+                                    </td>
                                 </tr>
                             )
                         })}
@@ -286,7 +278,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     </tbody>
                 </Table>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <span className="totalConta">{`R$ ${pedido.valorExtra}`}</span>
+                    <span className="totalConta">{`R$ ${valorTotalConta}`}</span>
                 </div>
                 <div className="footerCard">
                     <Tooltip title="Adicionar Item">
@@ -314,7 +306,16 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                         </button>
                     </Tooltip>
                 </div>
-                <ModalAddItem numberMesa={numberMesa} show={modalShow} pedidoId={pedido.id} onHide={() => setModalShow(false)} />
+                <ModalAddItem
+                    numberMesa={numberMesa}
+                    show={modalShow}
+                    pedidoId={pedido.id}
+                    onHide={() => {
+                        getProdutoPedidos()
+                        setModalShow(false);
+                        getValorPedido();
+                    }}
+                />
                 <ModalClient numberMesa={numberMesa} show={modalClientShow} onHide={() => setModalClientShow(false)} />
             </div>
         </>

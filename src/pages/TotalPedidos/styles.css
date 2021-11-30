@@ -1,8 +1,20 @@
 .containerTotalPedidos {
     margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .tableListContentTotalPedidos {
     margin: 20px;
-    
+    max-height: 70vh;
+    overflow: auto;
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center
+}
+
+.lineTable {
+    background: #eee    
 }

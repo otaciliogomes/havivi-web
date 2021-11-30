@@ -16,7 +16,7 @@ export const newObjNoReferencia = (cards) => {
 
 export const setTabindexNext = (cards) => {
     const originCardList = cards;
-    const newArray = originCardList.filter(e => e.tabIndex == 0);
+    const newArray = originCardList.filter(e => e.tabIndex === 0);
 
     if (!newArray) return;
 
@@ -35,7 +35,7 @@ export const setTabindexNext = (cards) => {
 
 export const setTabindexPrevius = (cards) => {
     const originCardList = cards;
-    const newArray = originCardList.filter(e => e.tabIndex == 0);
+    const newArray = originCardList.filter(e => e.tabIndex === 0);
 
     if (!newArray) return;
 

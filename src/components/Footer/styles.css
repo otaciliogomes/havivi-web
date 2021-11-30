@@ -3,6 +3,8 @@
     display:flex;
     justify-content: space-around;
     font-family: 'Ubuntu', sans-serif;
+    overflow: auto;
+    padding: 10px 20px;
 }
 
 .contentFooter {

@@ -8,6 +8,8 @@ import { Header } from '../../components/Header';
 import api from "../../Service/api";
 
 import './styles.css'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -40,6 +42,7 @@ const Clientes = () => {
     async function deleteCliente(id: number) {
         const response = await api.delete(`/clientes/${id}`)
         loadCliente()
+        toast.error("Cliente Excluido");
     }
 
     // Função que cria um cliente
@@ -61,6 +64,7 @@ const Clientes = () => {
     const renderCliente = (
         <>
             <Header title="Clientes" />
+            <ToastContainer/>
             <div className="containerCliente">
                 <br />
                 <div className="cliente-header">

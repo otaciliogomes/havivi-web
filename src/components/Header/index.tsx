@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { BsSearch } from 'react-icons/bs';
+// import { BsSearch } from 'react-icons/bs';
 import { AiOutlineUser } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
-import api from '../../Service/api';
+// import api from '../../Service/api';
 
 import './styles.css';
 
@@ -28,15 +28,15 @@ const Header = ({ title }: IHeaderProps) => {
     }, [])
 
     return (
-        <div>
-            <header>
+        <header style={{overflow: "auto"}}>
+            <div>
                 <div className="containerHeader menu">
                     <h1 className="titleHeader">{title}</h1>
                     {/* <div className="searchInput">
                         <input className="inputSearchHeader" type="text" name="" />
                         <BsSearch className="iconSearch" size={28} />
                     </div> */}
-                    {title == "Havivis" && isAdmin && (
+                    {title === "Havivis" && isAdmin && (
                                 <button
                                     onClick={() => router.push('/admin')}
                                     className="buttonNav"
@@ -44,7 +44,7 @@ const Header = ({ title }: IHeaderProps) => {
                                     Voltar
                                 </button>
                     )}
-                    {!!(title != "Havivis") && (
+                    {!!(title !== "Havivis") && (
                         <nav className="naviContent">
                             {isAdmin && (
                                 <button
@@ -99,8 +99,8 @@ const Header = ({ title }: IHeaderProps) => {
                     />
                 </div>
 
-            </header >
-        </div >
+            </div >
+        </header >
 
     )
 }

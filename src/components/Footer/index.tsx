@@ -3,7 +3,7 @@ import './styles.css';
 
 const Footer = () => {
     return (
-        <div className="containerFooter">
+        <footer className="containerFooter">
             <div className="contentFooter">
                 <h2 className="titleFooter">Havivi</h2>
                 <div className="subtitleFooter">
@@ -35,7 +35,7 @@ const Footer = () => {
                     </p>
                 </div>
             </div>
-        </div>
+        </footer>
     )
 }
 

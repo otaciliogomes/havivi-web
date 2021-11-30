@@ -1,11 +1,11 @@
 export interface PedidosRequest {
-    id: string;
+    id: number;
     dataHora: string;
     forma_de_pagamento?: string;
     observacao?: string;
     valorExtra: number;
-    cliente?: string;
-    funcionario?: string;
+    cliente?: number;
+    funcionario?: number;
     status: string;
 }
 
@@ -19,4 +19,21 @@ export interface ProdutoRequest {
     valor: number;
     descricao: string;
     imagem: string
+}
+
+export interface FuncionarioResquest {
+    id: number;
+    user: string;
+    senha: string;
+    nome: string;
+    email: string;
+    tipo: boolean
+}
+
+export interface ClienteRequest {
+    id: number;
+    nome: string;
+    endereco: string;
+    telefone: number;
+    pedidos: []
 }
