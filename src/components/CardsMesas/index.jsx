@@ -78,7 +78,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         return produtosLista;
     }
- 
+
 
 
     useEffect(() => {
@@ -92,10 +92,12 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     }, [])
 
 
-    const deleteProdutoItem = async (id) => {
-        const { data } = await api.delete(`/produto_pedido/${id}`)
+    const deleteProdutoItem = async (produto_id, pedido_id) => {
+        const { data } = await api.delete(`/produto_pedido/${produto_id}/${pedido_id}`);
+        console.log(data)
 
-        toast.error(data.status);
+
+        // toast.error(data.status);
         await getProdutoPedidos()
     }
 
@@ -266,7 +268,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                                     <td>
                                         <button
                                             className="buttonFooterCard buttonAddItem"
-                                            onClick={() => deleteProdutoItem(produto.id)}
+                                            onClick={() => deleteProdutoItem(produto.id, pedido.id)}
                                         >
                                             Excluir
                                         </button>
