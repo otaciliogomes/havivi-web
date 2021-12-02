@@ -3,6 +3,7 @@ import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { CardsMesas } from '../../components/CardsMesas';
 import { toast, ToastContainer } from 'react-toastify';
+import Error from '../../components/ErrorLogin';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '../../Service/api';
 import './styles.css'
@@ -10,6 +11,10 @@ import { PedidosRequest } from '../../interface/index';
 
 
 const Mesas = () => {
+
+    const tokenJSON = localStorage.getItem('token');
+    const token = tokenJSON ? JSON.parse(tokenJSON) : '';
+
     const [qtdPedidos, setQtdPedidos] = useState<PedidosRequest[]>([]);
     
 
@@ -32,7 +37,15 @@ const Mesas = () => {
         toast.success("Pedido Criado")
     }
 
-    return (
+    const renderErrorLog = (
+        <>
+            <h1 className="erroLogin" >Erro de login!</h1>
+            <h2 className="erroLogin" >Por favor,realizar o login!</h2>
+            <Error />
+        </>
+    )
+
+    const renderMesa = (
         <>
             <Header title="Pedidos" />
             <ToastContainer />
@@ -55,6 +68,11 @@ const Mesas = () => {
             </div>
             <Footer />
         </>
+    )
+
+
+    return (
+        token ? renderMesa : renderErrorLog
     )
 }
 

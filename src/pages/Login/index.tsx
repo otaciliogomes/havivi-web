@@ -46,18 +46,10 @@ const Login = () => {
     const notify = () => {
         toast.error("usuario incorreto!")
     }
-    console.log(tipo)
 
     async function handleForm(event: FormEvent){
-        // alert('vazou')
         event.preventDefault(); 
-        const result = await getUsersAPI();
-       
-        // if (!result.status) {
-        //     // router.push('/admin');
-        //     notify();
-        //     return;
-        // }
+        const result = await getUsersAPI(); 
 
         if(result?.data.tipo === true){
             router.push('/admin')
