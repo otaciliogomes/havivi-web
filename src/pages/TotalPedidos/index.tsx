@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import api from '../../Service/api';
+import { Table, Button } from 'react-bootstrap';
+import { FaPencilAlt } from 'react-icons/fa'
+import { MdDeleteForever } from 'react-icons/md'
 
 
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { PedidosRequest, ClienteRequest,  FuncionarioResquest } from '../../interface'
+import { PedidosRequest, ClienteRequest, FuncionarioResquest } from '../../interface'
 
 import './styles.css'
+import { toast, ToastContainer } from 'react-toastify';
 
 
 
@@ -55,76 +59,69 @@ const DataTable = () => {
         setFuncionarioList(data);
     }
 
+    const deletePedido = async (id: string) => {
+        const { data } = await api.delete(`/pedidos/${id}`);
+
+        toast.error("Pedido Excluido");
+        await getPedidosApi();
+    }
+
     useEffect(() => {
         getPedidosApi();
         getClientesApi();
         getFuncionariosApi();
     }, []);
 
-    const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'Status', headerName: 'Status', width: 150 },
-        { field: 'Cliente', headerName: 'Cliente', width: 150 },
-        { field: 'Funcionario', headerName: 'Funcionario', width: 150 },
-        { field: 'Data', headerName: 'Data', width: 150 },
-        { field: 'Valor', headerName: 'Valor', width: 150 },
-        // {
-        //   field: 'age',
-        //   headerName: 'Age',
-        //   type: 'number',
-        //   width: 90,
-        // },
-        // {
-        //   field: 'fullName',
-        //   headerName: 'Full name',
-        //   description: 'This column has a value getter and is not sortable.',
-        //   sortable: false,
-        //   width: 160,
-        //   valueGetter: (params: GridValueGetterParams) =>
-        //     `${params.getValue(params.id, 'firstName') || ''} ${
-        //       params.getValue(params.id, 'lastName') || ''
-        //     }`,
-        // },
-    ];
 
 
-    const rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-    ];
 
-    const pedidosRows = pedidosList.map(pedido => {
-        const [clienteResult] = clienteList.filter(cliente => cliente.id === pedido.cliente)
-        const nomeCliente = clienteResult ? clienteResult.nome : " "
-        const [funcionarioResult] = funcionarioList.filter(cliente => cliente.id === pedido.funcionario);
-        console.log(funcionarioResult, nomeCliente)
-        const nomeFuncionario = funcionarioResult ? funcionarioResult.nome : " "
-        return {
-            id: pedido.id,
-            Status: pedido.status,
-            Cliente: nomeCliente,
-            Funcionario: nomeFuncionario,
-            Valor: `R$ ${pedido.valorExtra}`,
-            Data: dayjs(pedido.dataHora).format('DD/MM/YYYY') ,
-        }
-    })
 
     return (
-        <div style={{ height: 500, width: '100%' }}>
-            <DataGrid
-                rows={pedidosRows}
-                columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
-                checkboxSelection
-            />
+        <div style={{ height: 500, width: '100%', overflow: "scroll" }}>
+            <ToastContainer />
+            <Table striped bordered hover size="sm" responsive>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Preço</th>
+                        <th>Cliente</th>
+                        <th>Funcionário</th>
+                        <th>Data</th>
+                        <th>Forma de pagamento</th>
+                        <th>Observação</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        pedidosList.map((product, index) => {
+                            return (
+                                <tr key={product.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{product.status}</td>
+                                    <td>{product.valor}</td>
+                                    <td>{product?.cliente_id?.nome}</td>
+                                    <td>{product?.funcionario_id?.nome}</td>
+                                    <td>{dayjs(product.created_at).format('DD/MM/YYYY')}</td>
+                                    <td>{product.observacao}</td>
+                                    <td>{product.observacao}</td>
+                                    <td>
+                                        {/* <Button variant="outline-primary" className="btn-alt" size="sm" ><FaPencilAlt className="iconAlt" /></Button>{' '} */}
+                                        <Button
+                                            variant="outline-danger"
+                                            className="btn-del" size="sm"
+                                            onClick={() => deletePedido(product.id)}
+                                        >
+                                            <MdDeleteForever className="iconDel" />
+                                        </Button>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
+                </tbody>
+            </Table>
         </div>
     );
 }

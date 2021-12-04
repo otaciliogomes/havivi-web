@@ -17,36 +17,16 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const [closeConta, setCloseConta] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [modalClientShow, setModalClientShow] = useState(false);
-    const [produtosMesa, setProdutosMesa] = useState([]);
-    const [funcionarioId, setFuncionarioId] = useState("");
-    const [funcionarioAPI, setFuncionarioAPI] = useState({});
-    const [clienteAPI, setClienteAPI] = useState({});
-    const [idCliete, setIdCliente] = useState(0)
+ 
 
     const [funcionarioNome, setFuncionarioNome] = useState("");
+    const [clienteNome, setClienteNome] = useState("");
     const [produtosLista, setProdutosLista] = useState([])
     const [valorTotalConta, setValorTotalConta] = useState(0);
 
 
-    const handleClientePedido = async (form) => {
-        const cliente = {
-            nome: form.nome,
-            endereco: form.endereco,
-            telefone: Number(form.telefone),
-        }
-
-        const { data } = await api.post('/clientes', cliente)
-        const { id } = data;
-        console.log(id)
-        await api.put('/pedidos', {
-            id: pedido.id,
-            status: "Em andamento",
-            valorExtra: pedido.valorExtra,
-            cliente: id,
-            funcionario: pedido.funcionario
-        })
-        setIdCliente(id)
-        setClienteAPI(data)
+    const handleClientePedido = async (cliente) => {
+        await api.post('/pedidos_cliente', { cliente, pedido_id: pedido.id });
     }
 
     const getProdutoPedidos = async () => {
@@ -64,8 +44,13 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const getFuncionarioNome = async () => {
         const { data } = await api.get(`/funcionarios/${pedido.funcionario_id}`);
 
-        console.log(data)
         setFuncionarioNome(data.nome)
+    }
+
+    const getClienteNome = async () => {
+        const { data } = await api.get(`/clientes/${pedido.cliente_id}`);
+
+        setClienteNome(data.nome)
     }
 
 
@@ -86,6 +71,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
             await getFuncionarioNome()
             await getProdutoPedidos()
             await getValorPedido()
+            await getClienteNome()
 
         }
         renderFunctions()
@@ -94,11 +80,10 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
     const deleteProdutoItem = async (produto_id, pedido_id) => {
         const { data } = await api.delete(`/produto_pedido/${produto_id}/${pedido_id}`);
-        console.log(data)
 
-
-        // toast.error(data.status);
-        await getProdutoPedidos()
+        toast.error(data.status);
+        await getProdutoPedidos();
+        await getValorPedido();
     }
 
 
@@ -193,10 +178,11 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
             const cliente = {
                 nome: nomeCliente,
                 endereco: enderecoCliente,
-                telefone: telefoneCliente
+                telefone: Number(telefoneCliente)
             }
+            await handleClientePedido(cliente)
             props.onHide()
-            // await handleClientePedido(cliente)
+            await getClienteNome();
         }
 
         return (
@@ -247,7 +233,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     <p className="TitlePedido">{title} - {pedido.id}</p>
                     <p>Atendo por: {funcionarioNome}</p>
                     <p>Status: {pedido.status}</p>
-                    <p>Cliente: {clienteAPI.nome}</p>
+                    <p>Cliente: {clienteNome}</p>
                 </div>
                 <Table>
                     <thead>

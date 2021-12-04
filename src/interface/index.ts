@@ -1,10 +1,16 @@
 export interface PedidosRequest {
-    id: number;
-    dataHora: string;
+    id: string;
+    created_at: string;
     forma_de_pagamento?: string;
     observacao?: string;
-    valorExtra: number;
+    valor: number;
     cliente?: number;
+    cliente_id?: {
+        nome?: string
+    }
+    funcionario_id?: {
+        nome?: string
+    }
     funcionario?: number;
     status: string;
 }

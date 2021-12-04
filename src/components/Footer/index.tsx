@@ -21,7 +21,7 @@ const Footer = () => {
                     <p className="descriptionFooter">End: Av. Rudge, 315 - Barra Funda </p>
                 </div>
             </div>
-            <div className="contentFooter">
+            {/* <div className="contentFooter">
                 <h2 className="titleFooter">Nossas redes social</h2>
                 <div className="subtitleFooter">
                     <p className="descriptionFooter">
@@ -34,7 +34,7 @@ const Footer = () => {
                         <FaLinkedinIn className="iconFooter" size={28}/>
                     </p>
                 </div>
-            </div>
+            </div> */}
         </footer>
     )
 }
