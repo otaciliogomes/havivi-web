@@ -50,7 +50,7 @@ const Mesas = () => {
                     {qtdPedidos.map((element, index) => {
                         console.log(element)
                         return (
-                            <CardsMesas title="Pedido" pedido={element} numberMesa={element.id} />
+                            <CardsMesas title="Pedido" pedido={element} numberMesa={index + 1} />
                         )
                     })}
                 </div>

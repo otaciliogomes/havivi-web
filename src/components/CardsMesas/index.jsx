@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Table } from 'react-bootstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,19 +10,30 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Tooltip from '@mui/material/Tooltip';
 import api from '../../Service/api';
+import SelectAutoWidth from '../Select';
 
 
 
 const CardsMesas = ({ numberMesa, title, pedido }) => {
+
     const [closeConta, setCloseConta] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [modalClientShow, setModalClientShow] = useState(false);
- 
+    const [modalFecharContaShow, setModalFecharContaShow] = useState(false);
+
+    const [formaDePagamento, setFormaDePagamento] = useState("");
 
     const [funcionarioNome, setFuncionarioNome] = useState("");
     const [clienteNome, setClienteNome] = useState("");
     const [produtosLista, setProdutosLista] = useState([])
     const [valorTotalConta, setValorTotalConta] = useState(0);
+
+    const statuPrato = [
+        "Solicitado",
+        "Em andamento",
+        "Esperando retirar",
+        "Na mesa do cliente",
+    ];
 
 
     const handleClientePedido = async (cliente) => {
@@ -88,7 +99,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
 
     const HandleCloseConta = async () => {
-        const { data } = await api.post('/pedidos_fechar', { id: pedido.id })
+        const { data } = await api.post('/pedidos_fechar', { id: pedido.id, forma_de_pagamento: formaDePagamento })
         setCloseConta(true);
         toast.error(data.status)
     }
@@ -224,23 +235,88 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
         )
     }
 
+    const FecharContaModal = (props) => {
+        const valuesPayment = [
+            "Cartão de credito",
+            "Cartão de debito",
+            "Dinheiro"
+        ]
+
+        const hadleFormaDePagamento = (value) => {
+            setFormaDePagamento(value)
+        }
+
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Fechar Conta
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="contentClosedOrder">
+                        <span
+                            style={{ width: "50%", textAlign: "center" }}
+                            className="buttonFooterCard buttonAddItem"
+                        >
+                            {`R$${valorTotalConta}`}
+                        </span>
+                        <div style={{ width: "50%" }} >
+                            <SelectAutoWidth
+                                typesValues={valuesPayment}
+                                label="Forma de pagamento"
+                                setValue={hadleFormaDePagamento}
+                            />
+                        </div>
+
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="footerCard">
+                        <button
+                            className="buttonFooterCard buttonCloseConta"
+                            onClick={() => {
+                                HandleCloseConta()
+                                props.onHide()
+                            }}
+                        >
+                            <PaymentIcon />
+                        </button>
+                        <button
+                            onClick={props.onHide}
+                            className="buttonFooterCard buttonCloseConta"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+
 
     return (
         <>
-            <div className={closeConta ? "closeConta" : /*pedido.status.toLowerCase() == "em andamento" ? */"containerCardMesa" /*: "containerCardMesaRun"*/}>
+            <div  className={closeConta ? "closeConta" : /*pedido.status.toLowerCase() == "em andamento" ? */"containerCardMesa" /*: "containerCardMesaRun"*/}>
                 <ToastContainer />
                 <div className="topMesa">
-                    <p className="TitlePedido">{title} - {pedido.id}</p>
-                    <p>Atendo por: {funcionarioNome}</p>
+                    <p className="TitlePedido">{title} - {numberMesa}</p>
+                    <p>Atendo por: {pedido.funcionario_id.nome}</p>
                     <p>Status: {pedido.status}</p>
-                    <p>Cliente: {clienteNome}</p>
+                    <p>Cliente: {pedido?.cliente_id?.nome}</p>
                 </div>
-                <Table>
+                <table style={{ width: "100%" }}>
                     <thead>
                         <tr>
                             <th></th>
                             <th>Produto</th>
                             <th>Preço</th>
+                            <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -251,6 +327,9 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                                     <td>{`${index + 1}`}</td>
                                     <td>{produto?.nome}</td>
                                     <td>{`R$ ${!!produto.valor ? produto.valor : 0}`}</td>
+                                    <td>
+                                        <SelectAutoWidth typesValues={statuPrato} label="Status"/>
+                                    </td>
                                     <td>
                                         <button
                                             className="buttonFooterCard buttonAddItem"
@@ -264,7 +343,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                         })}
                         <tr></tr>
                     </tbody>
-                </Table>
+                </table>
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <span className="totalConta">{`R$ ${valorTotalConta}`}</span>
                 </div>
@@ -280,7 +359,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     <Tooltip title="Fechar Conta">
                         <button
                             className="buttonFooterCard buttonAddItem"
-                            onClick={HandleCloseConta}
+                            onClick={() => setModalFecharContaShow(true)}
                         >
                             <PaymentIcon />
                         </button>
@@ -305,6 +384,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     }}
                 />
                 <ModalClient numberMesa={numberMesa} show={modalClientShow} onHide={() => setModalClientShow(false)} />
+                <FecharContaModal show={modalFecharContaShow} onHide={() => setModalFecharContaShow(false)} />
             </div>
         </>
     )

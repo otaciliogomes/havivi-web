@@ -5,6 +5,7 @@ import api from '../../Service/api';
 import { Table, Button } from 'react-bootstrap';
 import { FaPencilAlt } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
+import { useHistory } from 'react-router-dom';
 
 
 import { Footer } from "../../components/Footer";
@@ -43,6 +44,7 @@ const DataTable = () => {
     const [pedidosList, setPedidosList] = useState<PedidosRequest[]>([])
     const [clienteList, setClienteList] = useState<ClienteRequest[]>([])
     const [funcionarioList, setFuncionarioList] = useState<FuncionarioResquest[]>([])
+    const router = useHistory();
 
     const getPedidosApi = async () => {
         const { data } = await api.get<PedidosRequest[]>('/pedidos');
@@ -64,6 +66,10 @@ const DataTable = () => {
 
         toast.error("Pedido Excluido");
         await getPedidosApi();
+    }
+
+    const updatePedido = (id:string) => {
+        router.push(`/totaldepedidos_form/${id}`);
     }
 
     useEffect(() => {
@@ -100,20 +106,27 @@ const DataTable = () => {
                                 <tr key={product.id}>
                                     <td>{index + 1}</td>
                                     <td>{product.status}</td>
-                                    <td>{product.valor}</td>
+                                    <td>{`R$ ${product.valor}`}</td>
                                     <td>{product?.cliente_id?.nome}</td>
                                     <td>{product?.funcionario_id?.nome}</td>
                                     <td>{dayjs(product.created_at).format('DD/MM/YYYY')}</td>
-                                    <td>{product.observacao}</td>
+                                    <td>{product.forma_de_pagamento}</td>
                                     <td>{product.observacao}</td>
                                     <td>
-                                        {/* <Button variant="outline-primary" className="btn-alt" size="sm" ><FaPencilAlt className="iconAlt" /></Button>{' '} */}
                                         <Button
                                             variant="outline-danger"
                                             className="btn-del" size="sm"
                                             onClick={() => deletePedido(product.id)}
                                         >
                                             <MdDeleteForever className="iconDel" />
+                                        </Button>
+                                        <Button
+                                            variant="outline-primary"
+                                            className="btn-alt"
+                                            size="sm"
+                                            onClick={() => updatePedido(product.id)}
+                                        >
+                                            <FaPencilAlt className="iconAlt" />
                                         </Button>
                                     </td>
                                 </tr>
