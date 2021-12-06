@@ -41,7 +41,7 @@ const Funcionarios = () => {
     }
 
     async function deleteFuncionario(id: number) {
-        const response = await api.delete(`/funcionarios/${id}`)
+        await api.delete(`/funcionarios/${id}`)
         loadFuncionario()
     }
 

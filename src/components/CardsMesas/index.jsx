@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
-import { Table } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
@@ -23,8 +22,8 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
     const [formaDePagamento, setFormaDePagamento] = useState("");
 
-    const [funcionarioNome, setFuncionarioNome] = useState("");
-    const [clienteNome, setClienteNome] = useState("");
+    const [, setFuncionarioNome] = useState("");
+    const [, setClienteNome] = useState("");
     const [produtosLista, setProdutosLista] = useState([])
     const [valorTotalConta, setValorTotalConta] = useState(0);
 
@@ -65,17 +64,6 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     }
 
 
-    const getProdutosLis = (produtosFilter) => {
-        const produtosLista = [];
-        produtosFilter.forEach(async (produto) => {
-            const { data } = await api.get(`/produtos/${produto.produto}`);
-            produtosLista.push(data)
-        })
-
-        return produtosLista;
-    }
-
-
 
     useEffect(() => {
         const renderFunctions = async () => {
@@ -86,7 +74,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         }
         renderFunctions()
-    }, [])
+    })
 
 
     const deleteProdutoItem = async (produto_id, pedido_id) => {
@@ -107,7 +95,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const ModalAddItem = (props) => {
         const [produtosLits, setProdutosLits] = useState([]);
         const [searchValue, setSearchValue] = useState('');
-        const id = props.pedidoId;
+        
 
         const getProdutosApi = async () => {
             const { data } = await api.get('/produtos');

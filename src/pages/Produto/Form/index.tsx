@@ -1,4 +1,4 @@
-import react, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button, Form } from 'react-bootstrap';
 import { Footer } from '../../../components/Footer';
 import { Header } from '../../../components/Header';
@@ -55,10 +55,10 @@ const ProductsForm: React.FC = () => {
         }
 
         if (id !== undefined) {
-            const response = await api.put(`/produtos`, model)
+            await api.put(`/produtos`, model)
             toast.warning("Produto alterado!")
         } else {
-            const response = await api.post(`/produtos`, model)
+            await api.post(`/produtos`, model)
             toast.success("Produto cadastrado!")
         }
 

@@ -40,7 +40,7 @@ const Clientes = () => {
     }
 
     async function deleteCliente(id: number) {
-        const response = await api.delete(`/clientes/${id}`)
+        await api.delete(`/clientes/${id}`)
         loadCliente()
         toast.error("Cliente Excluido");
     }

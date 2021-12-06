@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Footer } from '../../../components/Footer';
 import { Header } from '../../../components/Header';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import api from '../../../Service/api';
 import { PedidosRequest } from '../../../interface/index';
 import "./styles.css";
@@ -20,7 +20,7 @@ const PedidosForm = () => {
 
     useEffect(() => {
         getPedidosApi()
-    }, [])
+    })
     return (
         <>
             <Header />

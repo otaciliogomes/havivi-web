@@ -41,7 +41,7 @@ const Products = () => {
     }
 
     async function deleteProduct(id: number) {
-        const response = await api.delete(`/produtos/${id}`)
+        await api.delete(`/produtos/${id}`)
         loadProducts()
 
     }

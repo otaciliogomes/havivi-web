@@ -107,7 +107,7 @@ const Admin = () => {
             await getTotalFature()
         }
         runFunctions()
-    }, [])
+    })
 
     return (
         <div className="containerAdmin">

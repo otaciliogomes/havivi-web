@@ -11,7 +11,7 @@ const Card = (props: ICardProps): JSX.Element => {
     return (
         <div className="containerCard">
             {/* <div className="contentImg"> */}
-            <img className="imgCard" src={props.imagem} />
+            <img className="imgCard" alt="" src={props.imagem} />
             {/* </div> */}
             <div className="infoCard">
                 <p className="titleCard">{props.nome}</p>

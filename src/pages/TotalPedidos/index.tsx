@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import api from '../../Service/api';
 import { Table, Button } from 'react-bootstrap';
@@ -42,8 +41,8 @@ export { TotalPedidos };
 
 const DataTable = () => {
     const [pedidosList, setPedidosList] = useState<PedidosRequest[]>([])
-    const [clienteList, setClienteList] = useState<ClienteRequest[]>([])
-    const [funcionarioList, setFuncionarioList] = useState<FuncionarioResquest[]>([])
+    const [, setClienteList] = useState<ClienteRequest[]>([])
+    const [, setFuncionarioList] = useState<FuncionarioResquest[]>([])
     const router = useHistory();
 
     const getPedidosApi = async () => {
@@ -62,7 +61,7 @@ const DataTable = () => {
     }
 
     const deletePedido = async (id: string) => {
-        const { data } = await api.delete(`/pedidos/${id}`);
+        await api.delete(`/pedidos/${id}`);
 
         toast.error("Pedido Excluido");
         await getPedidosApi();

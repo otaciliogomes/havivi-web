@@ -78,10 +78,10 @@ const FuncionariosForm = () => {
 
 
         if (id !== undefined) {
-            const response = await api.put(`/funcionarios`, model)
+            await api.put(`/funcionarios`, model)
             toast.success("Funcionario alterado!")
         } else {
-            const response = await api.post(`/funcionarios/cadastrar`, model)
+            await api.post(`/funcionarios/cadastrar`, model)
             toast.success("Funcionario cadastrado!")
         }
 

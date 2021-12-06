@@ -15,7 +15,7 @@ const Mesas = () => {
 
     const getPedidosApi = async () => {
         const { data } = await api.get<PedidosRequest[]>('/pedidos');
-        const filterPedidos = data.filter(pedido => pedido.status != "Fechado" ? pedido : null);
+        const filterPedidos = data.filter(pedido => pedido.status !== "Fechado" ? pedido : null);
         setQtdPedidos(filterPedidos)
         return data;
     }

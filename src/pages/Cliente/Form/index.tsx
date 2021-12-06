@@ -52,13 +52,13 @@ const ClientesForm = () => {
         }
 
         if (id !== undefined) {
-            const response = await api.put(`/clientes`, model)
+            await api.put(`/clientes`, model)
             toast.success("Cliente alterado!")
             setTimeout(() => {
                 history.push('/clientes')
             },1200)
         } else {
-            const response = await api.post(`/clientes`, model)
+            await api.post(`/clientes`, model)
             toast.success("Cliente cadastrado!")
             setTimeout(() => {
                 history.push('/clientes')

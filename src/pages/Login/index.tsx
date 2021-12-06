@@ -19,7 +19,6 @@ interface Ilogin {
 const Login = () => {
     const router = useHistory();
     const [emailEnter, setEmailEnter] = useState('');
-    const [email, setEmail] = useState('');
     const [tipo, setTipo] = useState(false);
     const [passwordEnter, setPasswordEnter] = useState('');
 
