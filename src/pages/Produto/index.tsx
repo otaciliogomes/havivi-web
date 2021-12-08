@@ -32,7 +32,7 @@ const Products = () => {
             await loadProducts()
         }
         carregar()
-
+        
     }, [])
 
     const loadProducts = async () => {
@@ -87,6 +87,7 @@ const Products = () => {
                     <tbody>
                         {
                             products.map((product, index) => (
+                                
                                 <tr key={product.id}>
                                     <td>{index + 1}</td>
                                     <td>{product.nome}</td>

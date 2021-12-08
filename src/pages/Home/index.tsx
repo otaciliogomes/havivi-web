@@ -50,7 +50,7 @@ const Home = () => {
                     <RiPlantFill className="iconsHome" />
                 </section> */}
                 <section className="contentListHome">
-                    <h2 className="secondTitleHome">Comida Arabe</h2>
+                    <h2 className="secondTitleHome">Comida Árabe</h2>
 
                     <div className="contentContact">
                         <div className="contentCardsHome">
@@ -86,7 +86,7 @@ const Home = () => {
                     </div>
                 </section>
                 <section className="contentListHomeRevert">
-                    <h2 className="secondTitleHome">Comida Arabe</h2>
+                    <h2 className="secondTitleHome">Comida Árabe</h2>
 
                     <div className="contentContact">
                         <div className="contentCardsHome">

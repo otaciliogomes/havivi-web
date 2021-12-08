@@ -15,7 +15,6 @@ const PedidosForm = () => {
 
         const { data } = await api.get<PedidosRequest>(`/pedidos/${id}`);
         setPedido(data);
-        console.log(data)
     }
 
     useEffect(() => {

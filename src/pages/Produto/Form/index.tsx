@@ -49,6 +49,8 @@ const ProductsForm: React.FC = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
 
+        model.valor = Number(model.valor)
+
         if (!model.nome || !model.valor || !model.descricao || !model.imagem) {
             toast.error("falta argumento");
             return;
@@ -58,6 +60,7 @@ const ProductsForm: React.FC = () => {
             await api.put(`/produtos`, model)
             toast.warning("Produto alterado!")
         } else {
+            console.log(model)
             await api.post(`/produtos`, model)
             toast.success("Produto cadastrado!")
         }
@@ -113,7 +116,7 @@ const ProductsForm: React.FC = () => {
                             <Form.Group className="mb-3">
                                 <Form.Label>Valor</Form.Label>
                                 <Form.Control
-                                    type="text"
+                                    type="number"
                                     name="valor"
                                     value={model.valor}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => updatedModel(e)} />

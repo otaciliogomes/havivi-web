@@ -27,8 +27,15 @@ const Header = ({ title }: IHeaderProps) => {
         getFuncionariosAPI()
     }, [])
 
+
+    const sairDoApp = () => {
+        localStorage.setItem('token', "" )
+        localStorage.setItem('userAdmin', "" )
+        localStorage.setItem('FuncionarioID', "")
+    }
+
     return (
-        <header style={{overflow: "auto"}}>
+        <header style={{overflow: "auto", paddingLeft: "20px"}}>
             <div>
                 <div className="containerHeader menu">
                     <h1 className="titleHeader">{title}</h1>
@@ -42,6 +49,14 @@ const Header = ({ title }: IHeaderProps) => {
                                     className="buttonNav"
                                 >
                                     Voltar
+                                </button>
+                    )}
+                    {title === "Havivis" && isAdmin && (
+                                <button
+                                    onClick={() => sairDoApp()}
+                                    className="buttonNav"
+                                >
+                                    Sair
                                 </button>
                     )}
                     {!!(title !== "Havivis") && (

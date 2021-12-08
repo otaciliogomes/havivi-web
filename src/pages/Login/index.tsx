@@ -33,6 +33,8 @@ const Login = () => {
         localStorage.setItem('FuncionarioID', JSON.stringify(response.data.id) )
         setTipo(response.data.tipo ? response.data.tipo : false)
 
+        console.log(response)
+
         if(!response){
             notify();
             return;

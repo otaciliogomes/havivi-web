@@ -26,6 +26,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     const [, setClienteNome] = useState("");
     const [produtosLista, setProdutosLista] = useState([])
     const [valorTotalConta, setValorTotalConta] = useState(0);
+    const [produtosLits, setProdutosLits] = useState([]);
 
     const statuPrato = [
         "Solicitado",
@@ -63,6 +64,10 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
         setClienteNome(data.nome)
     }
 
+    const getProdutosApi = async () => {
+        const { data } = await api.get('/produtos');
+        setProdutosLits(data)
+    }
 
 
     useEffect(() => {
@@ -71,6 +76,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
             await getProdutoPedidos()
             await getValorPedido()
             await getClienteNome()
+            await getProdutosApi()
 
         }
         renderFunctions()
@@ -93,20 +99,8 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     }
 
     const ModalAddItem = (props) => {
-        const [produtosLits, setProdutosLits] = useState([]);
-        const [searchValue, setSearchValue] = useState('');
         
-
-        const getProdutosApi = async () => {
-            const { data } = await api.get('/produtos');
-            setProdutosLits(data)
-        }
-
-        useEffect(() => {
-            getProdutosApi()
-
-        }, [])
-
+        const [searchValue, setSearchValue] = useState('');
 
         const AddSearchValue = (event) => {
             const { value } = event.target
@@ -143,12 +137,15 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                         {filteredPosts.map(produto => {
 
                             return (
-                                <ButtonAddITem
+                                <div
                                     key={produto.id}
-                                    produto={produto}
-                                    pedido={pedido}
-                                    closeModal={props.onHide}
-                                />
+                                >
+                                    <ButtonAddITem
+                                        produto={produto}
+                                        pedido={pedido}
+                                        closeModal={props.onHide}
+                                    />
+                                </div>
                             )
                         })}
 
@@ -290,7 +287,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
     return (
         <>
-            <div  className={closeConta ? "closeConta" : /*pedido.status.toLowerCase() == "em andamento" ? */"containerCardMesa" /*: "containerCardMesaRun"*/}>
+            <div className={closeConta ? "closeConta" : /*pedido.status.toLowerCase() == "em andamento" ? */"containerCardMesa" /*: "containerCardMesaRun"*/}>
                 <ToastContainer />
                 <div className="topMesa">
                     <p className="TitlePedido">{title} - {numberMesa}</p>
@@ -316,7 +313,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                                     <td>{produto?.nome}</td>
                                     <td>{`R$ ${!!produto.valor ? produto.valor : 0}`}</td>
                                     <td>
-                                        <SelectAutoWidth typesValues={statuPrato} label="Status"/>
+                                        <SelectAutoWidth typesValues={statuPrato} label="Status" />
                                     </td>
                                     <td>
                                         <button
@@ -364,7 +361,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 <ModalAddItem
                     numberMesa={numberMesa}
                     show={modalShow}
-                    pedidoId={pedido.id}
+                    // pedidoId={pedido.id}
                     onHide={() => {
                         getProdutoPedidos()
                         setModalShow(false);
