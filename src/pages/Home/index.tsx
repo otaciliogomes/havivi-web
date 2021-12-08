@@ -66,20 +66,20 @@ const Home = () => {
                         <div className="contentCardsHome">
                             {
                                 <Card
-                                    imagem={produtos[1].imagem}
-                                    valor={produtos[1].valor}
-                                    descricao={produtos[1].descricao}
-                                    nome={produtos[1].nome}
+                                    imagem={produtos[1]?.imagem}
+                                    valor={produtos[1]?.valor}
+                                    descricao={produtos[1]?.descricao}
+                                    nome={produtos[1]?.nome}
                                 />
                             }
                         </div>
                         <div className="contentCardsHome">
                             {
                                 <Card
-                                    imagem={produtos[2].imagem}
-                                    valor={produtos[2].valor}
-                                    descricao={produtos[2].descricao}
-                                    nome={produtos[2].nome}
+                                    imagem={produtos[2]?.imagem}
+                                    valor={produtos[2]?.valor}
+                                    descricao={produtos[2]?.descricao}
+                                    nome={produtos[2]?.nome}
                                 />
                             }
                         </div>
