@@ -139,7 +139,7 @@
     color: var(--white-color);
     font-size: 22px;
     transition: 0.3s;
-    cursor: pointer;
+
 }
 
 .iconWhatsapp:hover {

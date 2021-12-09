@@ -10,7 +10,7 @@ const Footer = () => {
                     <p className="descriptionFooter">Termos de uso</p>
                     <p className="descriptionFooter">Fale conosco</p>
                     <p className="descriptionFooter">Privacidade</p>
-                    <p className="descriptionFooter">Havive CNPJ: 598.0569.914/0005-05</p>
+                    <p className="descriptionFooter">Havivis CNPJ: 598.0569.914/0005-05</p>
                 </div>
             </div>
             <div className="contentFooter">
