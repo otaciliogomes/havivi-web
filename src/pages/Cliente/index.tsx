@@ -84,9 +84,9 @@ const Clientes = () => {
                     </thead>
                     <tbody>
                         {
-                            cliente.map(cliente => (
+                            cliente.map((cliente, index) => (
                                 <tr key={cliente.id}>
-                                    <td>{cliente.id}</td>
+                                    <td>{index}</td>
                                     <td>{cliente.nome}</td>
                                     <td>{cliente.endereco}</td>
                                     <td>{cliente.telefone}</td>
