@@ -31,7 +31,7 @@ const FuncionariosForm = () => {
         senha: "",
         nome: "",
         email: "",
-        tipo: false,
+        tipo: true,
     })
 
     useEffect(() => {

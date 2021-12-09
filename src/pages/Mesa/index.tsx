@@ -4,7 +4,7 @@ import { Footer } from '../../components/Footer';
 import { CardsMesas } from '../../components/CardsMesas';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import api from '../../Service/api';
+import {api2} from '../../Service/api';
 import './styles.css'
 import { PedidosRequest } from '../../interface/index';
 
@@ -14,7 +14,7 @@ const Mesas = () => {
 
 
     const getPedidosApi = async () => {
-        const { data } = await api.get<PedidosRequest[]>('/pedidos');
+        const { data } = await api2.get<PedidosRequest[]>('/pedidos');
         const filterPedidos = data.filter(pedido => pedido.status !== "Fechado" ? pedido : null);
         setQtdPedidos(filterPedidos)
         return data;
@@ -26,7 +26,7 @@ const Mesas = () => {
 
     const criarPedido = async () => {
         // const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
-        const { data } = await api.post('/pedidos');
+        const { data } = await api2.post('/pedidos');
         console.log(data);
         await getPedidosApi()
         toast.success("Pedido Criado")

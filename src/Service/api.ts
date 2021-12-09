@@ -1,8 +1,13 @@
 import axios from 'axios';
 
 const api = axios.create({
-    // baseURL: "http://localhost:3334"
-    baseURL: "https://havivi-back-end.herokuapp.com"
+    baseURL: "http://localhost:3334"
+    // baseURL: "https://havivi-back-end.herokuapp.com"
+});
+
+export const api2 = axios.create({
+    baseURL: "http://localhost:3334"
+    // baseURL: "https://havivi-back-end.herokuapp.com"
 });
 
 export default api
