@@ -26,8 +26,8 @@ const Mesas = () => {
 
     const criarPedido = async () => {
         const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
-        console.log(idFuncionarioLogado);
-        await api.post('/pedidos', { funcionario_id: idFuncionarioLogado })
+        const { data } = await api.post('/pedidos', { funcionario_id: idFuncionarioLogado });
+        console.log(data);
         await getPedidosApi()
         toast.success("Pedido Criado")
         window.scrollTo({ top: 200 * qtdPedidos.length, behavior: "smooth" })

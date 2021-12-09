@@ -291,7 +291,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 <ToastContainer />
                 <div className="topMesa">
                     <p className="TitlePedido">{title} - {numberMesa}</p>
-                    <p>Atendo por: {pedido.funcionario_id.nome}</p>
+                    <p>Atendo por: {pedido?.funcionario_id?.nome}</p>
                     <p>Status: {pedido.status}</p>
                     <p>Cliente: {pedido?.cliente_id?.nome}</p>
                 </div>

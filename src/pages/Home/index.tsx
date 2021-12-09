@@ -1,34 +1,34 @@
-import { useEffect, useState } from 'react';
 import { Footer } from '../../components/Footer';
 import { Header } from '../../components/Header';
 import { Card } from '../../components/Card'
-import { mockCard } from '../../mocks/CardsFood'
+
 
 import './styles.css';
-import api from '../../Service/api';
-
-interface IProduto {
-    nome: string;
-    valor: number;
-    imagem: string;
-    descricao: string
-}
 
 const Home = () => {
-    // const imgURL = "https://images.pexels.com/photos/6267/menu-restaurant-vintage-table.jpg?auto=compress&cs=tinysrgb&h=750&w=1260";
-    const [produtos, setProdutos] = useState<IProduto[]>(mockCard);
 
 
-
-    useEffect(() => {
-        const getProdutos = async () => {
-            const { data } = await api.get('/produtos');
-            setProdutos(data)
+    const cards = [
+        {
+            nome: "Kafta",
+            imagem: "http://receitasdeminuto.com/wp-content/uploads/2018/01/3_receitas_de_kaftas1.jpg",
+            valor: 0,
+            descricao: "Espetinho árabe feito com carne moída, temperos e especiarias"
+        },
+        {
+            nome: "Tabule",
+            imagem: "https://s2.glbimg.com/eUf26soe8YGIWpr9qtBiiA7kRsw=/0x0:472x311/984x0/smart/filters:strip_icc()/s.glbimg.com/po/rc/media/2013/08/03/16_18_12_830_Tabule.jpg",
+            valor: 0,
+            descricao: "Leve e Saudável. Salada árabe tradicional a base de trigo para quibe e vegetais que trazem frescor ao prato."
+        },
+        {
+            nome: "Esfirra de carne fechada",
+            imagem: "https://www.umugas.com.br/fotos/receita/Esfiha-%C3%A1rabe.jpg",
+            valor: 0,
+            descricao: "As famosas e tradicionais esfirras árabes são feitas a base de farinha de trigo e carne moída. Um clássico que nunca perde a majestade"
         }
+    ]
 
-        getProdutos()
-
-    }, [])
 
     return (
         <>
@@ -55,32 +55,15 @@ const Home = () => {
                     <div className="contentContact">
                         <div className="contentCardsHome">
                             {
-                                <Card
-                                    imagem={produtos[0].imagem}
-                                    valor={produtos[0].valor}
-                                    descricao={produtos[0].descricao}
-                                    nome={produtos[0].nome}
-                                />
-                            }
-                        </div>
-                        <div className="contentCardsHome">
-                            {
-                                <Card
-                                    imagem={produtos[1]?.imagem}
-                                    valor={produtos[1]?.valor}
-                                    descricao={produtos[1]?.descricao}
-                                    nome={produtos[1]?.nome}
-                                />
-                            }
-                        </div>
-                        <div className="contentCardsHome">
-                            {
-                                <Card
-                                    imagem={produtos[2]?.imagem}
-                                    valor={produtos[2]?.valor}
-                                    descricao={produtos[2]?.descricao}
-                                    nome={produtos[2]?.nome}
-                                />
+                                cards.map((card, index) => (
+                                    <Card
+                                        key={index}
+                                        imagem={card.imagem}
+                                        valor={card.valor}
+                                        descricao={card.descricao}
+                                        nome={card.nome}
+                                    />
+                                ))
                             }
                         </div>
                     </div>
@@ -89,36 +72,20 @@ const Home = () => {
                     <h2 className="secondTitleHome">Comida Árabe</h2>
 
                     <div className="contentContact">
-                        <div className="contentCardsHome">
+                    <div className="contentCardsHome">
                             {
-                                <Card
-                                    imagem={produtos[0].imagem}
-                                    valor={produtos[0].valor}
-                                    descricao={produtos[0].descricao}
-                                    nome={produtos[0].nome}
-                                />
+                                cards.map((card, index) => (
+                                    <Card
+                                        key={index}
+                                        imagem={card.imagem}
+                                        valor={card.valor}
+                                        descricao={card.descricao}
+                                        nome={card.nome}
+                                    />
+                                ))
                             }
                         </div>
-                        <div className="contentCardsHome">
-                            {
-                                <Card
-                                    imagem={produtos[1].imagem}
-                                    valor={produtos[1].valor}
-                                    descricao={produtos[1].descricao}
-                                    nome={produtos[1].nome}
-                                />
-                            }
-                        </div>
-                        <div className="contentCardsHome">
-                            {
-                                <Card
-                                    imagem={produtos[2].imagem}
-                                    valor={produtos[2].valor}
-                                    descricao={produtos[2].descricao}
-                                    nome={produtos[2].nome}
-                                />
-                            }
-                        </div>
+
                     </div>
                 </section>
 
