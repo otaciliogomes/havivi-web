@@ -12,7 +12,6 @@ import { PedidosRequest } from '../../interface/index';
 const Mesas = () => {
     const [qtdPedidos, setQtdPedidos] = useState<PedidosRequest[]>([]);
 
-
     const getPedidosApi = async () => {
         const { data } = await api2.get<PedidosRequest[]>('/pedidos');
         const filterPedidos = data.filter(pedido => pedido.status !== "Fechado" ? pedido : null);
@@ -21,12 +20,16 @@ const Mesas = () => {
     }
 
     useEffect(() => {
-        getPedidosApi();
-    }, [])
+        const renderPage = async() => {
+            await getPedidosApi();
+        }
+        renderPage();
+    },[])
 
     const criarPedido = async () => {
-        // const idFuncionarioLogado = localStorage.getItem('FuncionarioID');
-        const { data } = await api2.post('/pedidos');
+        const idFuncionarioLogado = await localStorage.getItem('FuncionarioID');
+        const funcionario_id = idFuncionarioLogado ? JSON.parse(idFuncionarioLogado) : '';
+        const { data } = await api2.post('/pedidos', {funcionario_id});
         console.log(data);
         await getPedidosApi()
         toast.success("Pedido Criado")
@@ -47,7 +50,6 @@ const Mesas = () => {
                 </button>
                 <div className="contentMesas">
                     {qtdPedidos.map((element, index) => {
-                        console.log(element)
                         return (
                             <CardsMesas title="Pedido" pedido={element} numberMesa={index + 1} />
                         )

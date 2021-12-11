@@ -31,7 +31,7 @@ const FuncionariosForm = () => {
         senha: "",
         nome: "",
         email: "",
-        tipo: true,
+        tipo: false,
     })
 
     useEffect(() => {
@@ -81,10 +81,10 @@ const FuncionariosForm = () => {
             await api.put(`/funcionarios`, model)
             toast.success("Funcionario alterado!")
         } else {
-            await api.post(`/funcionarios/cadastrar`, model)
+            await api.post(`/funcionarios`, model)
             toast.success("Funcionario cadastrado!")
         }
-
+        history.push('/funcionarios')
     }
 
     async function findFuncionario(id: string) {

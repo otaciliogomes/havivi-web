@@ -25,7 +25,7 @@ const Header = ({ title }: IHeaderProps) => {
 
     useEffect(() => {
         getFuncionariosAPI()
-    }, [])
+    })
 
 
     const sairDoApp = () => {
@@ -51,7 +51,7 @@ const Header = ({ title }: IHeaderProps) => {
                                     Voltar
                                 </button>
                     )}
-                    {title === "Havivis" && isAdmin && (
+                    {isAdmin && (
                                 <button
                                     onClick={() => sairDoApp()}
                                     className="buttonNav"

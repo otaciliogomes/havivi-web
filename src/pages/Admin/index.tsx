@@ -6,11 +6,13 @@ import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import "./style.css"
 
+import { PedidosRequest } from '../../interface/index';
+
 import { CartesianGrid, XAxis, YAxis, BarChart, Tooltip, Bar } from 'recharts';
 
 
 
-const Admin = () => {
+const Admin = (props:any) => {
     const [funcionarios, setFuncionarios] = useState(0);
     const [clientes, setClientes] = useState(0);
 
@@ -41,7 +43,7 @@ const Admin = () => {
         const { data } = await api.get<any[]>('/pedidos');
         setPedidos(data);
 
-        await SepararPedidos(data)
+        SepararPedidos(data)
 
     }
 
@@ -54,7 +56,7 @@ const Admin = () => {
 
         const aberto = data.filter(pedido => pedido.status === "Aberto");
         const abertoFilter = aberto.filter(pedido => {
-            const dataPedido = dayjs(pedido.dataHora).format('DD/MM/YYYY')
+            const dataPedido = dayjs(pedido.created_at).format('DD/MM/YYYY')
             const result = todayOrders === dataPedido && pedido
             return result
         })
@@ -63,32 +65,44 @@ const Admin = () => {
 
         const fechados = data.filter(pedido => pedido.status === "Fechado");
         const fechadosFilter = fechados.filter(pedido => {
-            const dataPedido = dayjs(pedido.dataHora).format('DD/MM/YYYY')
+            const dataPedido = dayjs(pedido.created_at).format('DD/MM/YYYY')
             const result = todayOrders === dataPedido && pedido
             return result
         });
         const totalValueFechadoList =  fechadosFilter.map(pedido => pedido.valor);
         const totalValueFechado = totalValueFechadoList.reduce((a,b) => a+b, 0)
-        setValueFaturamentoTotalDay(totalValueFechado)
+        // setValueFaturamentoTotalDay(totalValueFechado)
         setPedidosFechado(fechadosFilter)
 
         const emAdamento = data.filter(pedido => pedido.status === "Em andamento");
         const emAdamentoFilter = emAdamento.filter(pedido => {
-            const dataPedido = dayjs(pedido.dataHora).format('DD/MM/YYYY')
+            const dataPedido = dayjs(pedido.created_at).format('DD/MM/YYYY')
             const result = todayOrders === dataPedido && pedido
             return result
         });
         setPedidosEmAndmento(emAdamentoFilter)
     }
 
+    const getPedidosDeHoje = async () => {
+        const { data } = await api.get<PedidosRequest[]>('/pedidos_fechados_hoje');
+
+        console.log(data);
+
+        const total = data.map(pedido => pedido?.valor || 0 );
+        const totalHoje = total.reduce((a,b) => a+b, 0)
+
+        setValueFaturamentoTotalDay(totalHoje);
+    }
+
+
     const getTotalFature = async () => {
-        const { data } = await api.get<any[]>('/pedidos');
-        const fechados = data.filter(pedido => pedido.status === "Fechado");
-        let valorFechados = 0
-        fechados.forEach(pedido => {
-            valorFechados = valorFechados + pedido.valor
-        })
-        setValueFaturamentoTotal(valorFechados)
+        const { data } = await api.get<number>('/pedidos_total');
+        // const fechados = data.filter(pedido => pedido.status === "Fechado");
+        // let valorFechados = 0
+        // data.forEach(pedido => {
+        //     valorFechados = valorFechados + pedido.valor
+        // })
+        setValueFaturamentoTotal(data)
     }
 
     // const getTotalFatureDay = () => {
@@ -102,12 +116,18 @@ const Admin = () => {
     useEffect(() => {
         const runFunctions = async () => {
             await getFuncionariosAPI()
-            await getClientesAPI()
             await getPedidosApi()
             await getTotalFature()
         }
+
+        const renderFunctions = async () => {
+            await getPedidosDeHoje()
+            await getClientesAPI()
+        }
+
+        renderFunctions()
         runFunctions()
-    })
+    },[props])
 
     return (
         <div className="containerAdmin">
@@ -138,7 +158,7 @@ const Admin = () => {
                     >
                         <div className="wrapContentDashbord">
                             <p className="dashBordTitleContent">Faturamento Total - {pedidos.length}</p>
-                            <p className="countDashbord">{`R$${valueFaturamentoTotal}`}</p>
+                            <p className="countDashbord">{`R$${valueFaturamentoTotal.toFixed(2)}`}</p>
                         </div>
                     </div>
                 </section>
@@ -168,7 +188,7 @@ const Admin = () => {
                         <div className="dashBordcontent">
                             <div className="wrapContentDashbord">
                                 <p className="dashBordTitleContent">Faturamento - {todayOrders} </p>
-                                <p className="countDashbord">{`R$${valueFaturamentoTotalDay}`}</p>
+                                <p className="countDashbord">{`R$${valueFaturamentoTotalDay.toFixed(2)}`}</p>
                             </div>
                         </div>
                         <div>

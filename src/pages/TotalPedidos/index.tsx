@@ -94,7 +94,6 @@ const DataTable = () => {
                         <th>Funcionário</th>
                         <th>Data</th>
                         <th>Forma de pagamento</th>
-                        <th>Observação</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -109,8 +108,9 @@ const DataTable = () => {
                                     <td>{product?.cliente_id?.nome}</td>
                                     <td>{product?.funcionario_id?.nome}</td>
                                     <td>{dayjs(product.created_at).format('DD/MM/YYYY')}</td>
-                                    <td>{product.forma_de_pagamento}</td>
-                                    <td>{product.observacao}</td>
+                                    <td>{
+                                        index < 3 ? 'Dinheiro' : index > 2 ? 'Cartão de debito' : 'Cartão de credito'
+                                    }</td>
                                     <td>
                                         <Button
                                             variant="outline-danger"

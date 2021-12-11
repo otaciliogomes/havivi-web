@@ -19,6 +19,7 @@ interface IFuncionario {
     nome: string,
     email: string,
     tipo: boolean,
+    tipagem: boolean
 }
 
 
@@ -28,21 +29,25 @@ const Funcionarios = () => {
     const token = tokenJSON ? JSON.parse(tokenJSON) : '';
 
     const [funcionario, setFuncionario] = useState<IFuncionario[]>([])
+    const [deleted, setDeleted] = useState(false)
+
     const history = useHistory();
 
     useEffect(() => {
         loadFuncionario()
     }, [])
 
-    async function loadFuncionario() {
 
-        const response = await api.get('/funcionarios')
-        setFuncionario(response.data)
+ 
+
+    const loadFuncionario = async () => {
+        const { data } = await api.get('/funcionarios')
+        setFuncionario(data)
     }
 
-    async function deleteFuncionario(id: number) {
+    const deleteFuncionario = async (id: number) => {
         await api.delete(`/funcionarios/${id}`)
-        loadFuncionario()
+         loadFuncionario()
     }
 
     // Função que cria um produto
@@ -59,16 +64,8 @@ const Funcionarios = () => {
         <h1>Erro de login</h1>
     )
 
-    const renderTypeimg = (admin : boolean) => {
-        if (admin) {
-            return (
-                <GrUserAdmin className="iconAdmin" />
-            )
-        } else {
-            return (
-                <GrUser className="iconUser" />
-            )
-        }
+    const renderTypeimg = (admin: boolean, tipagem: boolean) => {
+        return tipagem ? <GrUserAdmin className="iconAdmin" /> : <GrUser className="iconUser" />
     }
 
 
@@ -101,7 +98,7 @@ const Funcionarios = () => {
                                     <td>{funcionario.id}</td>
                                     <td>{funcionario.nome}</td>
                                     <td>{funcionario.email}</td>
-                                    <td>{renderTypeimg(funcionario.tipo)}</td>
+                                    <td>{renderTypeimg(funcionario.tipo, funcionario?.tipagem)}</td>
                                     <td>
                                         <Button variant="outline-primary" className="btn-alt" size="sm" onClick={() => editFuncionario(funcionario.id)}><FaPencilAlt className="iconAlt" /></Button>
                                         <Button variant="outline-danger" className="btn-del" size="sm" onClick={() => deleteFuncionario(funcionario.id)}><MdDeleteForever className="iconDel" /></Button>

@@ -14,7 +14,7 @@ import SelectAutoWidth from '../Select';
 
 
 const CardsMesas = ({ numberMesa, title, pedido }) => {
-
+    const [nomeCliente, setNomeCliente] = useState("")
     const [closeConta, setCloseConta] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [modalClientShow, setModalClientShow] = useState(false);
@@ -34,6 +34,11 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
         "Esperando retirar",
         "Na mesa do cliente",
     ];
+
+
+    const hadleNameCliente = ( props) => {
+       setNomeCliente(props)
+    }
 
 
     const handleClientePedido = async (cliente) => {
@@ -80,7 +85,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         }
         renderFunctions()
-    })
+    },[numberMesa, title, pedido ])
 
 
     const deleteProdutoItem = async (produto_id, pedido_id) => {
@@ -109,7 +114,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
 
         const filteredPosts = searchValue
             ? produtosLits.filter((post) => {
-                return post.name.toLowerCase().includes(searchValue.toLocaleLowerCase());
+                return post.nome.toLowerCase().includes(searchValue.toLowerCase());
             })
             : produtosLits;
 
@@ -166,19 +171,20 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
     }
 
     const ModalClient = (props) => {
-        const [nomeCliente, setNomeCliente] = useState("")
+        const [formNomeCliente, setFormNomeCliente] = useState("")
         const [enderecoCliente, setEnderecoCliente] = useState("")
         const [telefoneCliente, setTelefoneCliente] = useState("")
 
         const insertValueFormCliente = async () => {
             const cliente = {
-                nome: nomeCliente,
+                nome: formNomeCliente,
                 endereco: enderecoCliente,
                 telefone: Number(telefoneCliente)
             }
             await handleClientePedido(cliente)
             props.onHide()
             await getClienteNome();
+            hadleNameCliente(formNomeCliente)
         }
 
         return (
@@ -195,7 +201,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <form autocomplete="off" className="contentModalListItem">
-                        <input type="text" placeholder="Nome" onChange={event => setNomeCliente(event.target.value)} />
+                        <input type="text" placeholder="Nome" onChange={event => setFormNomeCliente(event.target.value)} />
                         <input type="text" placeholder="Endereço" pattern="[0-9]" onChange={event => setEnderecoCliente(event.target.value)} />
                         <input type="tel" placeholder="Telefone" onChange={event => setTelefoneCliente(event.target.value)} />
                     </form>
@@ -293,7 +299,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                     <p className="TitlePedido">{title} - {numberMesa}</p>
                     <p>Atendo por: {pedido?.funcionario_id?.nome}</p>
                     <p>Status: {pedido.status}</p>
-                    <p>Cliente: {pedido?.cliente_id?.nome}</p>
+                    <p>Cliente: {pedido?.cliente_id?.nome || nomeCliente}</p>
                 </div>
                 <table style={{ width: "100%" }}>
                     <thead>
@@ -368,7 +374,7 @@ const CardsMesas = ({ numberMesa, title, pedido }) => {
                         getValorPedido();
                     }}
                 />
-                <ModalClient numberMesa={numberMesa} show={modalClientShow} onHide={() => setModalClientShow(false)} />
+                <ModalClient numberMesa={numberMesa} hadleNameCliente={hadleNameCliente} show={modalClientShow} onHide={() => setModalClientShow(false)} />
                 <FecharContaModal show={modalFecharContaShow} onHide={() => setModalFecharContaShow(false)} />
             </div>
         </>
